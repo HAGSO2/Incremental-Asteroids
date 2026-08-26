@@ -7,7 +7,7 @@ void Player::Update(double deltaTime)
     // Update player logic here (e.g., movement, collision detection, etc.)
     if (rotateLeft)
     {
-        playerSprite.Rotate(-90.0f * deltaTime); // Rotate left at 90 degrees per second
+        playerSprite.Rotate(-115.0f * deltaTime); // Rotate left at 90 degrees per second
         if (!IsKeyDown(KEY_LEFT))
         {
             rotateLeft = false; // Reset the flag after rotation
@@ -15,7 +15,7 @@ void Player::Update(double deltaTime)
     }
     if (rotateRight)
     {
-        playerSprite.Rotate(90.0f * deltaTime); // Rotate right at 90 degrees per second
+        playerSprite.Rotate(115.0f * deltaTime); // Rotate right at 90 degrees per second
         if (!IsKeyDown(KEY_RIGHT))
         {
             rotateRight = false; // Reset the flag after rotation
