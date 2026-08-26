@@ -29,6 +29,7 @@ void Gameplay::UpdateScreen(double deltaTime)
 {
     // Update base scene logic (e.g., handle input, update UI, etc.)
     Scene::UpdateScreen(deltaTime);
+    player.Update(deltaTime); // Update player logic
 };
 
 void Gameplay::DrawScreen()
@@ -56,4 +57,10 @@ void Gameplay::OnKeyPressed(KeyboardKey k)
 {
     // Handle key press events here (e.g., check if specific keys are pressed)
     canvas.UpdateKeyboard(k);
+
+    if (k == KEY_LEFT) {
+        player.RotateLeft();
+    } else if (k == KEY_RIGHT) {
+        player.RotateRight();
+    }
 };

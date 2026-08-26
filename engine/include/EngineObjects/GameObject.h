@@ -28,6 +28,7 @@ public:
     Sprite(Vector2 position, Vector2 size, Color c);
     Sprite(Vector2 position, Vector2 size, Color c, SpriteFrom type);
     void ChangeColor(Color c);
+    void Rotate(float angle) { rotation += angle; };
     void DrawObject();
 };
 
