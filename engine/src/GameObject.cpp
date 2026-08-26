@@ -11,7 +11,7 @@ void Sprite::DrawObject()
     {
     case TRIANGLE:
         /* code */
-        DrawPoly((Vector2){ position.x, position.y }, 3, size.x, rotation, color);
+        DrawPoly((Vector2){position.x, position.y}, 3, size.x, rotation, color);
         break;
     case SQUARE:
         DrawRectangleV(position, size, color);

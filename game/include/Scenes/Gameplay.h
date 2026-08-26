@@ -3,6 +3,8 @@
 
 class Gameplay : public Scene {
     Player player;
+    vector<Projectile> projectiles; // Store active projectiles
+    
 public:
     Gameplay();
     void InitScene() override;

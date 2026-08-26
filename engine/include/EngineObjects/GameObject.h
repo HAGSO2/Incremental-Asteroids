@@ -4,40 +4,47 @@
 
 using namespace std;
 
-class GameObject{
-    Transform transform;
+class GameObject
+{
 public:
     GameObject();
-    Transform GetTransform() {return transform;};
     virtual void DrawObject() = 0;
 };
 
-enum SpriteFrom{
+enum SpriteFrom
+{
     TRIANGLE = 0,
     SQUARE = 1,
     CIRCLE = 2
 };
 
-class Sprite : public GameObject{
+class Sprite : public GameObject
+{
     Vector2 position;
     Vector2 size;
     Color color;
     SpriteFrom spriteType = SQUARE;
     float rotation = 0.0f;
+
 public:
     Sprite(Vector2 position, Vector2 size, Color c);
     Sprite(Vector2 position, Vector2 size, Color c, SpriteFrom type);
     void ChangeColor(Color c);
     void Rotate(float angle) { rotation += angle; };
     void DrawObject();
+    Vector2 GetPosition() { return position; };
+    Vector2 GetSize() { return size; };
+    float GetRotation() { return rotation; };
 };
 
-class TextShape : public GameObject{
+class TextShape : public GameObject
+{
     Rectangle area;
     string text;
     int note;
     Color color;
-    public:
+
+public:
     TextShape(float x, float y, float width, float height, string txt, Color col);
     void ChangeColor(Color c);
     void ChangeText(string newText);

@@ -7,7 +7,6 @@ void Player::Update(double deltaTime)
     // Update player logic here (e.g., movement, collision detection, etc.)
     if (rotateLeft)
     {
-        TraceLog(LOG_DEBUG, "Rotating left");
         playerSprite.Rotate(-90.0f * deltaTime); // Rotate left at 90 degrees per second
         if (!IsKeyDown(KEY_LEFT))
         {
@@ -27,4 +26,12 @@ void Player::Update(double deltaTime)
 void Player::Draw()
 {
     playerSprite.DrawObject();
+};
+
+Projectile Player::ShootProjectile()
+{
+    // Create a projectile moving in the direction the player is facing
+    float angleInRadians = playerSprite.GetRotation() * (PI / 180.0f);
+    Vector2 direction = {cos(angleInRadians), sin(angleInRadians)};
+    return Projectile(playerSprite.GetPosition(), direction);
 };
