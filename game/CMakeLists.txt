@@ -4,6 +4,8 @@ add_executable(game
     src/Scenes/Logo.cpp
     src/Scenes/Tittle.cpp
     src/Scenes/TemplateScene.cpp
+    src/Scenes/Gameplay.cpp
+    src/Player.cpp
 )
 
 # Copy assets to the output directory after building the game

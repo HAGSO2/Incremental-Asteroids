@@ -20,7 +20,7 @@ class Logo : public Scene {
 public:
 	Logo();
 	void InitScene() override;
-	void UpdateScreen() override;
+	void UpdateScreen(double deltaTime) override;
 	void DrawScreen() override;
 	void UnloadScreen() override {};
 	void OnMouseDown() override {};

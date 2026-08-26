@@ -1,8 +1,10 @@
 #include "ProgramFlow/Scene.h"
+#include "Player.h"
 
-class TemplateScene : public Scene {
+class Gameplay : public Scene {
+    Player player;
 public:
-    TemplateScene();
+    Gameplay();
     void InitScene() override;
     void UpdateScreen(double deltaTime) override;
     void DrawScreen() override;

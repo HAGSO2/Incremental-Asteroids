@@ -21,7 +21,7 @@ void Logo::InitScene()
     alpha = 1.0f;
 };
 
-void Logo::UpdateScreen()
+void Logo::UpdateScreen(double deltaTime)
 {
     if (state == 0) // State 0: Top-left square corner blink logic
     {

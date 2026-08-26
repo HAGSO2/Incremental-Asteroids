@@ -11,6 +11,6 @@ void Scene::ManageInterruptions(){
     OnKeyPressed((KeyboardKey)GetKeyPressed());
 };
 
-void Scene::UpdateScreen(){
+void Scene::UpdateScreen(double deltaTime){
     ManageInterruptions();
 };

@@ -6,12 +6,10 @@ enum GameScreen {
 	UNKNOWN = -1,
 	LOGO = 0,
 	TITTLE = 1,
-	GAMEPLAY = 2,
-    DECREMENTABLE = 3
+	GAMEPLAY = 2
 };
 
-#define GameplayButtonText "Gameplay"
-#define DecrementableButtonText "Cola decrementable"
+#define GameplayButtonText "Play!"
 
 
 class Scene {
@@ -24,7 +22,7 @@ protected:
 public:
 	Scene();
 	virtual void InitScene() = 0;
-	virtual void UpdateScreen();
+	virtual void UpdateScreen(double deltaTime);
 	virtual void DrawScreen() = 0;
 	virtual void UnloadScreen() = 0;
 	GameScreen FinishScreen() { return finishScreen; };

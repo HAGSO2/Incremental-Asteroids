@@ -1,4 +1,5 @@
-#include "Scenes/TemplateScene.hpp"
+#include <raylib.h>
+#include "Scenes/Gameplay.h"
 
 #pragma region To other scenes
 /*
@@ -12,43 +13,46 @@ void ToGameplay(void *ptr)
 #pragma endregion
 
 // Constructor
-TemplateScene::TemplateScene(): Scene()
+Gameplay::Gameplay(): Scene()
 {
     // Initialize UI canvas and add buttons
     canvas = UI();
-    backgroundColor = GREEN;
+    backgroundColor = GRAY;
+    player = Player();
 };
 
-void TemplateScene::InitScene() {
+void Gameplay::InitScene() {
     // Initialize scene elements here (e.g., load textures, set up UI, etc.)
 };
 
-void TemplateScene::UpdateScreen(double deltaTime)
+void Gameplay::UpdateScreen(double deltaTime)
 {
     // Update base scene logic (e.g., handle input, update UI, etc.)
     Scene::UpdateScreen(deltaTime);
 };
 
-void TemplateScene::DrawScreen()
+void Gameplay::DrawScreen()
 {
     // Draw the title screen elements here (e.g., background, title text, buttons, etc.)
     // Background
     DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), backgroundColor);
     // Draw buttons and other UI elements
     canvas.Draw();
+    //Draw Gameplay elements (e.g., player, enemies, etc.)
+    player.Draw();
 };
 
-void TemplateScene::UnloadScreen() {
+void Gameplay::UnloadScreen() {
     // Unload scene resources here (e.g., textures, sounds, etc.)
 };
 
-void TemplateScene::OnMouseDown()
+void Gameplay::OnMouseDown()
 {
     // Handle mouse click events here (e.g., check if buttons are clicked)
     canvas.UpdateScreen(mousePosition);
 };
 
-void TemplateScene::OnKeyPressed(KeyboardKey k)
+void Gameplay::OnKeyPressed(KeyboardKey k)
 {
     // Handle key press events here (e.g., check if specific keys are pressed)
     canvas.UpdateKeyboard(k);

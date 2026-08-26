@@ -18,6 +18,7 @@ void Game::InitStarters()
     //  Initialize game scenes and other necessary components here
     gameScenes[LOGO] = new Logo();
     gameScenes[TITTLE] = new Tittle(font, screenWidth, screenHeight);
+    gameScenes[GAMEPLAY] = new Gameplay();
 
     currentScreen = LOGO;
 }
@@ -39,13 +40,13 @@ void Game::Init()
     gameScenes[currentScreen]->InitScene();
 }
 // Update logic (input, music, etc.)
-void Game::Update()
+void Game::Update(double deltaTime)
 {
     UpdateMusicStream(music); // NOTE: Music keeps playing between screens
 
     if (!onTransition)
     {
-        gameScenes[currentScreen]->UpdateScreen();
+        gameScenes[currentScreen]->UpdateScreen(deltaTime);
         GameScreen afterFinish = gameScenes[currentScreen]->FinishScreen();
         if (afterFinish != UNKNOWN)
         {

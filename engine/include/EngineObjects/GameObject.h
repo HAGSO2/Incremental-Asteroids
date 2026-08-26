@@ -12,12 +12,21 @@ public:
     virtual void DrawObject() = 0;
 };
 
+enum SpriteFrom{
+    TRIANGLE = 0,
+    SQUARE = 1,
+    CIRCLE = 2
+};
+
 class Sprite : public GameObject{
     Vector2 position;
     Vector2 size;
     Color color;
+    SpriteFrom spriteType = SQUARE;
+    float rotation = 0.0f;
 public:
     Sprite(Vector2 position, Vector2 size, Color c);
+    Sprite(Vector2 position, Vector2 size, Color c, SpriteFrom type);
     void ChangeColor(Color c);
     void DrawObject();
 };

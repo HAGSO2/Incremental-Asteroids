@@ -1,6 +1,15 @@
 #include "Scenes/Tittle.h"
+#include "Scenes/Gameplay.h"
 #include "HardcodedStrings.hpp"
+
 #pragma region To other scenes
+
+void ToGameplay(void *ptr)
+{
+    // Just change the finishScreen to the Gameplay
+    ((Gameplay *)ptr)->ChangeScene(GAMEPLAY);
+    TraceLog(LOG_DEBUG, "Transitioning to OtherScene scene...");
+};
 
 #pragma endregion
 
@@ -10,12 +19,13 @@ Tittle::Tittle(Font f, int w, int h) : font{f}, screenWidth{w}, screenHeight{h}
     // Initialize UI canvas and add buttons
     canvas = UI();
     backgroundColor = GREEN;
+    canvas.AddButton(300, 400, 200, 50, GameplayButtonText, BLUE, ToGameplay, this);
 };
 
-void Tittle::UpdateScreen()
+void Tittle::UpdateScreen(double deltaTime)
 {
     // Update base scene logic (e.g., handle input, update UI, etc.)
-    Scene::UpdateScreen();
+    Scene::UpdateScreen(deltaTime);
 };
 
 void Tittle::OnMouseDown()

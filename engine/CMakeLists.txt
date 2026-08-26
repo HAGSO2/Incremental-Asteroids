@@ -6,6 +6,7 @@ add_library(engine STATIC
     src/Scene.cpp
     src/UI.cpp
     src/Application.cpp
+    src/clock.cpp
 )
 
 target_include_directories(engine PUBLIC

@@ -11,7 +11,7 @@ class Tittle : public Scene {
 public:
 	Tittle(Font f, int w, int h);
 	void InitScene() override {finishScreen = UNKNOWN;};
-	void UpdateScreen() override;
+	void UpdateScreen(double deltaTime) override;
 	void DrawScreen() override;
 	void UnloadScreen() override {finishScreen = UNKNOWN;};
 	void OnMouseDown() override;

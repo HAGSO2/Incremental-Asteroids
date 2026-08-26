@@ -3,6 +3,7 @@
 
 #include "Scenes/Logo.h"
 #include "Scenes/Tittle.h"
+#include "Scenes/Gameplay.h"
 
 class Game : public Application
 {
@@ -40,7 +41,7 @@ public:
 
 public:
     void Init() override;
-    void Update() override;
+    void Update(double deltaTime) override;
     void Draw() override;
     void Unload() override;
 };
