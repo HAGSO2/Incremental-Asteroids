@@ -19,6 +19,7 @@ void Game::InitStarters()
     gameScenes[LOGO] = new Logo();
     gameScenes[TITTLE] = new Tittle(font, screenWidth, screenHeight);
     gameScenes[GAMEPLAY] = new Gameplay();
+    gameScenes[GAMEOVER] = new GameOver();
 
     currentScreen = LOGO;
 }

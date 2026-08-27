@@ -1,6 +1,6 @@
 #include "Player.h"
 
-Player::Player() : health{100}, score{0}, playerSprite{Vector2{400, 300}, Vector2{50, 50}, RED, TRIANGLE} {};
+Player::Player() : health{5}, score{0}, playerSprite{Vector2{400, 300}, Vector2{50, 50}, RED, TRIANGLE} {};
 
 void Player::Update(double deltaTime)
 {
@@ -28,10 +28,10 @@ void Player::Draw()
     playerSprite.DrawObject();
 };
 
-Projectile Player::ShootProjectile()
+Projectile* Player::ShootProjectile()
 {
     // Create a projectile moving in the direction the player is facing
     float angleInRadians = playerSprite.GetRotation() * (PI / 180.0f);
     Vector2 direction = {cos(angleInRadians), sin(angleInRadians)};
-    return Projectile(playerSprite.GetPosition(), direction);
+    return new Projectile(playerSprite.GetPosition(), direction);
 };

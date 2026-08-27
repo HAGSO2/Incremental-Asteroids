@@ -4,6 +4,7 @@
 #include "Scenes/Logo.h"
 #include "Scenes/Tittle.h"
 #include "Scenes/Gameplay.h"
+#include "Scenes/GameOver.h"
 
 class Game : public Application
 {

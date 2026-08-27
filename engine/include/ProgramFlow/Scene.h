@@ -6,7 +6,8 @@ enum GameScreen {
 	UNKNOWN = -1,
 	LOGO = 0,
 	TITTLE = 1,
-	GAMEPLAY = 2
+	GAMEPLAY = 2,
+	GAMEOVER = 3
 };
 
 #define GameplayButtonText "Play!"

@@ -9,23 +9,26 @@
 // resulting in a total of 70 x 20 = 1400 collision checks per frame (in the worst case). If the number of asteroids or projectiles exceeds these limits,
 // the game may experience performance issues due to the increased number of collision checks required.
 
+#define ASTEROID_SPAWN_INTERVAL 2.0f
+#define ASTEROID_MIN_DISTANCE 150.0f
+
 struct Asteroid
 {
     Vector2 position;
     float radius;
-    Asteroid(Vector2 pos, float r) : position{pos}, radius{r} {};
+    int speed;
+    Asteroid(Vector2 pos, float r, int s) : position{pos}, radius{r}, speed{s} {};
 };
 
 class Gameplay : public Scene
 {
     Vector2 centerposition; // Center point for spawning asteroids
     Player player;
-    vector<Projectile> projectiles;           // Store active projectiles
-    float asteroidSpawnTimer = 0.0f;          // Timer to control asteroid spawning
-    float asteroidSpawnInterval = 2.0f;       // Spawn an asteroid every 2 seconds
-    const float asteroidMinDistance = 150.0f; // Minimum distance from the center
 
-    vector<Asteroid> asteroids; // Store active asteroids
+    float asteroidSpawnTimer = 0.0f; // Timer to control asteroid spawning
+
+    vector<Projectile *> projectiles; // Store active projectiles
+    vector<Asteroid *> asteroids;     // Store active asteroids
 
 public:
     Gameplay();
@@ -38,8 +41,8 @@ public:
 
 private:
     void CheckCollisionAndHandle();
-    Asteroid CreateRandomAsteroid(float screenWidth,
-                                  float screenHeight,
-                                  float minDistance);
-    void UpdateAsteroid(Asteroid &asteroid, double deltaTime, float speed);
+    Asteroid *CreateRandomAsteroid(float screenWidth,
+                                   float screenHeight,
+                                   float minDistance);
+    void UpdateAsteroid(Asteroid *asteroid, double deltaTime);
 };

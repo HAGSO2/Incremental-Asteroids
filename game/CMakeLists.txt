@@ -5,6 +5,7 @@ add_executable(game
     src/Scenes/Tittle.cpp
     src/Scenes/TemplateScene.cpp
     src/Scenes/Gameplay.cpp
+    src/Scenes/GameOver.cpp
     src/Player.cpp
 )
 

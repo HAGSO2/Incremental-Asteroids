@@ -24,38 +24,44 @@ void Gameplay::UpdateScreen(double deltaTime)
 {
     // Update base scene logic (e.g., handle input, update UI, etc.)
     Scene::UpdateScreen(deltaTime);
+    if (player.GetHealth() <= 0)
+    {
+        ChangeScene(GameScreen::GAMEOVER);
+    };
+
+    // Update gameplay-specific logic here (e.g., player movement, enemy behavior, etc.)
     player.Update(deltaTime); // Update player logic
 
     for (int i = 0; i < projectiles.size(); ++i)
     {
         // Update projectile position based on its direction
-        projectiles[i].position.x += projectiles[i].direction.x * 300 * deltaTime; // Move at 300 units per second
-        projectiles[i].position.y += projectiles[i].direction.y * 300 * deltaTime;
+        projectiles[i]->position.x += projectiles[i]->direction.x * 300 * deltaTime; // Move at 300 units per second
+        projectiles[i]->position.y += projectiles[i]->direction.y * 300 * deltaTime;
 
         // Optionally, remove projectiles that go off-screen
-        if (projectiles[i].position.x < 0 || projectiles[i].position.x > GetScreenWidth() ||
-            projectiles[i].position.y < 0 || projectiles[i].position.y > GetScreenHeight())
+        if (projectiles[i]->position.x < 0 || projectiles[i]->position.x > GetScreenWidth() ||
+            projectiles[i]->position.y < 0 || projectiles[i]->position.y > GetScreenHeight())
         {
+            delete projectiles[i];
             projectiles.erase(projectiles.begin() + i);
             --i; // Adjust index after removal
         }
     }
     asteroidSpawnTimer += deltaTime;
-    if (asteroidSpawnTimer >= asteroidSpawnInterval && asteroids.size() < MAX_ASTEROID)
+    if (asteroidSpawnTimer >= ASTEROID_SPAWN_INTERVAL && asteroids.size() < MAX_ASTEROID)
     {
         asteroids.push_back(
             CreateRandomAsteroid(
                 GetScreenWidth(),
                 GetScreenHeight(),
-                asteroidMinDistance));
+                ASTEROID_MIN_DISTANCE));
         asteroidSpawnTimer = 0.0f; // Reset the timer
-        TraceLog(LOG_INFO, "Asteroid spawned. Total asteroids: %d", asteroids.size());
     }
     CheckCollisionAndHandle(); // Check for collisions between projectiles and asteroids
 
     for (int i = 0; i < asteroids.size(); ++i)
     {
-        UpdateAsteroid(asteroids[i], deltaTime, 80.0f); // Move asteroids towards the center at a speed of 100 units per second    
+        UpdateAsteroid(asteroids[i], deltaTime); // Move asteroids towards the center at a speed of 100 units per second
     }
 };
 
@@ -69,12 +75,12 @@ void Gameplay::DrawScreen()
     // Draw Gameplay elements (e.g., player, enemies, etc.)
     for (int i = 0; i < projectiles.size(); ++i)
     {
-        DrawCircleV(projectiles[i].position, 5, YELLOW); // Draw each projectile as a small circle
+        DrawCircleV(projectiles[i]->position, 5, YELLOW); // Draw each projectile as a small circle
     }
 
     for (int i = 0; i < asteroids.size(); ++i)
     {
-        DrawCircleV(asteroids[i].position, asteroids[i].radius, DARKGRAY); // Draw each asteroid as a circle
+        DrawCircleV(asteroids[i]->position, asteroids[i]->radius, DARKGRAY); // Draw each asteroid as a circle
     }
 
     player.Draw();
@@ -111,14 +117,14 @@ void Gameplay::OnKeyPressed(KeyboardKey k)
             return; // Exit early if the maximum number of projectiles is reached
         }
         // Shoot a projectile
-        Projectile newProjectile = player.ShootProjectile();
+        Projectile *newProjectile = player.ShootProjectile();
         projectiles.push_back(newProjectile);
     }
 };
 
-Asteroid Gameplay::CreateRandomAsteroid(float screenWidth,
-                              float screenHeight,
-                              float minDistance)
+Asteroid *Gameplay::CreateRandomAsteroid(float screenWidth,
+                                         float screenHeight,
+                                         float minDistance)
 {
     Vector2 position;
 
@@ -132,40 +138,53 @@ Asteroid Gameplay::CreateRandomAsteroid(float screenWidth,
     } while (Vector2Distance(position, centerposition) < minDistance);
 
     float radius = 10.0f + static_cast<float>(rand() % 21);
+    int speed = 50 + rand() % 5;
 
-    return Asteroid{position, radius};
+    return new Asteroid(position, radius, speed);
 }
 
 void Gameplay::CheckCollisionAndHandle()
 {
     // Check for collisions between projectiles and asteroids
-    for (int i = 0; i < projectiles.size(); ++i)
+    for (int i = 0; i < asteroids.size(); ++i)
     {
-        for (int j = 0; j < asteroids.size(); ++j)
+        float playerDistance = Vector2Distance(player.GetPosition(), asteroids[i]->position);
+        if (playerDistance < (player.GetSize() / 2 + asteroids[i]->radius))
         {
-            float distance = Vector2Distance(projectiles[i].position, asteroids[j].position);
-            if (distance < asteroids[j].radius)
+            // Collision detected between player and asteroid
+            player.TakeDamage(); // Reduce player's health
+            delete asteroids[i]; // Free the memory allocated for the asteroid
+            asteroids.erase(asteroids.begin() + i);
+            --i;      // Adjust index after removal
+            continue; // Skip to the next asteroid since this one is removed
+        }
+        for (int j = 0; j < projectiles.size(); ++j)
+        {
+            float distance = Vector2Distance(projectiles[j]->position, asteroids[i]->position);
+            if (distance < asteroids[i]->radius)
             {
                 // Collision detected, remove both projectile and asteroid
-                projectiles.erase(projectiles.begin() + i);
-                asteroids.erase(asteroids.begin() + j);
-                --i;   // Adjust index after removal
+                delete projectiles[j]; // Free the memory allocated for the projectile
+                projectiles.erase(projectiles.begin() + j);
+                delete asteroids[i]; // Free the memory allocated for the asteroid
+                asteroids.erase(asteroids.begin() + i);
+                --j;   // Adjust index after removal
                 break; // Exit the inner loop since the projectile is removed
             }
         }
     }
 }
 
-void Gameplay::UpdateAsteroid(Asteroid& asteroid, double deltaTime, float speed)
+void Gameplay::UpdateAsteroid(Asteroid *asteroid, double deltaTime)
 {
 
     // Dirección desde el asteroide hacia el centro
-    Vector2 direction = Vector2Subtract(centerposition, asteroid.position);
+    Vector2 direction = Vector2Subtract(centerposition, asteroid->position);
 
     // Normalizar para que la velocidad sea constante
     direction = Vector2Normalize(direction);
 
     // Mover usando deltaTime
-    asteroid.position.x += direction.x * speed * deltaTime;
-    asteroid.position.y += direction.y * speed * deltaTime;
+    asteroid->position.x += direction.x * asteroid->speed * deltaTime;
+    asteroid->position.y += direction.y * asteroid->speed * deltaTime;
 }
