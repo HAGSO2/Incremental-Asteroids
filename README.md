@@ -1,6 +1,6 @@
-# RayStar
+# Incremental Asteroids
 
-This provides a demostrarion to the Algorith A* written in c++ rendered with raylib.
+A project to develop a small game based on the clasic Asteroids with raylib
 
 ## Usage
 
