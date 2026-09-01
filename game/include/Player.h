@@ -13,7 +13,7 @@ class Player
 {
     int health;
     int score;
-    Sprite playerSprite;
+    SpriteFrom playerSprite;
 
     bool rotateLeft = false;
     bool rotateRight = false;
@@ -23,8 +23,8 @@ public:
     void Update(double deltaTime);
     void Draw();
 
-    Vector2 GetPosition() { return playerSprite.GetPosition(); };
-    float GetSize() { return playerSprite.GetSize().x; }; // Assuming square sprite, return width
+    Vector2 GetPosition() {return {0, 0};}//{ return playerSprite.GetPosition(); };
+    float GetSize() {return 0;}//{ return playerSprite.GetSize().x; }; // Assuming square sprite, return width
     void RotateLeft() { rotateLeft = true; }
     void RotateRight() { rotateRight = true; }
     void ScorePoint() { score++; }

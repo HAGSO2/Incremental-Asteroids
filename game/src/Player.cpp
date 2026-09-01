@@ -1,6 +1,6 @@
 #include "Player.h"
 
-Player::Player() : health{5}, score{0}, playerSprite{Vector2{400, 300}, Vector2{50, 50}, RED, TRIANGLE} {};
+Player::Player() : health{5}, score{0}, playerSprite{R_TRIANGLE, Vector2{400, 300}, 50, RED} {};
 
 void Player::Update(double deltaTime)
 {
