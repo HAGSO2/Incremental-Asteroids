@@ -2,6 +2,8 @@
 #include <raylib.h>
 #include <string>
 #include <vector>
+#include <cmath>
+#include <algorithm>
 
 using namespace std;
 
@@ -30,10 +32,11 @@ class SpriteFrom : public GameObject
 
 public:
     SpriteFrom(TypeForm form, Vector2 center, float size, Color c); // Constructor for Regular Polygon (e.g., TRIANGLE)
-    SpriteFrom(Vector2 p1,Vector2 p2,Vector2 p3, Color c); // Constructor for TRIANGLE
+    SpriteFrom(Vector2 p1,Vector2 p2,Vector2 p3, Color c, float rotation); // Constructor for TRIANGLE
     SpriteFrom(Vector2 position, Vector2 size, Color c); // Constructor for SQUARE
-    void ChangeColor(Color c);
-    void Rotate(float angle) { rotation += angle; };
+    Vector2 GetApex() { if(form == TRIANGLE) return {vertices[4], vertices[5]}; else return {0, 0}; };
+    void ChangeColor(Color c) { color = c; }
+    void Rotate(float angle);
     void DrawObject();
     Vector2 GetPosition();
     Vector2 GetSize();

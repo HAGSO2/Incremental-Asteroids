@@ -15,11 +15,12 @@ class Player
     int score;
     SpriteFrom playerSprite;
 
-    bool rotateLeft = false;
-    bool rotateRight = false;
+    bool rotateLeft;
+    bool rotateRight;
 
 public:
     Player();
+    SpriteFrom CreateSprite();
     void Update(double deltaTime);
     void Draw();
 

@@ -1,6 +1,19 @@
 #include "Player.h"
 
-Player::Player() : health{5}, score{0}, playerSprite{R_TRIANGLE, Vector2{400, 300}, 50, RED} {};
+SpriteFrom Player::CreateSprite()
+{
+    Vector2 center = {400, 300}; // Center position of the triangle
+    float alpha = 1.25f * PI;    // 120 degrees in radians for an equilateral triangle
+    float radius = 50.0f;        // Distance from the center to a vertex
+    float halfBase = radius * std::cos(alpha);
+    float height = radius * std::sin(alpha);
+    Vector2 p1 = {center.x - halfBase, center.y + height}; // Left vertex
+    Vector2 p2 = {center.x + halfBase, center.y + height}; // Right vertex
+    Vector2 p3 = {center.x, center.y + radius};            // Apex
+    return SpriteFrom(p1, p2, p3, RED, 270.0f);
+}
+
+Player::Player() : health(5), score(0), rotateLeft(false), rotateRight(false), playerSprite(CreateSprite()) {};
 
 void Player::Update(double deltaTime)
 {
@@ -28,10 +41,13 @@ void Player::Draw()
     playerSprite.DrawObject();
 };
 
-Projectile* Player::ShootProjectile()
+Projectile *Player::ShootProjectile()
 {
     // Create a projectile moving in the direction the player is facing
     float angleInRadians = playerSprite.GetRotation() * (PI / 180.0f);
-    Vector2 direction = {cos(angleInRadians), sin(angleInRadians)};
-    return new Projectile(playerSprite.GetPosition(), direction);
+    // As for raylib, the y-axis and x-axis are inverted,
+    //  so we need to negate the sin component for the direction vector.
+    Vector2 direction = {-cos(angleInRadians), -sin(angleInRadians)};
+    // return new Projectile(playerSprite.GetPosition(), direction);
+    return new Projectile(playerSprite.GetApex(), direction);
 };
