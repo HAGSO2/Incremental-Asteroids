@@ -1,6 +1,6 @@
 #pragma once
 #define AppName "Incremental Asteroids"
-#define TitleScreenText "TITLE SCREEN"
+#define TitleScreenText "Incremental Asteroids"
 
 #pragma region Gameplay Scene
 #pragma endregion

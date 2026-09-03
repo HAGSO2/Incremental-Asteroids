@@ -1,6 +1,6 @@
 #include "Player.h"
 
-SpriteFrom Player::CreateSprite()
+SpriteFormLined Player::CreateSprite()
 {
     Vector2 center = {400, 300}; // Center position of the triangle
     float alpha = 1.25f * PI;    // 120 degrees in radians for an equilateral triangle
@@ -10,7 +10,7 @@ SpriteFrom Player::CreateSprite()
     Vector2 p1 = {center.x - halfBase, center.y + height}; // Left vertex
     Vector2 p2 = {center.x + halfBase, center.y + height}; // Right vertex
     Vector2 p3 = {center.x, center.y + radius};            // Apex
-    return SpriteFrom(p1, p2, p3, RED, 270.0f);
+    return SpriteFormLined(p1, p2, p3, BLACK, 270.0f, WHITE, 1);
 }
 
 Player::Player() : health(5), score(0), rotateLeft(false), rotateRight(false), playerSprite(CreateSprite()) {};

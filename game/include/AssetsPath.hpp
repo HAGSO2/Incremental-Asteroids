@@ -1,3 +1,4 @@
 #pragma once
-#define Font "assets/fonts/mecha.png"
-#define Music "assets/sounds/ambient.ogg"
+#define FONT "assets/fonts/mecha.png"
+#define MUSIC "assets/sounds/ambient.ogg"
+#define BACKGROUNDTEX "assets/textures/noisemap.png"

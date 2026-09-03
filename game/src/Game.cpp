@@ -6,8 +6,8 @@ void Game::LoadResources()
 {
     // Load game resources here (e.g., textures, sounds, etc.)
     // TODO: Make this more generic, maybe with a ResourceManager class?
-    //font = LoadFont(Font);
-    music = LoadMusicStream(Music);
+    // font = LoadFont(FONT);
+    music = LoadMusicStream(MUSIC);
 }
 
 void Game::InitStarters()

@@ -13,24 +13,24 @@ class Player
 {
     int health;
     int score;
-    SpriteFrom playerSprite;
+    SpriteFormLined playerSprite;
 
     bool rotateLeft;
     bool rotateRight;
 
 public:
     Player();
-    SpriteFrom CreateSprite();
+    SpriteFormLined CreateSprite();
     void Update(double deltaTime);
     void Draw();
 
-    Vector2 GetPosition() {return {0, 0};}//{ return playerSprite.GetPosition(); };
-    float GetSize() {return 0;}//{ return playerSprite.GetSize().x; }; // Assuming square sprite, return width
+    Vector2 GetPosition() { return {0, 0}; } //{ return playerSprite.GetPosition(); };
+    float GetSize() { return 0; }            //{ return playerSprite.GetSize().x; }; // Assuming square sprite, return width
     void RotateLeft() { rotateLeft = true; }
     void RotateRight() { rotateRight = true; }
     void ScorePoint() { score++; }
     int GetScore() { return score; }
     int GetHealth() { return health; }
     void TakeDamage() { health -= 1; }
-    Projectile* ShootProjectile();
+    Projectile *ShootProjectile();
 };

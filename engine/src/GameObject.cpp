@@ -4,6 +4,8 @@ using namespace std;
 
 GameObject::GameObject() {};
 
+#pragma region Srite From
+
 SpriteFrom::SpriteFrom(TypeForm form, Vector2 center, float size, Color c) : form(form), color(c) // Constructor for Regular Polygon (e.g., TRIANGLE)
 {
     vertices = {center.x, center.y, size};
@@ -100,6 +102,40 @@ void SpriteFrom::Rotate(float angle)
         }
     }
 }
+// Constructor for Regular Polygon (e.g., TRIANGLE)
+SpriteFormLined::SpriteFormLined(TypeForm form, Vector2 center, float size, Color c, Color linec, float linel) : SpriteFrom(form, center, size, c),
+                                                                                                                 lineColor(linec), lineSize(linel) {};
+// Constructor for TRIANGLE
+SpriteFormLined::SpriteFormLined(Vector2 p1, Vector2 p2, Vector2 p3, Color c, float rotation, Color linec, float linel) : SpriteFrom(p1, p2, p3, c, rotation),
+                                                                                                                          lineColor(linec), lineSize(linel) {};
+// Constructor for SQUARE
+SpriteFormLined::SpriteFormLined(Vector2 position, Vector2 size, Color c, Color linec, float linel) : SpriteFrom(position, size, c),
+                                                                                                      lineColor(linec), lineSize(linel) {};
+
+void SpriteFormLined::DrawObject()
+{
+    SpriteFrom::DrawObject();
+    switch (form)
+    {
+    case TRIANGLE:
+        DrawLine(vertices[0], vertices[1], vertices[2], vertices[3], lineColor);
+        DrawLine(vertices[2], vertices[3], vertices[4], vertices[5], lineColor);
+        DrawLine(vertices[4], vertices[5], vertices[0], vertices[1], lineColor);
+        break;
+    case SQUARE:
+        DrawLine(vertices[0], vertices[1], vertices[2], vertices[3], lineColor);
+        DrawLine(vertices[2], vertices[3], vertices[4], vertices[5], lineColor);
+        DrawLine(vertices[4], vertices[5], vertices[6], vertices[7], lineColor);
+        DrawLine(vertices[6], vertices[7], vertices[0], vertices[1], lineColor);
+        break;
+
+    default:
+        DrawCircle(vertices[0], vertices[1], vertices[2], lineColor);
+        break;
+    }
+}
+
+#pragma endregion
 
 TextShape::TextShape(float x, float y, float width, float height, string txt, Color col) : area{Rectangle{x, y, width, height}}, color{col}, text{txt} {}
 

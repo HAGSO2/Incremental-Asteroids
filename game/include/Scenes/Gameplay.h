@@ -1,4 +1,5 @@
 #include "ProgramFlow/Scene.h"
+#include "AssetsPath.hpp"
 #include "Player.h"
 
 #define MAX_ASTEROID 70.0f
@@ -22,6 +23,12 @@ struct Asteroid
 
 class Gameplay : public Scene
 {
+    struct Background
+    {
+        Texture2D texture;
+        Vector2 position;
+    };
+    Background background;
     Vector2 centerposition; // Center point for spawning asteroids
     Player player;
 

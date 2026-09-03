@@ -8,7 +8,7 @@ void ToGameplay(void *ptr)
 {
     // Just change the finishScreen to the Gameplay
     ((Gameplay *)ptr)->ChangeScene(GAMEPLAY);
-    TraceLog(LOG_DEBUG, "Transitioning to OtherScene scene...");
+    TraceLog(LOG_DEBUG, "Transitioning to Gameplay scene...");
 };
 
 #pragma endregion
@@ -42,7 +42,7 @@ void Tittle::DrawScreen()
 
     // Title text
     DrawText(TitleScreenText, 180, 200, 30, BLACK);
-    //DrawTextEx(font, TitleScreenText, Vector2{20, 10}, font.baseSize * 3.0f, 4, BLACK);
-    // Draw buttons and other UI elements
+    // DrawTextEx(font, TitleScreenText, Vector2{20, 10}, font.baseSize * 3.0f, 4, BLACK);
+    //  Draw buttons and other UI elements
     canvas.Draw();
 };

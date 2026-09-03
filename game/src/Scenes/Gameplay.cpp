@@ -12,12 +12,22 @@ Gameplay::Gameplay() : Scene()
     // Initialize UI canvas and add buttons
     canvas = UI();
     backgroundColor = GRAY;
+    /* background = {
+        .texture = 0,
+        .position = Vector2{0, 0}}; */
     player = Player();
     centerposition = {GetScreenWidth() / 2.0f, GetScreenHeight() / 2.0f};
 };
 
 void Gameplay::InitScene() {
     // Initialize scene elements here (e.g., load textures, set up UI, etc.)
+    /* Image bck = LoadImage(BACKGROUNDTEX);
+    background.texture = LoadTextureFromImage(bck);
+    if (background.texture.id == 0)
+    {
+        TraceLog(LOG_ERROR, "Texture %s wasn't able be loaded", BACKGROUNDTEX);
+    }
+    UnloadImage(bck); */
 };
 
 void Gameplay::UpdateScreen(double deltaTime)
@@ -70,7 +80,8 @@ void Gameplay::DrawScreen()
     // Draw the title screen elements here (e.g., background, title text, buttons, etc.)
     // Background
     DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), backgroundColor);
-    // Draw buttons and other UI elements
+    // DrawTexture(background.texture, 0, 0, WHITE);
+    //  Draw buttons and other UI elements
     canvas.Draw();
     // Draw Gameplay elements (e.g., player, enemies, etc.)
     for (int i = 0; i < projectiles.size(); ++i)
@@ -86,8 +97,10 @@ void Gameplay::DrawScreen()
     player.Draw();
 };
 
-void Gameplay::UnloadScreen() {
+void Gameplay::UnloadScreen()
+{
     // Unload scene resources here (e.g., textures, sounds, etc.)
+    UnloadTexture(background.texture);
 };
 
 void Gameplay::OnMouseDown()
