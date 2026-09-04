@@ -7,9 +7,11 @@
 
 using namespace std;
 
-class UIElement{
+class UIElement
+{
 protected:
     Rectangle area;
+
 public:
     UIElement(float x, float y, float width, float height);
     bool IsInside(Vector2);
@@ -19,51 +21,70 @@ public:
     virtual void UpdateKeyboard(KeyboardKey) = 0;
 };
 
-class UI{ //Canvas
-    vector<UIElement*> elements;
-    public:
+class UI
+{ // Canvas
+    vector<UIElement *> elements;
+
+public:
     UI();
-    void AddButton(float x, float y, float width, float height, const char* s, Color c, void (*Func)(void*), void* miptr);
-    //void AddButtonScene(float x, float y, float width, float height, char* s, Color c, void (*Func)(GameScreen & variable), GameScreen &meptr);
-    void AddTextBox(float x, float y, float width, float height, string& reftxt);
+    void AddButton(float x, float y, float width, float height, const char *s, Color c, void (*Func)(void *), void *miptr);
+    // void AddButtonScene(float x, float y, float width, float height, char* s, Color c, void (*Func)(GameScreen & variable), GameScreen &meptr);
+    void AddTextBox(float x, float y, float width, float height, string &reftxt);
+    void AddPlainText(float x, float y, float width, float height,int size, const char *texto, float& numref);
     void Draw();
     void UpdateScreen(Vector2);
     void UpdateKeyboard(KeyboardKey);
-
 };
 
-class CallBack{
-    void* ptr;
-    void (*ClickFunk)(void*);
-    public:
-    CallBack(void (*Func)(void*), void* miptrs);
-    void Execute() {ClickFunk(ptr);}
+class CallBack
+{
+    void *ptr;
+    void (*ClickFunk)(void *);
+
+public:
+    CallBack(void (*Func)(void *), void *miptrs);
+    void Execute() { ClickFunk(ptr); }
 };
 
-class Button : public UIElement{
-    const char* texto;
+class Button : public UIElement
+{
+    const char *texto;
     Color color;
     CallBack callback;
 
-    public:
-    Button(float x, float y, float width, float height, const char* s, Color c, void (*Func)(void*), void* miptrs);
+public:
+    Button(float x, float y, float width, float height, const char *s, Color c, void (*Func)(void *), void *miptrs);
     void Draw();
     void SetOut() {};
     void UpdateScreen(Vector2);
     void UpdateKeyboard(KeyboardKey){};
 };
 
-#define NO_SELECCIONADO ORANGE
-#define SELECCIONADO GREEN
-class TextBox: public UIElement{
-    string& texto;
-    bool seleccionado;
+class PlainText : public UIElement
+{
+    const char *texto;
+    float& numero;
+    int size;
 
-    public:
-    TextBox(float x, float y, float width, float height, string& reftxt);
+public:
+    PlainText(float x, float y, float width, float height, int size, const char *texto, float& numref);
     void Draw();
-    void SetOut() {seleccionado = false;};
-    void UpdateScreen(Vector2) ;
-    void UpdateKeyboard(KeyboardKey);
+    void SetOut() {};
+    void UpdateScreen(Vector2){};
+    void UpdateKeyboard(KeyboardKey){};
 };
 
+#define NO_SELECCIONADO ORANGE
+#define SELECCIONADO GREEN
+class TextBox : public UIElement
+{
+    string &texto;
+    bool seleccionado;
+
+public:
+    TextBox(float x, float y, float width, float height, string &reftxt);
+    void Draw();
+    void SetOut() { seleccionado = false; };
+    void UpdateScreen(Vector2);
+    void UpdateKeyboard(KeyboardKey);
+};

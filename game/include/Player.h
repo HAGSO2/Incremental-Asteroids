@@ -1,6 +1,8 @@
 #include "EngineObjects/GameObject.h"
 #include <cmath>
 
+#define PLAYER_RADIUS 50.0f
+
 struct Projectile
 {
     Vector2 position;
@@ -19,13 +21,13 @@ class Player
     bool rotateRight;
 
 public:
-    Player();
+    Player(int lives);
     SpriteFormLined CreateSprite();
     void Update(double deltaTime);
     void Draw();
 
-    Vector2 GetPosition() { return {0, 0}; } //{ return playerSprite.GetPosition(); };
-    float GetSize() { return 0; }            //{ return playerSprite.GetSize().x; }; // Assuming square sprite, return width
+    Vector2 GetPosition() { return playerSprite.GetPosition(); };
+    float GetSize() { return PLAYER_RADIUS; }; // Assuming square shape for simplicity
     void RotateLeft() { rotateLeft = true; }
     void RotateRight() { rotateRight = true; }
     void ScorePoint() { score++; }

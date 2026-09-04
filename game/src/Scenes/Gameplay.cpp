@@ -7,15 +7,16 @@
 #pragma endregion
 
 // Constructor
-Gameplay::Gameplay() : Scene()
+Gameplay::Gameplay() : Scene(), scorenum(0.0f), livesnum(PLAYER_LIVES), player(PLAYER_LIVES)
 {
     // Initialize UI canvas and add buttons
     canvas = UI();
+    canvas.AddPlainText(10, 10, 100, 30, 20, "Score: ", scorenum);
+    canvas.AddPlainText(10, 50, 100, 30, 20, "Lives: ", livesnum);
     backgroundColor = GRAY;
     /* background = {
         .texture = 0,
         .position = Vector2{0, 0}}; */
-    player = Player();
     centerposition = {GetScreenWidth() / 2.0f, GetScreenHeight() / 2.0f};
 };
 
@@ -42,6 +43,7 @@ void Gameplay::UpdateScreen(double deltaTime)
     // Update gameplay-specific logic here (e.g., player movement, enemy behavior, etc.)
     player.Update(deltaTime); // Update player logic
 
+    // Update projectiles
     for (int i = 0; i < projectiles.size(); ++i)
     {
         // Update projectile position based on its direction
@@ -57,6 +59,8 @@ void Gameplay::UpdateScreen(double deltaTime)
             --i; // Adjust index after removal
         }
     }
+
+    // Update asteroids and spawn new ones if needed
     asteroidSpawnTimer += deltaTime;
     if (asteroidSpawnTimer >= ASTEROID_SPAWN_INTERVAL && asteroids.size() < MAX_ASTEROID)
     {
@@ -166,6 +170,7 @@ void Gameplay::CheckCollisionAndHandle()
         {
             // Collision detected between player and asteroid
             player.TakeDamage(); // Reduce player's health
+            livesnum -= 1;
             delete asteroids[i]; // Free the memory allocated for the asteroid
             asteroids.erase(asteroids.begin() + i);
             --i;      // Adjust index after removal
@@ -181,8 +186,10 @@ void Gameplay::CheckCollisionAndHandle()
                 projectiles.erase(projectiles.begin() + j);
                 delete asteroids[i]; // Free the memory allocated for the asteroid
                 asteroids.erase(asteroids.begin() + i);
-                --j;   // Adjust index after removal
-                break; // Exit the inner loop since the projectile is removed
+                player.ScorePoint(); // Increase player's score
+                scorenum += 1.0f;    // Increase score
+                --j;                 // Adjust index after removal
+                break;               // Exit the inner loop since the projectile is removed
             }
         }
     }

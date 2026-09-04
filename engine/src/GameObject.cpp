@@ -70,12 +70,14 @@ Vector2 SpriteFrom::GetSize()
     case R_SQUARE:
         return {vertices[2], vertices[2]}; // Assuming size is uniform for regular shapes
     case TRIANGLE:
+    {
         // Calculate bounding box size for triangle
-        // float minX = min({vertices[0], vertices[2], vertices[4]});
-        // float maxX = max({vertices[0], vertices[2], vertices[4]});
-        // float minY = min({vertices[1], vertices[3], vertices[5]});
-        // float maxY = max({vertices[1], vertices[3], vertices[5]});
-        // return {maxX - minX, maxY - minY};
+        float minX = min({vertices[0], vertices[2], vertices[4]});
+        float maxX = max({vertices[0], vertices[2], vertices[4]});
+        float minY = min({vertices[1], vertices[3], vertices[5]});
+        float maxY = max({vertices[1], vertices[3], vertices[5]});
+        return {maxX - minX, maxY - minY};
+    }
     case SQUARE:
         return {vertices[2], vertices[3]};
     case CIRCLE:

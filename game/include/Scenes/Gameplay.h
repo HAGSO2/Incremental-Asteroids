@@ -12,6 +12,7 @@
 
 #define ASTEROID_SPAWN_INTERVAL 2.0f
 #define ASTEROID_MIN_DISTANCE 150.0f
+#define PLAYER_LIVES 5
 
 struct Asteroid
 {
@@ -36,6 +37,9 @@ class Gameplay : public Scene
 
     vector<Projectile *> projectiles; // Store active projectiles
     vector<Asteroid *> asteroids;     // Store active asteroids
+
+    float scorenum; // Store the score text to display on the screen
+    float livesnum; // Store the lives text to display on the screen
 
 public:
     Gameplay();

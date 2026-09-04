@@ -2,9 +2,9 @@
 
 SpriteFormLined Player::CreateSprite()
 {
-    Vector2 center = {400, 300}; // Center position of the triangle
-    float alpha = 1.25f * PI;    // 120 degrees in radians for an equilateral triangle
-    float radius = 50.0f;        // Distance from the center to a vertex
+    Vector2 center = {400, 300};  // Center position of the triangle
+    float alpha = 1.25f * PI;     // 120 degrees in radians for an equilateral triangle
+    float radius = PLAYER_RADIUS; // Distance from the center to a vertex
     float halfBase = radius * std::cos(alpha);
     float height = radius * std::sin(alpha);
     Vector2 p1 = {center.x - halfBase, center.y + height}; // Left vertex
@@ -13,7 +13,7 @@ SpriteFormLined Player::CreateSprite()
     return SpriteFormLined(p1, p2, p3, BLACK, 270.0f, WHITE, 1);
 }
 
-Player::Player() : health(5), score(0), rotateLeft(false), rotateRight(false), playerSprite(CreateSprite()) {};
+Player::Player(int lives) : health(lives), score(0), rotateLeft(false), rotateRight(false), playerSprite(CreateSprite()) {};
 
 void Player::Update(double deltaTime)
 {

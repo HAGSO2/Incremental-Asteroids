@@ -14,6 +14,11 @@ void UI::AddTextBox(float x, float y, float width, float height, string& reftxt)
     elements.push_back(new TextBox(x,y,width,height, reftxt));
  };
 
+ void UI::AddPlainText(float x, float y, float width, float height, int size, const char *texto, float& numref)
+ {
+    elements.push_back(new PlainText(x,y,width,height, size, texto, numref));
+ };
+
 
 bool UIElement::IsInside(Vector2 mouseButton){ return CheckCollisionPointRec(mouseButton,area);}
 
@@ -70,6 +75,18 @@ void Button::Draw(){
 void Button::UpdateScreen(Vector2 p){
     callback.Execute();
     WaitTime(0.1f);
+}
+
+#pragma endregion
+
+#pragma region PlainText
+
+PlainText::PlainText(float x, float y, float width, float height, int size, const char *texto, float& numref):
+UIElement(x,y,width,height), texto{texto}, numero{numref}, size{size}{};
+
+void PlainText::Draw(){
+    string final = string(texto) + to_string(numero);
+    DrawText(final.c_str(), area.x, area.y, size, BLACK);
 }
 
 #pragma endregion
