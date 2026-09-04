@@ -20,10 +20,11 @@ protected:
 	UI canvas;
 	Color backgroundColor;
 	Music music;
+	bool hasMusic = false;
 	
 public:
 	Scene();
-	Scene(Music m) : music{m} {};
+	Scene(Music m);
 	virtual void InitScene();
 	virtual void UpdateScreen(double deltaTime);
 	virtual void DrawScreen() = 0;

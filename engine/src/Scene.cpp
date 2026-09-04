@@ -1,11 +1,15 @@
 #include "ProgramFlow/Scene.h"
 
-Scene::Scene() : finishScreen{UNKNOWN}, canvas{UI()} {};
+Scene::Scene() : finishScreen{UNKNOWN}, canvas{UI()}, hasMusic{false} {};
+Scene::Scene(Music m) : finishScreen{UNKNOWN}, canvas{UI()}, music{m}, hasMusic{true} {}
 
 void Scene::InitScene()
 {
-    // SetMusicVolume(music, 1.0f);
-    // PlayMusicStream(music);
+    if (hasMusic)
+    {
+        SetMusicVolume(music, 0.8f);
+        PlayMusicStream(music);
+    }
 }
 
 void Scene::ManageInterruptions()
@@ -21,9 +25,9 @@ void Scene::ManageInterruptions()
 
 void Scene::UpdateScreen(double deltaTime)
 {
-    // if (music.ctxType != 0)
-    // {
-    //     UpdateMusicStream(music);
-    // }
+    if (hasMusic)
+    {
+        UpdateMusicStream(music);
+    }
     ManageInterruptions();
 };

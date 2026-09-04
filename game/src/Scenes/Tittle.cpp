@@ -14,7 +14,7 @@ void ToGameplay(void *ptr)
 #pragma endregion
 
 // Constructor
-Tittle::Tittle(Font f, int w, int h) : font{f}, screenWidth{w}, screenHeight{h}
+Tittle::Tittle(Font f, Music m, int w, int h) : Scene(m), font{f}, screenWidth{w}, screenHeight{h}
 {
     // Initialize UI canvas and add buttons
     canvas = UI();

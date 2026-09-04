@@ -9,8 +9,8 @@ class Tittle : public Scene {
 	int screenHeight;
 	
 public:
-	Tittle(Font f, int w, int h);
-	void InitScene() override {/*Scene::InitScene();*/ finishScreen = UNKNOWN;};
+	Tittle(Font f,Music m, int w, int h);
+	void InitScene() override {Scene::InitScene(); finishScreen = UNKNOWN;};
 	void UpdateScreen(double deltaTime) override;
 	void DrawScreen() override;
 	void UnloadScreen() override {finishScreen = UNKNOWN;};

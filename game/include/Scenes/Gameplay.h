@@ -46,7 +46,7 @@ class Gameplay : public Scene
     float livesnum; // Store the lives text to display on the screen
 
 public:
-    Gameplay();
+    Gameplay(Music m);
     void InitScene() override;
     void UpdateScreen(double deltaTime) override;
     void DrawScreen() override;

@@ -10,8 +10,18 @@ void Game::LoadResources()
     // TODO: Make this more generic, maybe with a ResourceManager class?
     // font = LoadFont(FONT);
     //music = LoadMusicStream(MUSIC);
+    logo_music = LoadSound(LOGO_MUSIC);
     tittle_music = LoadMusicStream(TITTLE_MUSIC);
     gameplay_music = LoadMusicStream(GAMEPLAY_MUSIC);
+}
+
+void Game::UnLoadResources()
+{
+    UnloadSound(logo_music);
+    UnloadMusicStream(tittle_music);
+    UnloadMusicStream(gameplay_music);
+
+    CloseAudioDevice(); // Close audio context
 }
 
 void Game::InitStarters()
@@ -19,8 +29,8 @@ void Game::InitStarters()
     SetTargetFPS(FPs);
     //  Initialize game scenes and other necessary components here
     gameScenes[LOGO] = new Logo();
-    gameScenes[TITTLE] = new Tittle(font, screenWidth, screenHeight);
-    gameScenes[GAMEPLAY] = new Gameplay();
+    gameScenes[TITTLE] = new Tittle(font, tittle_music, screenWidth, screenHeight);
+    gameScenes[GAMEPLAY] = new Gameplay(gameplay_music);
     gameScenes[GAMEOVER] = new GameOver();
 
     currentScreen = LOGO;
@@ -36,12 +46,13 @@ void Game::Init()
     LoadResources();
     InitStarters();
 
+    PlaySound(logo_music);
     gameScenes[currentScreen]->InitScene();
 }
 // Update logic (input, music, etc.)
 void Game::Update(double deltaTime)
 {
-    //UpdateMusicStream(gameScenes[currentScreen]->GetMusic()); 
+    //UpdateMusicStream(music); // Update music stream (always required for streaming music)
 
     if (!onTransition)
     {
@@ -77,8 +88,7 @@ void Game::Draw()
 void Game::Unload()
 {
     gameScenes[currentScreen]->UnloadScreen();
-
-    CloseAudioDevice(); // Close audio context
+    UnLoadResources();
 }
 
 #pragma region Transition Methods

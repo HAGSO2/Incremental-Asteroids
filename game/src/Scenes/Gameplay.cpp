@@ -9,7 +9,7 @@
 #pragma region Scene Methods
 
 // Constructor
-Gameplay::Gameplay() : scorenum(0.0f), livesnum(PLAYER_LIVES), player(PLAYER_LIVES)
+Gameplay::Gameplay(Music m) : Scene(m), scorenum(0.0f), livesnum(PLAYER_LIVES), player(PLAYER_LIVES)
 {
     // Initialize UI canvas and add buttons
     canvas = UI();

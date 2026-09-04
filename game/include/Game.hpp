@@ -22,6 +22,7 @@ public:
      ********************/
     Font font = {0};
     //Music music = {};
+    Sound logo_music = {};
     Music tittle_music = {};
     Music gameplay_music = {};
 
@@ -35,6 +36,7 @@ public:
     GameScreen transToScreen = GameScreen(UNKNOWN);
 
     void LoadResources();
+    void UnLoadResources();
     void InitStarters();
     void UpdateDrawFrame();
     // TODO: Take this to the Application class, maybe with some methods to manage it?
