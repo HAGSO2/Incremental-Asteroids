@@ -19,10 +19,12 @@ protected:
 	Vector2 mousePosition;
 	UI canvas;
 	Color backgroundColor;
+	Music music;
 	
 public:
 	Scene();
-	virtual void InitScene() = 0;
+	Scene(Music m) : music{m} {};
+	virtual void InitScene();
 	virtual void UpdateScreen(double deltaTime);
 	virtual void DrawScreen() = 0;
 	virtual void UnloadScreen() = 0;
@@ -32,6 +34,7 @@ public:
 	virtual void OnKeyPressed(KeyboardKey) = 0;
 
 	void ChangeScene(GameScreen sc){finishScreen = sc;}
+	Music GetMusic() { return music; };
 
 private:
 	void ManageInterruptions();

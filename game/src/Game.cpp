@@ -4,17 +4,19 @@
 
 void Game::LoadResources()
 {
+    //  Audio device must be initialized before loading any sound/music
+    InitAudioDevice();
     // Load game resources here (e.g., textures, sounds, etc.)
     // TODO: Make this more generic, maybe with a ResourceManager class?
     // font = LoadFont(FONT);
-    music = LoadMusicStream(MUSIC);
+    //music = LoadMusicStream(MUSIC);
+    tittle_music = LoadMusicStream(TITTLE_MUSIC);
+    gameplay_music = LoadMusicStream(GAMEPLAY_MUSIC);
 }
 
 void Game::InitStarters()
 {
     SetTargetFPS(FPs);
-    //  Audio device must be initialized before loading any sound/music
-    InitAudioDevice();
     //  Initialize game scenes and other necessary components here
     gameScenes[LOGO] = new Logo();
     gameScenes[TITTLE] = new Tittle(font, screenWidth, screenHeight);
@@ -29,21 +31,17 @@ void Game::Init()
 {
     // Initialize window and traces log.
     InitWindow(screenWidth, screenHeight, ApplicationName.c_str());
-    SetTraceLogLevel(LOG_ALL);
-
+    SetTraceLogLevel(LOG_ALL);    
     // Initialize game resources here
-    InitStarters();
     LoadResources();
-
-    SetMusicVolume(music, 1.0f);
-    PlayMusicStream(music);
+    InitStarters();
 
     gameScenes[currentScreen]->InitScene();
 }
 // Update logic (input, music, etc.)
 void Game::Update(double deltaTime)
 {
-    UpdateMusicStream(music); // NOTE: Music keeps playing between screens
+    //UpdateMusicStream(gameScenes[currentScreen]->GetMusic()); 
 
     if (!onTransition)
     {

@@ -21,7 +21,9 @@ public:
      * GLOBAL VARIABLES *
      ********************/
     Font font = {0};
-    Music music = {};
+    //Music music = {};
+    Music tittle_music = {};
+    Music gameplay_music = {};
 
     // TODO: Take this to the Application class, maybe with some methods to manage it?
     GameScreen currentScreen;

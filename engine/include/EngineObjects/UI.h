@@ -27,10 +27,10 @@ class UI
 
 public:
     UI();
-    void AddButton(float x, float y, float width, float height, const char *s, Color c, void (*Func)(void *), void *miptr);
+    void AddButton(float x, float y, float width, float height, int fontsize, const char *s, Color c, void (*Func)(void *), void *miptr);
     // void AddButtonScene(float x, float y, float width, float height, char* s, Color c, void (*Func)(GameScreen & variable), GameScreen &meptr);
     void AddTextBox(float x, float y, float width, float height, string &reftxt);
-    void AddPlainText(float x, float y, float width, float height,int size, const char *texto, float& numref);
+    void AddPlainText(float x, float y, float width, float height, int size, const char *texto, float &numref);
     void Draw();
     void UpdateScreen(Vector2);
     void UpdateKeyboard(KeyboardKey);
@@ -51,9 +51,10 @@ class Button : public UIElement
     const char *texto;
     Color color;
     CallBack callback;
+    int fontsize = 12;
 
 public:
-    Button(float x, float y, float width, float height, const char *s, Color c, void (*Func)(void *), void *miptrs);
+    Button(float x, float y, float width, float height, int fontsize, const char *s, Color c, void (*Func)(void *), void *miptrs);
     void Draw();
     void SetOut() {};
     void UpdateScreen(Vector2);
@@ -63,11 +64,11 @@ public:
 class PlainText : public UIElement
 {
     const char *texto;
-    float& numero;
+    float &numero;
     int size;
 
 public:
-    PlainText(float x, float y, float width, float height, int size, const char *texto, float& numref);
+    PlainText(float x, float y, float width, float height, int size, const char *texto, float &numref);
     void Draw();
     void SetOut() {};
     void UpdateScreen(Vector2){};

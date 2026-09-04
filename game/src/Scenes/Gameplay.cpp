@@ -6,8 +6,10 @@
 
 #pragma endregion
 
+#pragma region Scene Methods
+
 // Constructor
-Gameplay::Gameplay() : Scene(), scorenum(0.0f), livesnum(PLAYER_LIVES), player(PLAYER_LIVES)
+Gameplay::Gameplay() : scorenum(0.0f), livesnum(PLAYER_LIVES), player(PLAYER_LIVES)
 {
     // Initialize UI canvas and add buttons
     canvas = UI();
@@ -20,6 +22,7 @@ Gameplay::Gameplay() : Scene(), scorenum(0.0f), livesnum(PLAYER_LIVES), player(P
 
 void Gameplay::InitScene()
 {
+    Scene::InitScene(); // Call base class InitScene to handle common initialization tasks
     // Initialize scene elements here (e.g., load textures, set up UI, etc.)
     Image bck1 = LoadImage(BACKGROUND_1);
     Image bck2 = LoadImage(BACKGROUND_2);
@@ -143,6 +146,8 @@ void Gameplay::OnKeyPressed(KeyboardKey k)
         projectiles.push_back(newProjectile);
     }
 };
+
+#pragma endregion
 
 Asteroid *Gameplay::CreateRandomAsteroid(float screenWidth,
                                          float screenHeight,
