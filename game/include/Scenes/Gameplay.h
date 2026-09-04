@@ -26,8 +26,12 @@ class Gameplay : public Scene
 {
     struct Background
     {
-        Texture2D texture;
-        Vector2 position;
+        Texture2D layer_1;
+        Vector2 position_1;
+        Texture2D layer_2;
+        Vector2 position_2;
+        Vector2 size_2;
+        Background() : layer_1{0}, position_1{0, 0}, layer_2{0}, position_2{0, 0}, size_2{0, 0} {}
     };
     Background background;
     Vector2 centerposition; // Center point for spawning asteroids

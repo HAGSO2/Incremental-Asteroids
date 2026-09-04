@@ -14,21 +14,20 @@ Gameplay::Gameplay() : Scene(), scorenum(0.0f), livesnum(PLAYER_LIVES), player(P
     canvas.AddPlainText(10, 10, 100, 30, 20, "Score: ", scorenum);
     canvas.AddPlainText(10, 50, 100, 30, 20, "Lives: ", livesnum);
     backgroundColor = GRAY;
-    /* background = {
-        .texture = 0,
-        .position = Vector2{0, 0}}; */
+    background = Background();
     centerposition = {GetScreenWidth() / 2.0f, GetScreenHeight() / 2.0f};
 };
 
-void Gameplay::InitScene() {
+void Gameplay::InitScene()
+{
     // Initialize scene elements here (e.g., load textures, set up UI, etc.)
-    /* Image bck = LoadImage(BACKGROUNDTEX);
-    background.texture = LoadTextureFromImage(bck);
-    if (background.texture.id == 0)
-    {
-        TraceLog(LOG_ERROR, "Texture %s wasn't able be loaded", BACKGROUNDTEX);
-    }
-    UnloadImage(bck); */
+    Image bck1 = LoadImage(BACKGROUND_1);
+    Image bck2 = LoadImage(BACKGROUND_2);
+    background.layer_1 = LoadTextureFromImage(bck1);
+    background.layer_2 = LoadTextureFromImage(bck2);
+    background.size_2 = { (float)bck2.width, (float)bck2.height };
+    UnloadImage(bck1);
+    UnloadImage(bck2);
 };
 
 void Gameplay::UpdateScreen(double deltaTime)
@@ -83,19 +82,24 @@ void Gameplay::DrawScreen()
 {
     // Draw the title screen elements here (e.g., background, title text, buttons, etc.)
     // Background
-    DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), backgroundColor);
-    // DrawTexture(background.texture, 0, 0, WHITE);
-    //  Draw buttons and other UI elements
+    // DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), backgroundColor);
+    DrawTexture(background.layer_1, 0, 0, WHITE);
+    DrawTexture(background.layer_2, 0, 0, Fade(WHITE, 0.3f));
+    DrawTexture(background.layer_2, background.size_2.x, 0, Fade(WHITE, 0.3f));
+    DrawTexture(background.layer_2, 0, background.size_2.y, Fade(WHITE, 0.3f));
+    DrawTexture(background.layer_2, background.size_2.x, background.size_2.y, Fade(WHITE, 0.3f));
+    //   Draw buttons and other UI elements
     canvas.Draw();
     // Draw Gameplay elements (e.g., player, enemies, etc.)
     for (int i = 0; i < projectiles.size(); ++i)
     {
-        DrawCircleV(projectiles[i]->position, 5, YELLOW); // Draw each projectile as a small circle
+        DrawCircleV(projectiles[i]->position, 5, DARKPURPLE); // Draw each projectile as a small circle
     }
 
     for (int i = 0; i < asteroids.size(); ++i)
     {
-        DrawCircleV(asteroids[i]->position, asteroids[i]->radius, DARKGRAY); // Draw each asteroid as a circle
+        DrawCircleV(asteroids[i]->position, asteroids[i]->radius, BLACK);                                 // Draw each asteroid as a circle
+        DrawCircleLines(asteroids[i]->position.x, asteroids[i]->position.y, asteroids[i]->radius, WHITE); // Draw each asteroid as a circle
     }
 
     player.Draw();
@@ -104,7 +108,8 @@ void Gameplay::DrawScreen()
 void Gameplay::UnloadScreen()
 {
     // Unload scene resources here (e.g., textures, sounds, etc.)
-    UnloadTexture(background.texture);
+    UnloadTexture(background.layer_1);
+    UnloadTexture(background.layer_2);
 };
 
 void Gameplay::OnMouseDown()
