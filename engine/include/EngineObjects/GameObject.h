@@ -54,4 +54,5 @@ public:
         virtual void UpdateObject(float deltaTime) = 0;
         virtual void UnloadObject() = 0;
         */
+    void AddShapeRenderer(Shape2D *r) { renderer = r; }
 };
