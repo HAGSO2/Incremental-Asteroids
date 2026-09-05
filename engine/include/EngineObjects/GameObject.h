@@ -7,6 +7,16 @@
 
 using namespace std;
 
+struct Transform2D
+{
+    Vector2 position;
+    float rotation;
+    Vector2 scale;
+
+    Transform2D(Vector2 pos = {0, 0}, float rot = 0.0f, Vector2 scl = {1, 1})
+        : position(pos), rotation(rot), scale(scl) {}
+};
+
 class GameObject
 {
 public:
@@ -14,65 +24,32 @@ public:
     virtual void DrawObject() = 0;
 };
 
-enum TypeForm
+class GameObject2D
 {
-    R_TRIANGLE = 0,
-    TRIANGLE = 1,
-    R_SQUARE = 2,
-    SQUARE = 3,
-    CIRCLE = 4
-};
-
-class SpriteFrom : public GameObject
-{
-    Color color;
-    float rotation = 0.0f;
-
-protected:
-    TypeForm form;
-    vector<float> vertices;
+    Transform2D transform;
+    Renderer *renderer = nullptr;
+    // Collider2D *collider = nullptr;
 
 public:
-    SpriteFrom(TypeForm form, Vector2 center, float size, Color c);          // Constructor for Regular Polygon (e.g., TRIANGLE)
-    SpriteFrom(Vector2 p1, Vector2 p2, Vector2 p3, Color c, float rotation); // Constructor for TRIANGLE
-    SpriteFrom(Vector2 position, Vector2 size, Color c);                     // Constructor for SQUARE
-    Vector2 GetApex()
-    {
-        if (form == TRIANGLE)
-            return {vertices[4], vertices[5]};
-        else
-            return {0, 0};
-    };
-    void ChangeColor(Color c) { color = c; }
-    void Rotate(float angle);
-    virtual void DrawObject();
-    Vector2 GetPosition();
-    Vector2 GetSize();
-    float GetRotation() { return rotation; };
-};
+    GameObject2D(Vector2 pos = {0, 0}, float rot = 0.0f, Vector2 scl = {1, 1})
+        : transform(pos, rot, scl) {}
+    Transform2D GetTransform() { return transform; }
+    Vector2 GetPosition() { return transform.position; }
+    float GetRotation() { return transform.rotation; }
+    Vector2 GetScale() { return transform.scale; }
 
-class SpriteFormLined : public SpriteFrom
-{
-    Color lineColor;
-    float lineSize;
+    void SetPosition(Vector2 pos) { transform.position = pos; renderer->UpdateObject(&transform); }
+    void SetRotation(float rot) { transform.rotation = rot; renderer->UpdateObject(&transform); }
+    void SetScale(Vector2 scl) { transform.scale = scl; renderer->UpdateObject(&transform); }
 
-public:
-    SpriteFormLined(TypeForm form, Vector2 center, float size, Color c, Color linec, float linel);          // Constructor for Regular Polygon (e.g., TRIANGLE)
-    SpriteFormLined(Vector2 p1, Vector2 p2, Vector2 p3, Color c, float rotation, Color linec, float linel); // Constructor for TRIANGLE
-    SpriteFormLined(Vector2 position, Vector2 size, Color c, Color linec, float linel);                     // Constructor for SQUARE
-    void DrawObject() override;
-};
 
-class TextShape : public GameObject
-{
-    Rectangle area;
-    string text;
-    int note;
-    Color color;
-
-public:
-    TextShape(float x, float y, float width, float height, string txt, Color col);
-    void ChangeColor(Color c);
-    void ChangeText(string newText);
-    void DrawObject();
+    void DrawObject() {renderer->DrawObject(&transform);}
+    void UnloadObject() { renderer->UnloadObject(); }
+    // ¿Objetos o Agentes?
+    /*
+        virtual void InitializeObject() = 0;
+        virtual void DrawObject() = 0;
+        virtual void UpdateObject(float deltaTime) = 0;
+        virtual void UnloadObject() = 0;
+        */
 };
