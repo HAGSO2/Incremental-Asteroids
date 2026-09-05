@@ -87,25 +87,14 @@ void Shape2DLined::DrawObject(Transform2D *object)
 #pragma endregion
 
 #pragma region TextShape
-    TextShape::TextShape(ShapeForm form, Color c, string & txt, int fSize, Color tColor) : Shape2D(form, c), text(txt), fontSize(fSize), color(tColor) {};
-    TextShape::TextShape(Vector2 p1, Vector2 p2, Vector2 p3, Color c, string & txt, int fSize, Color tColor) : Shape2D(p1, p2, p3, c), text(txt), fontSize(fSize), color(tColor) {};
-    TextShape::TextShape(Color c, string & txt, int fSize, Color tColor) : Shape2D(c), text(txt), fontSize(fSize), color(tColor) {};
-    TextShape::TextShape(vector<Vector2> v, Color c, string & txt, int fSize, Color tColor) : Shape2D(v, c), text(txt), fontSize(fSize), color(tColor) {};
+TextShape::TextShape(ShapeForm form, Color c, string &txt, int fSize, Color tColor) : Shape2D(form, c), text(txt), fontSize(fSize), color(tColor) {};
+TextShape::TextShape(Vector2 p1, Vector2 p2, Vector2 p3, Color c, string &txt, int fSize, Color tColor) : Shape2D(p1, p2, p3, c), text(txt), fontSize(fSize), color(tColor) {};
+TextShape::TextShape(Color c, string &txt, int fSize, Color tColor) : Shape2D(c), text(txt), fontSize(fSize), color(tColor) {};
+TextShape::TextShape(vector<Vector2> v, Color c, string &txt, int fSize, Color tColor) : Shape2D(v, c), text(txt), fontSize(fSize), color(tColor) {};
 
-    void TextShape::DrawObject(Transform2D * object)
-    {
-        Shape2D::DrawObject(object);
-        DrawText(text.c_str(), object->position.x, object->position.y, fontSize, color);
-    }
+void TextShape::DrawObject(Transform2D *object)
+{
+    Shape2D::DrawObject(object);
+    DrawText(text.c_str(), object->position.x, object->position.y, fontSize, color);
+}
 #pragma endregion
-    // TextShape::TextShape(float x, float y, float width, float height, string txt, Color col) : area{Rectangle{x, y, width, height}}, color{col}, text{txt} {}
-
-    // void TextShape::DrawObject()
-    // {
-    //     DrawRectangleRec(area, color);
-    //     DrawText(text.c_str(), area.x, area.y, 10, BLACK);
-    // };
-
-    // void TextShape::ChangeColor(Color c) { color = c; }
-
-    // void TextShape::ChangeText(string newText) { text = newText; }

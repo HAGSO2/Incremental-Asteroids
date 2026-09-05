@@ -5,6 +5,8 @@
 #include <cmath>
 #include <algorithm>
 
+#include "EngineObjects/Renderer.h"
+
 using namespace std;
 
 struct Transform2D
