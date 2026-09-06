@@ -1,6 +1,10 @@
 #pragma once
 #include <raylib.h>
+#include <vector>
+#include <string>
 #include "EngineObjects/GameObject.h"
+
+using namespace std;
 
 class Renderer
 {
@@ -12,12 +16,12 @@ public:
 
 enum ShapeForm
 {
-    R_TRIANGLE = 0,
-    TRIANGLE = 1,
-    R_SQUARE = 2,
-    SQUARE = 3,
-    CIRCLE = 4,
-    CUSTOM = 5
+    SR_TRIANGLE = 0,
+    S_TRIANGLE = 1,
+    SR_SQUARE = 2,
+    S_SQUARE = 3,
+    S_CIRCLE = 4,
+    S_CUSTOM = 5
 };
 
 class Shape2D : public Renderer

@@ -35,7 +35,7 @@ class Gameplay : public Scene
     };
     Background background;
     Vector2 centerposition; // Center point for spawning asteroids
-    Player player;
+    //Player player;
 
     float asteroidSpawnTimer = 0.0f; // Timer to control asteroid spawning
 

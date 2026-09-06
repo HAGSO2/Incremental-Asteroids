@@ -6,6 +6,7 @@
 #include <algorithm>
 
 #include "EngineObjects/Renderer.h"
+#include "EngineObjects/Collider.h"
 
 using namespace std;
 
@@ -28,24 +29,24 @@ public:
 
 class GameObject2D
 {
-    Transform2D transform;
-    Renderer *renderer = nullptr;
-    // Collider2D *collider = nullptr;
+    Transform2D* transform;
+    Renderer *renderer;
+    Collider2D *collider;
 
 public:
     GameObject2D(Vector2 pos = {0, 0}, float rot = 0.0f, Vector2 scl = {1, 1})
-        : transform(pos, rot, scl) {}
-    Transform2D GetTransform() { return transform; }
-    Vector2 GetPosition() { return transform.position; }
-    float GetRotation() { return transform.rotation; }
-    Vector2 GetScale() { return transform.scale; }
+        : transform(new Transform2D(pos, rot, scl))/*, renderer(nullptr)*/, collider(nullptr) {}
+    Transform2D* GetTransform() { return transform; }
+    Vector2 GetPosition() { return transform->position; }
+    float GetRotation() { return transform->rotation; }
+    Vector2 GetScale()   { return transform->scale; }
 
-    void SetPosition(Vector2 pos) { transform.position = pos; renderer->UpdateObject(&transform); }
-    void SetRotation(float rot) { transform.rotation = rot; renderer->UpdateObject(&transform); }
-    void SetScale(Vector2 scl) { transform.scale = scl; renderer->UpdateObject(&transform); }
+    void SetPosition(Vector2 pos) { transform->position = pos; renderer->UpdateObject(transform); }
+    void SetRotation(float rot) { transform->rotation = rot; renderer->UpdateObject(transform); }
+    void SetScale(Vector2 scl) { transform->scale = scl; renderer->UpdateObject(transform); }
 
 
-    void DrawObject() {renderer->DrawObject(&transform);}
+    void DrawObject() {renderer->DrawObject(transform);}
     void UnloadObject() { renderer->UnloadObject(); }
     // ¿Objetos o Agentes?
     /*
@@ -55,4 +56,5 @@ public:
         virtual void UnloadObject() = 0;
         */
     void AddShapeRenderer(Shape2D *r) { renderer = r; }
+    void AddCollider2D(ColliderType type, vector<Vector2*> *otherPoints = nullptr);
 };

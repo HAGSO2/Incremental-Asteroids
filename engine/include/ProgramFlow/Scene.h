@@ -2,7 +2,7 @@
 #include <raylib.h>
 #include "EngineObjects/UI.h"
 #include "EngineObjects/GameObject.h"
-#include "EngineObjects/CollisionLayers.h"
+#include "EngineObjects/Collider.h"
 
 enum GameScreen
 {
@@ -15,8 +15,9 @@ enum GameScreen
 
 enum CollisionSystem
 {
-	BY_LAYERS = 0,
-	DYNAMIC_AABB_TREE_2D = 1
+	SIMPLE = 0,
+	BY_LAYERS = 1,
+	DYNAMIC_AABB_TREE_2D = 2
 	// TODO: Add more collision systems here
 };
 
@@ -24,10 +25,12 @@ enum CollisionSystem
 
 class Scene
 {
-	CollisionSystem collisionSystem = BY_LAYERS;
+	CollisionSystem collisionSystem;
+	vector<GameObject2D*> simpleObjects;
 	// Get the game objects and their collision layers
 	// And set the collision mask for each layer
-	vector<pair<vector<GameObject2D *>, CollisionLayer>> gameObjects;
+	vector<pair<vector<GameObject2D *>, CollisionLayer>> *layersObjects;
+	Dynamic_AABB_tree* dynamicObjects;
 
 protected:
 	GameScreen finishScreen;
@@ -38,11 +41,11 @@ protected:
 	bool hasMusic = false;
 
 public:
-	Scene(CollisionSystem collisionSystem = BY_LAYERS);
-	Scene(CollisionSystem collisionSystem = BY_LAYERS, Music m);
+	Scene(CollisionSystem collisionSystem = SIMPLE);
+	Scene(CollisionSystem collisionSystem = SIMPLE, Music m);
 	virtual void InitScene();
 	virtual void UpdateScreen(double deltaTime);
-	
+
 	virtual void DrawScreen() = 0;
 	virtual void UnloadScreen() = 0;
 	GameScreen FinishScreen() { return finishScreen; };
@@ -53,7 +56,7 @@ public:
 
 	void ChangeScene(GameScreen sc) { finishScreen = sc; }
 	Music GetMusic() { return music; };
-	void AddGameObject(GameObject2D *obj, CollisionLayer layer) { gameObjects[layer].first.push_back(obj); }
+	void AddGameObject(GameObject2D *obj);
 
 private:
 	void ManageInterruptions();

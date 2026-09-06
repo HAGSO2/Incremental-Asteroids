@@ -55,5 +55,5 @@ void AddShape2D(Scene *scene, Vector2 pos, float rot = 0, Vector2 scl = {1.0f, 1
 {
     GameObject2D *obj = new GameObject2D(pos, rot, scl);
     obj->AddShapeRenderer(shape);
-    scene->AddGameObject(obj, layer);
+    scene->AddGameObject(obj);
 }

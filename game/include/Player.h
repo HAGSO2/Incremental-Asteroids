@@ -15,18 +15,18 @@ class Player
 {
     int health;
     int score;
-    SpriteFormLined playerSprite;
+    //SpriteFormLined playerSprite;
 
     bool rotateLeft;
     bool rotateRight;
 
 public:
     Player(int lives);
-    SpriteFormLined CreateSprite();
+    //SpriteFormLined CreateSprite();
     void Update(double deltaTime);
     void Draw();
 
-    Vector2 GetPosition() { return playerSprite.GetPosition(); };
+    //Vector2 GetPosition() { return playerSprite.GetPosition(); };
     float GetSize() { return PLAYER_RADIUS; }; // Assuming square shape for simplicity
     void RotateLeft() { rotateLeft = true; }
     void RotateRight() { rotateRight = true; }
