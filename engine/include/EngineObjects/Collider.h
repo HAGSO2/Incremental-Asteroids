@@ -3,6 +3,7 @@
 #include <raylib.h>
 
 using namespace std;
+
 enum CollisionLayer
 {
     Player = 1 << 0,
@@ -10,7 +11,7 @@ enum CollisionLayer
     PlayerProjectile = 1 << 2
 };
 
-bool CheckCollisionLayers(CollisionLayer layer1, CollisionLayer layer2) { return (layer1 & layer2) != 0; };
+bool CheckCollisionLayers(CollisionLayer layer1, CollisionLayer layer2);
 
 enum ColliderType
 {

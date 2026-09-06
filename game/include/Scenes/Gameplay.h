@@ -53,6 +53,7 @@ public:
     void UnloadScreen() override;
     void OnMouseDown() override;
     void OnKeyPressed(KeyboardKey) override;
+    void OnCollision() override {};
 
 private:
     void CheckCollisionAndHandle();

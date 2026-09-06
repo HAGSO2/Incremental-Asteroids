@@ -2,7 +2,9 @@
 #include <raylib.h>
 #include <vector>
 #include <string>
-#include "EngineObjects/GameObject.h"
+#include <cmath>
+
+#include "EngineObjects/Transform2D.h"
 
 using namespace std;
 
@@ -31,7 +33,7 @@ class Shape2D : public Renderer
 protected:
     ShapeForm form;
     vector<Vector2> vertices;
-    // vector<Vector2> Tvertices;
+    vector<Vector2> Tvertices;
 
 public:
     Shape2D(ShapeForm form, Color c);                     // Constructor for Regular Polygon (e.g., TRIANGLE)
@@ -75,17 +77,3 @@ class TextShape : public Shape2D
 
     void DrawObject(Transform2D *object) override;
 };
-
-// class TextShape : public GameObject
-// {
-//     Rectangle area;
-//     string text;
-//     int note;
-//     Color color;
-
-// public:
-//     TextShape(float x, float y, float width, float height, string txt, Color col);
-//     void ChangeColor(Color c);
-//     void ChangeText(string newText);
-//     void DrawObject();
-// };

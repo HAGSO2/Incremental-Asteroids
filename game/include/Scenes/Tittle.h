@@ -16,5 +16,6 @@ public:
 	void UnloadScreen() override {finishScreen = UNKNOWN;};
 	void OnMouseDown() override;
 	void OnKeyPressed(KeyboardKey) override {};
+	void OnCollision() override {};
 	private:
 };

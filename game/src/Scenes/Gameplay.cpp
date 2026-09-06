@@ -10,7 +10,8 @@
 
 // Constructor
 Gameplay::Gameplay(Music m)
-    : Scene(m), scorenum(0.0f), livesnum(PLAYER_LIVES), player(PLAYER_LIVES) {
+    : Scene(CS_SIMPLE, m), scorenum(0.0f),
+      livesnum(PLAYER_LIVES) /*, player(PLAYER_LIVES)*/ {
   // Initialize UI canvas and add buttons
   canvas = UI();
   canvas.AddPlainText(10, 10, 100, 30, 20, "Score: ", scorenum);
@@ -43,7 +44,7 @@ void Gameplay::UpdateScreen(double deltaTime) {
 
   // Update gameplay-specific logic here (e.g., player movement, enemy behavior,
   // etc.)
-  player.Update(deltaTime); // Update player logic
+  // player.Update(deltaTime); // Update player logic
 
   // Update projectiles
   for (int i = 0; i < projectiles.size(); ++i) {
@@ -107,7 +108,7 @@ void Gameplay::DrawScreen() {
                     WHITE); // Draw each asteroid as a circle
   }
 
-  player.Draw();
+  // player.Draw();
 };
 
 void Gameplay::UnloadScreen() {
@@ -125,7 +126,7 @@ void Gameplay::OnKeyPressed(KeyboardKey k) {
   // Handle key press events here (e.g., check if specific keys are pressed)
   canvas.UpdateKeyboard(k);
 
-  if (k == KEY_LEFT) {
+  /*if (k == KEY_LEFT) {
     player.RotateLeft();
   } else if (k == KEY_RIGHT) {
     player.RotateRight();
@@ -138,7 +139,7 @@ void Gameplay::OnKeyPressed(KeyboardKey k) {
     // Shoot a projectile
     Projectile *newProjectile = player.ShootProjectile();
     projectiles.push_back(newProjectile);
-  }
+  }*/
 };
 
 #pragma endregion
@@ -162,33 +163,34 @@ Asteroid *Gameplay::CreateRandomAsteroid(float screenWidth, float screenHeight,
 
 void Gameplay::CheckCollisionAndHandle() {
   // Check for collisions between projectiles and asteroids
-  for (int i = 0; i < asteroids.size(); ++i) {
-    float playerDistance =
-        Vector2Distance(player.GetPosition(), asteroids[i]->position);
-    if (playerDistance < (player.GetSize() / 2 + asteroids[i]->radius)) {
-      // Collision detected between player and asteroid
-      player.TakeDamage(); // Reduce player's health
-      livesnum -= 1;
-      delete asteroids[i]; // Free the memory allocated for the asteroid
-      asteroids.erase(asteroids.begin() + i);
-      --i;      // Adjust index after removal
-      continue; // Skip to the next asteroid since this one is removed
-    }
-    for (int j = 0; j < projectiles.size(); ++j) {
-      float distance =
-          Vector2Distance(projectiles[j]->position, asteroids[i]->position);
-      if (distance < asteroids[i]->radius) {
-        // Collision detected, remove both projectile and asteroid
-        delete projectiles[j]; // Free the memory allocated for the projectile
-        projectiles.erase(projectiles.begin() + j);
-        delete asteroids[i]; // Free the memory allocated for the asteroid
-        asteroids.erase(asteroids.begin() + i);
-        player.ScorePoint(); // Increase player's score
-        scorenum += 1.0f;    // Increase score
-        --j;                 // Adjust index after removal
-        break; // Exit the inner loop since the projectile is removed
-      }
-    }
+  for (int i = 0; i < asteroids.size(); ++i) { /*
+     float playerDistance =
+         Vector2Distance(player.GetPosition(), asteroids[i]->position);
+     if (playerDistance < (player.GetSize() / 2 + asteroids[i]->radius)) {
+       // Collision detected between player and asteroid
+       player.TakeDamage(); // Reduce player's health
+       livesnum -= 1;
+       delete asteroids[i]; // Free the memory allocated for the asteroid
+       asteroids.erase(asteroids.begin() + i);
+       --i;      // Adjust index after removal
+       continue; // Skip to the next asteroid since this one is removed
+     }
+     for (int j = 0; j < projectiles.size(); ++j) {
+       float distance =
+           Vector2Distance(projectiles[j]->position, asteroids[i]->position);
+       if (distance < asteroids[i]->radius) {
+         // Collision detected, remove both projectile and asteroid
+         delete projectiles[j]; // Free the memory allocated for the projectile
+         projectiles.erase(projectiles.begin() + j);
+         delete asteroids[i]; // Free the memory allocated for the asteroid
+         asteroids.erase(asteroids.begin() + i);
+         player.ScorePoint(); // Increase player's score
+         scorenum += 1.0f;    // Increase score
+         --j;                 // Adjust index after removal
+         break; // Exit the inner loop since the projectile is removed
+       }
+     }
+   */
   }
 }
 
