@@ -34,8 +34,9 @@ bool Collider2D::isColliding(Collider2D *other)
             return CheckCollisionCircleRec(*points[0], points[1]->x,
                                            Rectangle{otherPoints[0]->x, otherPoints[0]->y, otherPoints[1]->x, otherPoints[1]->y});
         else if (other->form == C_CIRCLE)
-            return CheckCollisionCircles(*points[0], points[1]->x, *otherPoints[0], otherPoints[1]->x);    
+            return CheckCollisionCircles(*points[0], points[1]->x, *otherPoints[0], otherPoints[1]->x);
     default:
         break;
     }
+    return false;
 }

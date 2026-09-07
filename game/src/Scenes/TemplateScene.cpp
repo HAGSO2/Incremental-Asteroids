@@ -12,7 +12,7 @@ void ToGameplay(void *ptr)
 #pragma endregion
 
 // Constructor
-TemplateScene::TemplateScene(): Scene()
+TemplateScene::TemplateScene() : Scene()
 {
     // Initialize UI canvas and add buttons
     canvas = UI();
@@ -53,3 +53,7 @@ void TemplateScene::OnKeyPressed(KeyboardKey k)
     // Handle key press events here (e.g., check if specific keys are pressed)
     canvas.UpdateKeyboard(k);
 };
+
+void TemplateScene::OnCollision()
+{
+}

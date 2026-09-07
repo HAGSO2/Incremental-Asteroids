@@ -48,4 +48,6 @@ public:
         */
     void AddShapeRenderer(Shape2D *r) { renderer = r; }
     void AddCollider2D(ColliderType type, vector<Vector2*> *otherPoints = nullptr);
+
+    void DestroyObject();
 };

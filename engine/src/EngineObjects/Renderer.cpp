@@ -3,28 +3,30 @@
 #pragma region Shape2D
 // Constructor for Regular Polygon (e.g., TRIANGLE)
 Shape2D::Shape2D(ShapeForm form, Color c)
-    : form(form), color(c), vertices({}) {}; //, Tvertices({}) {};
+    : form(form), color(c), localVertices({}), worldVertices({}) {};
 
 // Constructor for TRIANGLE
 Shape2D::Shape2D(Vector2 p1, Vector2 p2, Vector2 p3, Color c)
     : form(S_TRIANGLE), color(c),
-      vertices({p1, p2, p3}) {}; //, Tvertices({p1, p2, p3}) {};
+      localVertices({p1, p2, p3}), worldVertices({p1, p2, p3}) {};
 
 // Constructor for SQUARE
 Shape2D::Shape2D(Color c)
-    : form(S_SQUARE), color(c), vertices({}) {}; //, Tvertices({}) {};
+    : form(S_SQUARE), color(c), localVertices({}), worldVertices({}) {};
 
 // Constructor for CUSTOM shape
 Shape2D::Shape2D(vector<Vector2> v, Color c)
-    : form(S_CUSTOM), color(c), vertices(v) {}; //, Tvertices(v) {};
+    : form(S_CUSTOM), color(c), localVertices(v), worldVertices(v) {};
 
-void Shape2D::DrawObject(Transform2D *object) {
-  switch (form) {
+void Shape2D::DrawObject(Transform2D *object)
+{
+  switch (form)
+  {
   case SR_TRIANGLE:
     DrawPoly(object->position, 3, object->scale.x, object->rotation, color);
     break;
   case S_TRIANGLE:
-    DrawTriangle(vertices[0], vertices[1], vertices[2], color);
+    DrawTriangle(worldVertices[0], worldVertices[1], worldVertices[2], color);
     break;
   case SR_SQUARE:
     DrawPoly(object->position, 4, object->scale.x, object->rotation, color);
@@ -37,26 +39,29 @@ void Shape2D::DrawObject(Transform2D *object) {
     break;
   case S_CUSTOM:
     // Custom shape drawing logic can be implemented here
-    DrawLineStrip(vertices.data(), vertices.size(), color);
+    DrawLineStrip(worldVertices.data(), worldVertices.size(), color);
   default:
     break;
   }
 }
 
-void Shape2D::UpdateObject(Transform2D *object) {
+void Shape2D::UpdateObject(Transform2D *object)
+{
+  float rad = object->rotation * (PI / 180.0f);
+  float cosR = cos(rad);
+  float sinR = sin(rad);
   // Update logic for the shape can be implemented here if needed
   Vector2 center = object->position;
-  for (size_t i = 0; i < vertices.size(); i += 1) {
-    float x = vertices[i].x - center.x;
-    float y = vertices[i].y - center.y;
-    float newX = x * cos(object->rotation * (PI / 180.0f)) -
-                 y * sin(object->rotation * (PI / 180.0f));
-    float newY = x * sin(object->rotation * (PI / 180.0f)) +
-                 y * cos(object->rotation * (PI / 180.0f));
-    vertices[i] = {newX * object->scale.x + center.x,
-                   newY * object->scale.y + center.y};
-    // Tvertices[i] = {newX * object->scale.x + center.x, newY * object->scale.y
-    // + center.y};
+  for (size_t i = 0; i < localVertices.size(); i += 1)
+  {
+    float x = localVertices[i].x * object->scale.x;
+    float y = localVertices[i].y * object->scale.y;
+
+    float newX = x * cosR - y * sinR;
+    float newY = x * sinR + y * cosR;
+  
+    worldVertices[i].x = newX + object->position.x;
+    worldVertices[i].y = newY + object->position.y;
   }
 }
 #pragma endregion
@@ -72,19 +77,21 @@ Shape2DLined::Shape2DLined(Color c, Color linec, float linel)
 Shape2DLined::Shape2DLined(vector<Vector2> v, Color c, Color linec, float linel)
     : Shape2D(v, c), lineColor(linec), lineSize(linel) {};
 
-void Shape2DLined::DrawObject(Transform2D *object) {
+void Shape2DLined::DrawObject(Transform2D *object)
+{
   Shape2D::DrawObject(object);
-  switch (form) {
+  switch (form)
+  {
   case S_TRIANGLE:
-    DrawLineV(vertices[0], vertices[1], lineColor);
-    DrawLineV(vertices[1], vertices[2], lineColor);
-    DrawLineV(vertices[2], vertices[0], lineColor);
+    DrawLineV(worldVertices[0], worldVertices[1], lineColor);
+    DrawLineV(worldVertices[1], worldVertices[2], lineColor);
+    DrawLineV(worldVertices[2], worldVertices[0], lineColor);
     break;
   case S_SQUARE:
-    DrawLineV(vertices[0], vertices[1], lineColor);
-    DrawLineV(vertices[1], vertices[2], lineColor);
-    DrawLineV(vertices[2], vertices[3], lineColor);
-    DrawLineV(vertices[3], vertices[0], lineColor);
+    DrawLineV(worldVertices[0], worldVertices[1], lineColor);
+    DrawLineV(worldVertices[1], worldVertices[2], lineColor);
+    DrawLineV(worldVertices[2], worldVertices[3], lineColor);
+    DrawLineV(worldVertices[3], worldVertices[0], lineColor);
     break;
   default:
     DrawCircleV(object->position, object->scale.x, lineColor);
@@ -106,7 +113,8 @@ TextShape::TextShape(vector<Vector2> v, Color c, string &txt, int fSize,
                      Color tColor)
     : Shape2D(v, c), text(txt), fontSize(fSize), color(tColor) {};
 
-void TextShape::DrawObject(Transform2D *object) {
+void TextShape::DrawObject(Transform2D *object)
+{
   Shape2D::DrawObject(object);
   DrawText(text.c_str(), object->position.x, object->position.y, fontSize,
            color);
