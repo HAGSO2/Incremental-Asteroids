@@ -11,28 +11,29 @@ struct Projectile
     Vector2 GetPosition() { return position; };
 };
 
-class Player
+class Player : public GameObject2D
 {
     int health;
     int score;
-    //SpriteFormLined playerSprite;
+    // SpriteFormLined playerSprite;
 
     bool rotateLeft;
     bool rotateRight;
 
 public:
-    Player(int lives);
-    //SpriteFormLined CreateSprite();
-    void Update(double deltaTime);
-    void Draw();
+    Player(Vector2 pos, int lives);
+    void CreateSprite();
 
-    //Vector2 GetPosition() { return playerSprite.GetPosition(); };
+    void InitializeObject() override {};
+    void UpdateObject(double deltaTime) override;
+
+    // Vector2 GetPosition() { return playerSprite.GetPosition(); };
     float GetSize() { return PLAYER_RADIUS; }; // Assuming square shape for simplicity
-    void RotateLeft() { rotateLeft = true; }
-    void RotateRight() { rotateRight = true; }
+    void SetRotateLeft() { rotateLeft = true; }
+    void SetRotateRight() { rotateRight = true; }
     void ScorePoint() { score++; }
     int GetScore() { return score; }
     int GetHealth() { return health; }
     void TakeDamage() { health -= 1; }
-    Projectile *ShootProjectile();
+    // Projectile *ShootProjectile();
 };

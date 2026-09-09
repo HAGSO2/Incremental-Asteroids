@@ -1,40 +1,47 @@
-// #include "Player.h"
+#include "Player.h"
 
-// SpriteFormLined Player::CreateSprite()
-// {
-//     Vector2 center = {400, 300};  // Center position of the triangle
-//     float alpha = 1.25f * PI;     // 120 degrees in radians for an equilateral triangle
-//     float radius = PLAYER_RADIUS; // Distance from the center to a vertex
-//     float halfBase = radius * std::cos(alpha);
-//     float height = radius * std::sin(alpha);
-//     Vector2 p1 = {center.x - halfBase, center.y + height}; // Left vertex
-//     Vector2 p2 = {center.x + halfBase, center.y + height}; // Right vertex
-//     Vector2 p3 = {center.x, center.y + radius};            // Apex
-//     return SpriteFormLined(p1, p2, p3, BLACK, 270.0f, WHITE, 1);
-// }
+void Player::CreateSprite()
+{
+    float alpha = 1.25f * PI;     // 120 degrees in radians for an equilateral triangle
+    float radius = PLAYER_RADIUS; // Distance from the center to a vertex
+    float halfBase = radius * std::cos(alpha);
+    float height = radius * std::sin(alpha);
+    Vector2 p1 = {-halfBase, height}; // Left vertex
+    Vector2 p2 = {halfBase, height};  // Right vertex
+    Vector2 p3 = {0, radius};         // Apex
+    // Shape2DLined(Vector2 p1, Vector2 p2, Vector2 p3, Color c, Color linec, float linel); // Constructor for TRIANGLE
+    Shape2DLined *renderer = new Shape2DLined(p1, p2, p3, BLACK, WHITE, 1);
+    AddShapeRenderer(renderer);
+    // return SpriteFormLined(p1, p2, p3, BLACK, 270.0f, WHITE, 1);
+}
 
-// Player::Player(int lives) : health(lives), score(0), rotateLeft(false), rotateRight(false), playerSprite(CreateSprite()) {};
+Player::Player(Vector2 pos, int lives) : GameObject2D(pos, 270), health(lives), score(0), rotateLeft(false), rotateRight(false)
+{
+    CreateSprite();
+};
 
-// void Player::Update(double deltaTime)
-// {
-//     // Update player logic here (e.g., movement, collision detection, etc.)
-//     if (rotateLeft)
-//     {
-//         playerSprite.Rotate(-115.0f * deltaTime); // Rotate left at 90 degrees per second
-//         if (!IsKeyDown(KEY_LEFT))
-//         {
-//             rotateLeft = false; // Reset the flag after rotation
-//         }
-//     }
-//     if (rotateRight)
-//     {
-//         playerSprite.Rotate(115.0f * deltaTime); // Rotate right at 90 degrees per second
-//         if (!IsKeyDown(KEY_RIGHT))
-//         {
-//             rotateRight = false; // Reset the flag after rotation
-//         }
-//     }
-// };
+void Player::UpdateObject(double deltaTime)
+{
+    // Update player logic here (e.g., movement, collision detection, etc.)
+    if (rotateLeft)
+    {
+        Rotate(-115.0f * deltaTime);
+        //playerSprite.Rotate(-115.0f * deltaTime); // Rotate left at 90 degrees per second
+        if (!IsKeyDown(KEY_LEFT))
+        {
+            rotateLeft = false; // Reset the flag after rotation
+        }
+    }
+    if (rotateRight)
+    {
+        Rotate(115.0f * deltaTime);
+        //playerSprite.Rotate(115.0f * deltaTime); // Rotate right at 90 degrees per second
+        if (!IsKeyDown(KEY_RIGHT))
+        {
+            rotateRight = false; // Reset the flag after rotation
+        }
+    }
+};
 
 // void Player::Draw()
 // {
