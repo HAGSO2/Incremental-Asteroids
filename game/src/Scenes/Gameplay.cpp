@@ -11,7 +11,8 @@
 // Constructor
 Gameplay::Gameplay(Music m)
     : Scene(CS_SIMPLE, m), scorenum(0.0f),
-      livesnum(PLAYER_LIVES) /*, player(PLAYER_LIVES)*/ {
+      livesnum(PLAYER_LIVES) /*, player(PLAYER_LIVES)*/
+{
   // Initialize UI canvas and add buttons
   canvas = UI();
   canvas.AddPlainText(10, 10, 100, 30, 20, "Score: ", scorenum);
@@ -19,9 +20,12 @@ Gameplay::Gameplay(Music m)
   backgroundColor = GRAY;
   background = Background();
   centerposition = {GetScreenWidth() / 2.0f, GetScreenHeight() / 2.0f};
+  player = new Player(centerposition, livesnum);
+  AddGameObject(player);
 };
 
-void Gameplay::InitScene() {
+void Gameplay::InitScene()
+{
   Scene::InitScene(); // Call base class InitScene to handle common
                       // initialization tasks
   // Initialize scene elements here (e.g., load textures, set up UI, etc.)
@@ -34,7 +38,8 @@ void Gameplay::InitScene() {
   UnloadImage(bck2);
 };
 
-void Gameplay::UpdateScreen(double deltaTime) {
+void Gameplay::UpdateScreen(double deltaTime)
+{
   // Update base scene logic (e.g., handle input, update UI, etc.)
   Scene::UpdateScreen(deltaTime);
   // if (player.GetHealth() <= 0)
@@ -47,42 +52,43 @@ void Gameplay::UpdateScreen(double deltaTime) {
   // player.Update(deltaTime); // Update player logic
 
   // Update projectiles
-  for (int i = 0; i < projectiles.size(); ++i) {
-    // Update projectile position based on its direction
-    projectiles[i]->position.x += projectiles[i]->direction.x * 300 *
-                                  deltaTime; // Move at 300 units per second
-    projectiles[i]->position.y += projectiles[i]->direction.y * 300 * deltaTime;
+  // for (int i = 0; i < projectiles.size(); ++i) {
+  //   // Update projectile position based on its direction
+  //   projectiles[i]->position.x += projectiles[i]->direction.x * 300 *
+  //                                 deltaTime; // Move at 300 units per second
+  //   projectiles[i]->position.y += projectiles[i]->direction.y * 300 * deltaTime;
 
-    // Optionally, remove projectiles that go off-screen
-    if (projectiles[i]->position.x < 0 ||
-        projectiles[i]->position.x > GetScreenWidth() ||
-        projectiles[i]->position.y < 0 ||
-        projectiles[i]->position.y > GetScreenHeight()) {
-      delete projectiles[i];
-      projectiles.erase(projectiles.begin() + i);
-      --i; // Adjust index after removal
-    }
-  }
+  //   // Optionally, remove projectiles that go off-screen
+  //   if (projectiles[i]->position.x < 0 ||
+  //       projectiles[i]->position.x > GetScreenWidth() ||
+  //       projectiles[i]->position.y < 0 ||
+  //       projectiles[i]->position.y > GetScreenHeight()) {
+  //     delete projectiles[i];
+  //     projectiles.erase(projectiles.begin() + i);
+  //     --i; // Adjust index after removal
+  //   }
+  // }
 
   // Update asteroids and spawn new ones if needed
   asteroidSpawnTimer += deltaTime;
-  if (asteroidSpawnTimer >= ASTEROID_SPAWN_INTERVAL &&
-      asteroids.size() < MAX_ASTEROID) {
-    asteroids.push_back(CreateRandomAsteroid(
-        GetScreenWidth(), GetScreenHeight(), ASTEROID_MIN_DISTANCE));
-    asteroidSpawnTimer = 0.0f; // Reset the timer
-  }
-  CheckCollisionAndHandle(); // Check for collisions between projectiles and
-                             // asteroids
+  // if (asteroidSpawnTimer >= ASTEROID_SPAWN_INTERVAL &&
+  //     asteroids.size() < MAX_ASTEROID) {
+  //   asteroids.push_back(CreateRandomAsteroid(
+  //       GetScreenWidth(), GetScreenHeight(), ASTEROID_MIN_DISTANCE));
+  //   asteroidSpawnTimer = 0.0f; // Reset the timer
+  // }
+  // CheckCollisionAndHandle(); // Check for collisions between projectiles and
+  // asteroids
 
-  for (int i = 0; i < asteroids.size(); ++i) {
-    UpdateAsteroid(asteroids[i],
-                   deltaTime); // Move asteroids towards the center at a speed
-                               // of 100 units per second
-  }
+  // for (int i = 0; i < asteroids.size(); ++i) {
+  //   UpdateAsteroid(asteroids[i],
+  //                  deltaTime); // Move asteroids towards the center at a speed
+  //                              // of 100 units per second
+  // }
 };
 
-void Gameplay::DrawScreen() {
+void Gameplay::DrawScreen()
+{
   // Draw the title screen elements here (e.g., background, title text, buttons,
   // etc.) Background DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(),
   // backgroundColor);
@@ -92,65 +98,77 @@ void Gameplay::DrawScreen() {
   DrawTexture(background.layer_2, 0, background.size_2.y, Fade(WHITE, 0.3f));
   DrawTexture(background.layer_2, background.size_2.x, background.size_2.y,
               Fade(WHITE, 0.3f));
-  //   Draw buttons and other UI elements
-  canvas.Draw();
-  // Draw Gameplay elements (e.g., player, enemies, etc.)
-  for (int i = 0; i < projectiles.size(); ++i) {
-    DrawCircleV(projectiles[i]->position, 5,
-                DARKPURPLE); // Draw each projectile as a small circle
-  }
+  // Draw IU and gameobjects;
+  Scene::DrawScreen();
+  // Vector2 up = player->GetForward();
+  // Vector2 apex = Vector2{up.x * 100 + centerposition.x, up.y * 100 + centerposition.y};
+  // DrawCircleV(apex, PLAYER_RADIUS / 3, YELLOW);
 
-  for (int i = 0; i < asteroids.size(); ++i) {
-    DrawCircleV(asteroids[i]->position, asteroids[i]->radius,
-                BLACK); // Draw each asteroid as a circle
-    DrawCircleLines(asteroids[i]->position.x, asteroids[i]->position.y,
-                    asteroids[i]->radius,
-                    WHITE); // Draw each asteroid as a circle
-  }
+  // Draw Gameplay elements (e.g., player, enemies, etc.)
+  // for (int i = 0; i < projectiles.size(); ++i) {
+  //   DrawCircleV(projectiles[i]->position, 5,
+  //               DARKPURPLE); // Draw each projectile as a small circle
+  // }
+
+  // for (int i = 0; i < asteroids.size(); ++i) {
+  //   DrawCircleV(asteroids[i]->position, asteroids[i]->radius,
+  //               BLACK); // Draw each asteroid as a circle
+  //   DrawCircleLines(asteroids[i]->position.x, asteroids[i]->position.y,
+  //                   asteroids[i]->radius,
+  //                   WHITE); // Draw each asteroid as a circle
+  // }
 
   // player.Draw();
 };
 
-void Gameplay::UnloadScreen() {
+void Gameplay::UnloadScreen()
+{
   // Unload scene resources here (e.g., textures, sounds, etc.)
   UnloadTexture(background.layer_1);
   UnloadTexture(background.layer_2);
 };
 
-void Gameplay::OnMouseDown() {
+void Gameplay::OnMouseDown()
+{
   // Handle mouse click events here (e.g., check if buttons are clicked)
   canvas.UpdateScreen(mousePosition);
 };
 
-void Gameplay::OnKeyPressed(KeyboardKey k) {
+void Gameplay::OnKeyPressed(KeyboardKey k)
+{
   // Handle key press events here (e.g., check if specific keys are pressed)
   canvas.UpdateKeyboard(k);
 
-  /*if (k == KEY_LEFT) {
-    player.RotateLeft();
-  } else if (k == KEY_RIGHT) {
-    player.RotateRight();
-  } else if (k == KEY_SPACE) {
-    if (projectiles.size() >= MAX_PROYECTILES) {
-      TraceLog(LOG_WARNING,
-               "Maximum number of projectiles reached. Cannot shoot more.");
-      return; // Exit early if the maximum number of projectiles is reached
-    }
-    // Shoot a projectile
-    Projectile *newProjectile = player.ShootProjectile();
-    projectiles.push_back(newProjectile);
-  }*/
+  if (k == KEY_LEFT)
+  {
+    player->SetRotateLeft();
+  }
+  else if (k == KEY_RIGHT)
+  {
+    player->SetRotateRight();
+  } /* else if (k == KEY_SPACE) {
+     if (projectiles.size() >= MAX_PROYECTILES) {
+       TraceLog(LOG_WARNING,
+                "Maximum number of projectiles reached. Cannot shoot more.");
+       return; // Exit early if the maximum number of projectiles is reached
+     }
+     // Shoot a projectile
+     Projectile *newProjectile = player.ShootProjectile();
+     projectiles.push_back(newProjectile);
+   }*/
 };
 
 #pragma endregion
 
 Asteroid *Gameplay::CreateRandomAsteroid(float screenWidth, float screenHeight,
-                                         float minDistance) {
+                                         float minDistance)
+{
   Vector2 position;
 
   // Generar hasta encontrar una posición suficientemente
   // alejada del centro.
-  do {
+  do
+  {
     position = {static_cast<float>(rand() % static_cast<int>(screenWidth)),
                 static_cast<float>(rand() % static_cast<int>(screenHeight))};
   } while (Vector2Distance(position, centerposition) < minDistance);
@@ -161,9 +179,10 @@ Asteroid *Gameplay::CreateRandomAsteroid(float screenWidth, float screenHeight,
   return new Asteroid(position, radius, speed);
 }
 
-void Gameplay::CheckCollisionAndHandle() {
+void Gameplay::CheckCollisionAndHandle()
+{
   // Check for collisions between projectiles and asteroids
-  for (int i = 0; i < asteroids.size(); ++i) { /*
+  /*for (int i = 0; i < asteroids.size(); ++i) {
      float playerDistance =
          Vector2Distance(player.GetPosition(), asteroids[i]->position);
      if (playerDistance < (player.GetSize() / 2 + asteroids[i]->radius)) {
@@ -190,11 +209,12 @@ void Gameplay::CheckCollisionAndHandle() {
          break; // Exit the inner loop since the projectile is removed
        }
      }
-   */
-  }
+
+  }*/
 }
 
-void Gameplay::UpdateAsteroid(Asteroid *asteroid, double deltaTime) {
+void Gameplay::UpdateAsteroid(Asteroid *asteroid, double deltaTime)
+{
 
   // Dirección desde el asteroide hacia el centro
   Vector2 direction = Vector2Subtract(centerposition, asteroid->position);

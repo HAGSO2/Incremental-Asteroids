@@ -21,6 +21,4 @@ void GameObject2D::DestroyObject()
     delete renderer;
 
   delete transform;
-
-  delete this;
 }

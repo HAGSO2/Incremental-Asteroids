@@ -6,9 +6,9 @@ using namespace std;
 
 enum CollisionLayer
 {
-    Player = 1 << 0,
-    Enemy = 1 << 1,
-    PlayerProjectile = 1 << 2
+    CL_Player = 1 << 0,
+    CL_Enemy = 1 << 1,
+    CL_PlayerProjectile = 1 << 2
 };
 
 bool CheckCollisionLayers(CollisionLayer layer1, CollisionLayer layer2);
@@ -38,5 +38,5 @@ public:
 class Dynamic_AABB_tree
 {
 public:
-    Dynamic_AABB_tree();
+    Dynamic_AABB_tree(){};
 };

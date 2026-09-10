@@ -43,8 +43,8 @@ public:
   Scene(CollisionSystem collisionSystem, Music m = {0});
   virtual void InitScene();
   virtual void UpdateScreen(double deltaTime);
-
-  virtual void DrawScreen() = 0;
+  virtual void DrawScreen();
+  
   virtual void UnloadScreen() = 0;
   GameScreen FinishScreen() { return finishScreen; };
 

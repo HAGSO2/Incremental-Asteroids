@@ -6,16 +6,19 @@ void Player::CreateSprite()
     float radius = PLAYER_RADIUS; // Distance from the center to a vertex
     float halfBase = radius * std::cos(alpha);
     float height = radius * std::sin(alpha);
-    Vector2 p1 = {-halfBase, height}; // Left vertex
-    Vector2 p2 = {halfBase, height};  // Right vertex
-    Vector2 p3 = {0, radius};         // Apex
+    // Vector2 p1 = {-halfBase, height}; // Left vertex
+    // Vector2 p2 = {halfBase, height};  // Right vertex
+    // Vector2 p3 = {0, radius};         // Apex
+    Vector2 p1 = {height, -halfBase}; // Left vertex
+    Vector2 p2 = {height, halfBase}; // Right vertex
+    Vector2 p3 = {radius, 0};         // Apex
     // Shape2DLined(Vector2 p1, Vector2 p2, Vector2 p3, Color c, Color linec, float linel); // Constructor for TRIANGLE
-    Shape2DLined *renderer = new Shape2DLined(p1, p2, p3, BLACK, WHITE, 1);
+    Shape2DLined *renderer = new Shape2DLined(p1, p3, p2, BLACK, WHITE, 1);
     AddShapeRenderer(renderer);
     // return SpriteFormLined(p1, p2, p3, BLACK, 270.0f, WHITE, 1);
 }
 
-Player::Player(Vector2 pos, int lives) : GameObject2D(pos, 270), health(lives), score(0), rotateLeft(false), rotateRight(false)
+Player::Player(Vector2 pos, int lives) : GameObject2D(pos, 90), health(lives), score(0), rotateLeft(false), rotateRight(false)
 {
     CreateSprite();
 };
@@ -26,7 +29,7 @@ void Player::UpdateObject(double deltaTime)
     if (rotateLeft)
     {
         Rotate(-115.0f * deltaTime);
-        //playerSprite.Rotate(-115.0f * deltaTime); // Rotate left at 90 degrees per second
+        // playerSprite.Rotate(-115.0f * deltaTime); // Rotate left at 90 degrees per second
         if (!IsKeyDown(KEY_LEFT))
         {
             rotateLeft = false; // Reset the flag after rotation
@@ -35,7 +38,7 @@ void Player::UpdateObject(double deltaTime)
     if (rotateRight)
     {
         Rotate(115.0f * deltaTime);
-        //playerSprite.Rotate(115.0f * deltaTime); // Rotate right at 90 degrees per second
+        // playerSprite.Rotate(115.0f * deltaTime); // Rotate right at 90 degrees per second
         if (!IsKeyDown(KEY_RIGHT))
         {
             rotateRight = false; // Reset the flag after rotation

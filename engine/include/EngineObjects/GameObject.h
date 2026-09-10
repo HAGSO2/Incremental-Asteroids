@@ -31,6 +31,8 @@ public:
     Vector2 GetPosition() { return transform->position; }
     float GetRotation() { return transform->rotation; }
     Vector2 GetScale() { return transform->scale; }
+    Vector2 GetUp() { return transform->Up(); }
+    Vector2 GetForward() { return transform->Forward(); }
 
     void SetPosition(Vector2 pos)
     {
@@ -65,7 +67,11 @@ public:
     virtual void UpdateObject(double deltaTime) = 0;
     void UnloadObject() { renderer->UnloadObject(); }
 
-    void AddShapeRenderer(Shape2D *r) { renderer = r; }
+    void AddShapeRenderer(Shape2D *r)
+    {
+        renderer = r;
+        renderer->UpdateObject(transform);
+    }
     void AddCollider2D(ColliderType type, vector<Vector2 *> *otherPoints = nullptr);
 
     void DestroyObject();

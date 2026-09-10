@@ -35,12 +35,12 @@ class Gameplay : public Scene
     };
     Background background;
     Vector2 centerposition; // Center point for spawning asteroids
-    //Player player;
+    Player* player;
 
     float asteroidSpawnTimer = 0.0f; // Timer to control asteroid spawning
 
-    vector<Projectile *> projectiles; // Store active projectiles
-    vector<Asteroid *> asteroids;     // Store active asteroids
+    //vector<Projectile *> projectiles; // Store active projectiles
+    //vector<Asteroid *> asteroids;     // Store active asteroids
 
     float scorenum; // Store the score text to display on the screen
     float livesnum; // Store the lives text to display on the screen
