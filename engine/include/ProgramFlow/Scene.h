@@ -52,7 +52,7 @@ public:
   virtual void OnKeyPressed(KeyboardKey) = 0;
   //TODO: Make on collision a method with two game object references
   //virtual void OnCollision(GameObject2D *obj1, GameObject2D *obj2) = 0;
-  virtual void OnCollision() = 0;
+  virtual void OnCollision(GameObject2D *obj1, GameObject2D *obj2) = 0;
 
   void ChangeScene(GameScreen sc) { finishScreen = sc; }
   Music GetMusic() { return music; };

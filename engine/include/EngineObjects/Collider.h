@@ -31,6 +31,7 @@ struct Collider2D
 
 public:
     Collider2D(ColliderType form, vector<Vector2 *> points) : form(form), points(points) {};
+    ~Collider2D();
     bool isColliding(Vector2 p);
     bool isColliding(Collider2D *other);
 };

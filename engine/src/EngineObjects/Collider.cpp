@@ -1,5 +1,11 @@
 #include "EngineObjects/Collider.h"
 
+Collider2D::~Collider2D(){
+    for(int i = 0; i < points.size(); ++i){
+        delete points[i];
+    }
+}
+
 bool CheckCollisionLayers(CollisionLayer layer1, CollisionLayer layer2) { return (layer1 & layer2) != 0; };
 
 bool Collider2D::isColliding(Vector2 p)

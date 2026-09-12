@@ -2,26 +2,18 @@
 #include <cmath>
 
 #define PLAYER_RADIUS 50.0f
-
-struct Projectile
-{
-    Vector2 position;
-    Vector2 direction;
-    Projectile(Vector2 pos, Vector2 dir) : position{pos}, direction{dir} {};
-    Vector2 GetPosition() { return position; };
-};
+#define PLAYER_TAG "player"
 
 class Player : public GameObject2D
 {
-    int health;
-    int score;
     // SpriteFormLined playerSprite;
 
     bool rotateLeft;
     bool rotateRight;
 
 public:
-    Player(Vector2 pos, int lives);
+    Player(Vector2 pos);
+    ~Player() override;
     void CreateSprite();
 
     void InitializeObject() override {};
@@ -31,9 +23,9 @@ public:
     float GetSize() { return PLAYER_RADIUS; }; // Assuming square shape for simplicity
     void SetRotateLeft() { rotateLeft = true; }
     void SetRotateRight() { rotateRight = true; }
-    void ScorePoint() { score++; }
-    int GetScore() { return score; }
-    int GetHealth() { return health; }
-    void TakeDamage() { health -= 1; }
+    // void ScorePoint() { score++; }
+    // int GetScore() { return score; }
+    // int GetHealth() { return health; }
+    // void TakeDamage() { health -= 1; }
     // Projectile *ShootProjectile();
 };

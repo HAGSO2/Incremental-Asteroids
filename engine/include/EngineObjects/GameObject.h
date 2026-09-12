@@ -20,59 +20,79 @@ public:
 
 class GameObject2D
 {
+    string tag;
     Transform2D *transform;
     Renderer *renderer;
     Collider2D *collider;
 
 public:
-    GameObject2D(Vector2 pos = {0, 0}, float rot = 0.0f, Vector2 scl = {1, 1})
-        : transform(new Transform2D(pos, rot, scl)) /*, renderer(nullptr)*/, collider(nullptr) {}
+    GameObject2D(string tag = "", Vector2 pos = {0, 0}, float rot = 0.0f, Vector2 scl = {1, 1})
+        : transform(new Transform2D(pos, rot, scl)), renderer(nullptr), collider(nullptr), tag(tag) {}
+    ~GameObject2D();
     Transform2D *GetTransform() { return transform; }
     Vector2 GetPosition() { return transform->position; }
     float GetRotation() { return transform->rotation; }
     Vector2 GetScale() { return transform->scale; }
     Vector2 GetUp() { return transform->Up(); }
     Vector2 GetForward() { return transform->Forward(); }
+    string GetTag() { return tag; }
 
     void SetPosition(Vector2 pos)
     {
         transform->position = pos;
-        renderer->UpdateObject(transform);
+        if (renderer != nullptr)
+            renderer->UpdateObject(transform);
     }
     void Move(Vector2 dist)
     {
         Vector2 lastpos = transform->position;
         transform->position = {lastpos.x + dist.x, lastpos.y + dist.y};
-        renderer->UpdateObject(transform);
+        if (renderer != nullptr)
+            renderer->UpdateObject(transform);
     }
     void SetRotation(float rot)
     {
         transform->rotation = rot;
-        renderer->UpdateObject(transform);
+        if (renderer != nullptr)
+            renderer->UpdateObject(transform);
     }
     void Rotate(float angle)
     {
         transform->rotation += angle;
-        renderer->UpdateObject(transform);
+        if (renderer != nullptr)
+            renderer->UpdateObject(transform);
     }
     void SetScale(Vector2 scl)
     {
         transform->scale = scl;
-        renderer->UpdateObject(transform);
+        if (renderer != nullptr)
+            renderer->UpdateObject(transform);
     }
 
     // ¿Objetos o Agentes?
     virtual void InitializeObject() = 0;
-    void DrawObject() { renderer->DrawObject(transform); }
+    void DrawObject()
+    {
+        if (renderer != nullptr)
+        {
+            renderer->DrawObject(transform);
+        }
+    }
     virtual void UpdateObject(double deltaTime) = 0;
-    void UnloadObject() { renderer->UnloadObject(); }
+    void UnloadObject()
+    {
+        if (renderer != nullptr)
+        {
+            renderer->UnloadObject();
+        }
+    }
 
     void AddShapeRenderer(Shape2D *r)
     {
         renderer = r;
         renderer->UpdateObject(transform);
     }
-    void AddCollider2D(ColliderType type, vector<Vector2 *> *otherPoints = nullptr);
+    void AddCollider2D(ColliderType type, vector<Vector2 *> otherPoints = {});
 
-    void DestroyObject();
+    bool IsColliding(GameObject2D *other);
 };

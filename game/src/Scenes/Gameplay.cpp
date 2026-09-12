@@ -20,7 +20,7 @@ Gameplay::Gameplay(Music m)
   backgroundColor = GRAY;
   background = Background();
   centerposition = {GetScreenWidth() / 2.0f, GetScreenHeight() / 2.0f};
-  player = new Player(centerposition, livesnum);
+  player = new Player(centerposition);
   AddGameObject(player);
 };
 
@@ -71,6 +71,11 @@ void Gameplay::UpdateScreen(double deltaTime)
 
   // Update asteroids and spawn new ones if needed
   asteroidSpawnTimer += deltaTime;
+  if (asteroidSpawnTimer >= ASTEROID_SPAWN_INTERVAL)
+  {
+    CreateRandomAsteroid(GetScreenWidth(), GetScreenHeight(), ASTEROID_MIN_DISTANCE);
+    asteroidSpawnTimer = 0.0f; // Reset the timer
+  }
   // if (asteroidSpawnTimer >= ASTEROID_SPAWN_INTERVAL &&
   //     asteroids.size() < MAX_ASTEROID) {
   //   asteroids.push_back(CreateRandomAsteroid(
@@ -100,9 +105,6 @@ void Gameplay::DrawScreen()
               Fade(WHITE, 0.3f));
   // Draw IU and gameobjects;
   Scene::DrawScreen();
-  // Vector2 up = player->GetForward();
-  // Vector2 apex = Vector2{up.x * 100 + centerposition.x, up.y * 100 + centerposition.y};
-  // DrawCircleV(apex, PLAYER_RADIUS / 3, YELLOW);
 
   // Draw Gameplay elements (e.g., player, enemies, etc.)
   // for (int i = 0; i < projectiles.size(); ++i) {
@@ -146,22 +148,66 @@ void Gameplay::OnKeyPressed(KeyboardKey k)
   else if (k == KEY_RIGHT)
   {
     player->SetRotateRight();
-  } /* else if (k == KEY_SPACE) {
-     if (projectiles.size() >= MAX_PROYECTILES) {
-       TraceLog(LOG_WARNING,
-                "Maximum number of projectiles reached. Cannot shoot more.");
-       return; // Exit early if the maximum number of projectiles is reached
-     }
-     // Shoot a projectile
-     Projectile *newProjectile = player.ShootProjectile();
-     projectiles.push_back(newProjectile);
-   }*/
+  }
+  else if (k == KEY_SPACE)
+  {
+    // TODO: Handle number of Projectiles
+    //  if (projectiles.size() >= MAX_PROjECTILES)
+    //  {
+    //    TraceLog(LOG_WARNING,
+    //             "Maximum number of projectiles reached. Cannot shoot more.");
+    //    return; // Exit early if the maximum number of projectiles is reached
+    //  }
+    //  Shoot a projectile
+    Vector2 forw = player->GetForward();
+    Vector2 apex = Vector2{forw.x * 50 + centerposition.x, forw.y * 50 + centerposition.y};
+    Projectile *newProjectile = new Projectile(apex, forw);
+    TraceLog(LOG_ALL, "Projectile created");
+    // DrawCircleV(apex, PLAYER_RADIUS / 3, YELLOW);
+
+    AddGameObject(newProjectile);
+    // Projectile *newProjectile = player.ShootProjectile();
+    // projectiles.push_back(newProjectile);
+  }
 };
+
+void Gameplay::OnCollision(GameObject2D *obj1, GameObject2D *obj2)
+{
+  if ((obj1->GetTag() == PLAYER_TAG && obj2->GetTag() == PROJECTILE_TAG) ||
+      (obj2->GetTag() == PLAYER_TAG && obj1->GetTag() == PROJECTILE_TAG))
+    return;
+  TraceLog(LOG_ALL, "Is valid collision");
+  Asteroid *asteroid = nullptr;
+  GameObject2D *other = nullptr;
+  if (obj1->GetTag() == ASTEROID_TAG && obj2->GetTag() != ASTEROID_TAG)
+  {
+    asteroid = (Asteroid *)obj1;
+    other = obj2;
+  }
+  else if (obj2->GetTag() == ASTEROID_TAG && obj1->GetTag() != ASTEROID_TAG)
+  {
+    asteroid = (Asteroid *)obj2;
+    other = obj1;
+  }
+  else
+    return;
+  TraceLog(LOG_ALL, "Deleting asteroid");
+  TraceLog(LOG_ALL,"%s",asteroid->GetTag().c_str());
+  delete asteroid;
+  if (other->GetTag() == PLAYER_TAG)
+    livesnum--;
+  else
+  {
+    scorenum += 5;
+    Projectile *aux = (Projectile *)other;
+    delete aux;
+  }
+}
 
 #pragma endregion
 
-Asteroid *Gameplay::CreateRandomAsteroid(float screenWidth, float screenHeight,
-                                         float minDistance)
+void Gameplay::CreateRandomAsteroid(float screenWidth, float screenHeight,
+                                    float minDistance)
 {
   Vector2 position;
 
@@ -176,7 +222,8 @@ Asteroid *Gameplay::CreateRandomAsteroid(float screenWidth, float screenHeight,
   float radius = 10.0f + static_cast<float>(rand() % 21);
   int speed = 50 + rand() % 5;
 
-  return new Asteroid(position, radius, speed);
+  AddGameObject(new Asteroid(speed, centerposition, position, {radius, radius}));
+  // return new Asteroid(position, radius, speed);
 }
 
 void Gameplay::CheckCollisionAndHandle()
@@ -213,16 +260,16 @@ void Gameplay::CheckCollisionAndHandle()
   }*/
 }
 
-void Gameplay::UpdateAsteroid(Asteroid *asteroid, double deltaTime)
-{
+// void Gameplay::UpdateAsteroid(Asteroid *asteroid, double deltaTime)
+// {
 
-  // Dirección desde el asteroide hacia el centro
-  Vector2 direction = Vector2Subtract(centerposition, asteroid->position);
+//   // Dirección desde el asteroide hacia el centro
+//   Vector2 direction = Vector2Subtract(centerposition, asteroid->position);
 
-  // Normalizar para que la velocidad sea constante
-  direction = Vector2Normalize(direction);
+//   // Normalizar para que la velocidad sea constante
+//   direction = Vector2Normalize(direction);
 
-  // Mover usando deltaTime
-  asteroid->position.x += direction.x * asteroid->speed * deltaTime;
-  asteroid->position.y += direction.y * asteroid->speed * deltaTime;
-}
+//   // Mover usando deltaTime
+//   asteroid->position.x += direction.x * asteroid->speed * deltaTime;
+//   asteroid->position.y += direction.y * asteroid->speed * deltaTime;
+// }

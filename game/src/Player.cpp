@@ -10,7 +10,7 @@ void Player::CreateSprite()
     // Vector2 p2 = {halfBase, height};  // Right vertex
     // Vector2 p3 = {0, radius};         // Apex
     Vector2 p1 = {height, -halfBase}; // Left vertex
-    Vector2 p2 = {height, halfBase}; // Right vertex
+    Vector2 p2 = {height, halfBase};  // Right vertex
     Vector2 p3 = {radius, 0};         // Apex
     // Shape2DLined(Vector2 p1, Vector2 p2, Vector2 p3, Color c, Color linec, float linel); // Constructor for TRIANGLE
     Shape2DLined *renderer = new Shape2DLined(p1, p3, p2, BLACK, WHITE, 1);
@@ -18,10 +18,15 @@ void Player::CreateSprite()
     // return SpriteFormLined(p1, p2, p3, BLACK, 270.0f, WHITE, 1);
 }
 
-Player::Player(Vector2 pos, int lives) : GameObject2D(pos, 90), health(lives), score(0), rotateLeft(false), rotateRight(false)
+Player::Player(Vector2 pos) : GameObject2D("player", pos, 90), rotateLeft(false), rotateRight(false)
 {
     CreateSprite();
+    AddCollider2D(C_CIRCLE);
 };
+
+Player::~Player(){
+    GameObject2D::~GameObject2D();
+}
 
 void Player::UpdateObject(double deltaTime)
 {

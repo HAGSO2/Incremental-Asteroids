@@ -27,13 +27,14 @@ void Scene::InitScene()
   }
 }
 
-void Scene::AddGameObject(GameObject2D *obj){
+void Scene::AddGameObject(GameObject2D *obj)
+{
   switch (collisionSystem)
   {
   case CS_SIMPLE:
     simpleObjects.push_back(obj);
     break;
-  //TODO: Others systems
+  // TODO: Others systems
   default:
     break;
   }
@@ -58,8 +59,11 @@ void Scene::ManageCollisions()
     {
       for (int j = 0; j < simpleObjects.size(); j++)
       {
-        // TODO: simple collision system
-        continue;
+        if (i != j)
+        {
+          if (simpleObjects[i]->IsColliding(simpleObjects[j]))
+            OnCollision(simpleObjects[i], simpleObjects[j]);
+        }
       }
     }
   }
@@ -89,14 +93,15 @@ void Scene::UpdateScreen(double deltaTime)
   }
 };
 
-void Scene::DrawScreen(){
-  //Draw all objects of scene
+void Scene::DrawScreen()
+{
+  // Draw all objects of scene
   for (int i = 0; i < simpleObjects.size(); i++)
   {
     simpleObjects[i]->DrawObject();
   }
 
-  //Draw canvas
+  // Draw canvas
   canvas.Draw();
 }
 /*

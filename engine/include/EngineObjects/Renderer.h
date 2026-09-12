@@ -39,9 +39,10 @@ protected:
     vector<Vector2> worldVertices;
 
 public:
-    Shape2D(ShapeForm form, Color c);                     // Constructor for Regular Polygon (e.g., TRIANGLE)
+    Shape2D(ShapeForm form, Color c, float radius);       // Constructor for Regular Polygon (e.g., TRIANGLE)
     Shape2D(Vector2 p1, Vector2 p2, Vector2 p3, Color c); // Constructor for TRIANGLE
     Shape2D(Color c);                                     // Constructor for SQUARE
+                                                          //TODO:Constructor for not regular
     Shape2D(vector<Vector2> v, Color c);                  // Constructor for CUSTOM shape
     ~Shape2D() override
     {
@@ -65,7 +66,7 @@ class Shape2DLined : public Shape2D
     float lineSize;
 
 public:
-    Shape2DLined(ShapeForm form, Color c, Color linec, float linel);                     // Constructor for Regular Polygon (e.g., TRIANGLE)
+    Shape2DLined(ShapeForm form, Color c, float radius, Color linec, float linel);       // Constructor for Regular Polygon (e.g., TRIANGLE)
     Shape2DLined(Vector2 p1, Vector2 p2, Vector2 p3, Color c, Color linec, float linel); // Constructor for TRIANGLE
     Shape2DLined(Color c, Color linec, float linel);                                     // Constructor for SQUARE
     Shape2DLined(vector<Vector2> v, Color c, Color linec, float linel);                  // Constructor for CUSTOM shape
@@ -80,7 +81,7 @@ class TextShape : public Shape2D
     Color color;
 
 public:
-    TextShape(ShapeForm form, Color c, string &txt, int fSize, Color tColor);                     // Constructor for Regular Polygon (e.g., TRIANGLE)
+    TextShape(ShapeForm form, Color c, float radius, string &txt, int fSize, Color tColor);       // Constructor for Regular Polygon (e.g., TRIANGLE)
     TextShape(Vector2 p1, Vector2 p2, Vector2 p3, Color c, string &txt, int fSize, Color tColor); // Constructor for TRIANGLE
     TextShape(Color c, string &txt, int fSize, Color tColor);                                     // Constructor for SQUARE
     TextShape(vector<Vector2> v, Color c, string &txt, int fSize, Color tColor);                  // Constructor for CUSTOM shape

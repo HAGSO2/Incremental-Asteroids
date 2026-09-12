@@ -54,6 +54,6 @@ void TemplateScene::OnKeyPressed(KeyboardKey k)
     canvas.UpdateKeyboard(k);
 };
 
-void TemplateScene::OnCollision()
+void TemplateScene::OnCollision(GameObject2D *obj1, GameObject2D *obj2)
 {
 }

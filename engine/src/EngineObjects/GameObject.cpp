@@ -1,7 +1,7 @@
 #include "EngineObjects/GameObject.h"
 
 void GameObject2D::AddCollider2D(ColliderType type,
-                                 vector<Vector2 *> *otherPoints)
+                                 vector<Vector2 *> otherPoints)
 {
   if (type != C_CUSTOM)
   {
@@ -11,14 +11,22 @@ void GameObject2D::AddCollider2D(ColliderType type,
     collider = new Collider2D(type, points);
     return;
   }
-}
+  collider = new Collider2D(type, otherPoints);
+};
 
-void GameObject2D::DestroyObject()
+GameObject2D::~GameObject2D()
 {
+  TraceLog(LOG_ALL, "Deleting collider");
   if (collider != nullptr)
     delete collider;
+  TraceLog(LOG_ALL, "Deleting renderer");
   if (renderer != nullptr)
     delete renderer;
-
+  TraceLog(LOG_ALL, "Deleting transform");
   delete transform;
-}
+};
+
+bool GameObject2D::IsColliding(GameObject2D *other)
+{
+  return collider->isColliding(other->collider);
+};
