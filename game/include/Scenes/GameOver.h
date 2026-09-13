@@ -4,6 +4,7 @@ class GameOver : public Scene
 {
 public:
     GameOver();
+    ~GameOver() = default;
     void InitScene() override;
     void UpdateScreen(double deltaTime) override;
     void DrawScreen() override;

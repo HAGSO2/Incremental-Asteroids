@@ -89,6 +89,9 @@ void Game::Unload()
 {
     gameScenes[currentScreen]->UnloadScreen();
     UnLoadResources();
+    for (int i = 0; i < NUMBER_OF_SCENES; i++){
+        delete gameScenes[i];
+    }
 }
 
 #pragma region Transition Methods

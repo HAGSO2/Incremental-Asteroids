@@ -19,9 +19,15 @@ Gameplay::Gameplay(Music m)
   canvas.AddPlainText(10, 50, 100, 30, 20, "Lives: ", livesnum);
   backgroundColor = GRAY;
   background = Background();
-  centerposition = {GetScreenWidth() / 2.0f, GetScreenHeight() / 2.0f};
+  float h = GetScreenHeight();
+  float w = GetScreenWidth();
+  centerposition = {w / 2.0f, h / 2.0f};
   player = new Player(centerposition);
   AddGameObject(player);
+  //TODO: Add Walls at the end of the screen
+  // Vector2 zero = {};
+  // Vector2 hizq = {GetScreenHeight(), 0};
+  // GameObject2D
 };
 
 void Gameplay::InitScene()
@@ -125,6 +131,7 @@ void Gameplay::DrawScreen()
 
 void Gameplay::UnloadScreen()
 {
+  Scene::UnloadScreen();
   // Unload scene resources here (e.g., textures, sounds, etc.)
   UnloadTexture(background.layer_1);
   UnloadTexture(background.layer_2);

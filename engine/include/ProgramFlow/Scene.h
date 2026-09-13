@@ -45,11 +45,11 @@ public:
   Scene();
   Scene(Music m);
   Scene(CollisionSystem collisionSystem, Music m = {0});
+  virtual ~Scene() = default;
   virtual void InitScene();
   virtual void UpdateScreen(double deltaTime);
   virtual void DrawScreen();
-
-  virtual void UnloadScreen() = 0;
+  virtual void UnloadScreen();
   GameScreen FinishScreen() { return finishScreen; };
 
   virtual void OnMouseDown() = 0;

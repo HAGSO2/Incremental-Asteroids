@@ -1,7 +1,8 @@
 #pragma once
 #include "ProgramFlow/Scene.h"
 
-class Logo : public Scene {
+class Logo : public Scene
+{
 	int framesCounter;
 
 	int logoPositionX;
@@ -17,8 +18,10 @@ class Logo : public Scene {
 
 	int state;
 	float alpha;
+
 public:
 	Logo();
+	~Logo() = default;
 	void InitScene() override;
 	void UpdateScreen(double deltaTime) override;
 	void DrawScreen() override;

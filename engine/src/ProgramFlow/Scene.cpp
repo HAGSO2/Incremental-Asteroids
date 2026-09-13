@@ -105,6 +105,14 @@ void Scene::DrawScreen()
   // Draw canvas
   canvas.Draw();
 }
+
+void Scene::UnloadScreen(){
+  while (simpleObjects.size() > 0)
+  {
+    EraseGameobject(simpleObjects[simpleObjects.size()-1]);
+  }
+  
+}
 /*
 void AddShape2D(Scene *scene, Vector2 pos, float rot = 0, Vector2 scl =
 {1.0f, 1.0f}, Shape2D *shape, CollisionLayer layer)

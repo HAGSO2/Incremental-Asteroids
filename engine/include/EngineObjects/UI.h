@@ -14,6 +14,7 @@ protected:
 
 public:
     UIElement(float x, float y, float width, float height);
+    virtual ~UIElement() = default;
     bool IsInside(Vector2);
     virtual void SetOut() = 0;
     virtual void Draw() = 0;
@@ -27,6 +28,11 @@ class UI
 
 public:
     UI();
+    ~UI()
+    {
+        for (int i = 0; i < elements.size(); i++)
+            delete elements[i];
+    };
     void AddButton(float x, float y, float width, float height, int fontsize, const char *s, Color c, void (*Func)(void *), void *miptr);
     // void AddButtonScene(float x, float y, float width, float height, char* s, Color c, void (*Func)(GameScreen & variable), GameScreen &meptr);
     void AddTextBox(float x, float y, float width, float height, string &reftxt);
@@ -43,6 +49,7 @@ class CallBack
 
 public:
     CallBack(void (*Func)(void *), void *miptrs);
+    ~CallBack() = default;
     void Execute() { ClickFunk(ptr); }
 };
 
@@ -55,6 +62,7 @@ class Button : public UIElement
 
 public:
     Button(float x, float y, float width, float height, int fontsize, const char *s, Color c, void (*Func)(void *), void *miptrs);
+    ~Button() = default;
     void Draw();
     void SetOut() {};
     void UpdateScreen(Vector2);
@@ -69,6 +77,7 @@ class PlainText : public UIElement
 
 public:
     PlainText(float x, float y, float width, float height, int size, const char *texto, float &numref);
+    ~PlainText() = default;
     void Draw();
     void SetOut() {};
     void UpdateScreen(Vector2){};
@@ -84,6 +93,7 @@ class TextBox : public UIElement
 
 public:
     TextBox(float x, float y, float width, float height, string &reftxt);
+    ~TextBox() = default;
     void Draw();
     void SetOut() { seleccionado = false; };
     void UpdateScreen(Vector2);

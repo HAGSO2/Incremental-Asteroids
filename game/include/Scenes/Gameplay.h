@@ -41,6 +41,7 @@ class Gameplay : public Scene
 
 public:
     Gameplay(Music m);
+    ~Gameplay() = default; //NOTE: player is deleted on unload screen
     void InitScene() override;
     void UpdateScreen(double deltaTime) override;
     void DrawScreen() override;

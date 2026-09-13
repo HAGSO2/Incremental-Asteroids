@@ -10,6 +10,7 @@ class Tittle : public Scene {
 	
 public:
 	Tittle(Font f,Music m, int w, int h);
+	~Tittle() = default;
 	void InitScene() override {Scene::InitScene(); finishScreen = UNKNOWN;};
 	void UpdateScreen(double deltaTime) override;
 	void DrawScreen() override;

@@ -1,8 +1,10 @@
 #include "ProgramFlow/Scene.h"
 
-class TemplateScene : public Scene {
+class TemplateScene : public Scene
+{
 public:
     TemplateScene();
+    ~TemplateScene() = default;
     void InitScene() override;
     void UpdateScreen(double deltaTime) override;
     void DrawScreen() override;
