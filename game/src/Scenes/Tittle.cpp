@@ -19,7 +19,7 @@ Tittle::Tittle(Font f, Music m, int w, int h) : Scene(m), font{f}, screenWidth{w
     // Initialize UI canvas and add buttons
     canvas = UI();
     backgroundColor = BLUE;
-    canvas.AddButton(300, 400, 100, 50, 30, GameplayButtonText, GREEN, ToGameplay, this);
+    canvas.AddButton(300, 400, 100, 50, 30, TittleButtonText, GREEN, ToGameplay, this);
 };
 
 void Tittle::UpdateScreen(double deltaTime)

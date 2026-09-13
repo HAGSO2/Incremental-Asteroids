@@ -31,7 +31,7 @@ public:
     uint32_t id;
     GameObject2D(string tag = "", Vector2 pos = {0, 0}, float rot = 0.0f, Vector2 scl = {1, 1})
         : transform(new Transform2D(pos, rot, scl)), renderer(nullptr), collider(nullptr), tag(tag), id(0) {}
-    ~GameObject2D();
+    virtual ~GameObject2D();
     Transform2D *GetTransform() { return transform; }
     Vector2 GetPosition() { return transform->position; }
     float GetRotation() { return transform->rotation; }
@@ -97,6 +97,7 @@ public:
         renderer = r;
         renderer->UpdateObject(transform);
     }
+    //TODO: Change the vector to a static array
     void AddCollider2D(ColliderType type, vector<Vector2 *> otherPoints = {});
 
     bool IsColliding(GameObject2D *other);

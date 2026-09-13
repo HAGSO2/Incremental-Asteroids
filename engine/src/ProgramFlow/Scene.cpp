@@ -2,13 +2,33 @@
 
 Scene::Scene()
     : finishScreen(UNKNOWN), canvas(UI()), music({0}), hasMusic(true),
-      collisionSystem(CS_SIMPLE) {};
+      objectType(OS_NONE), objectSystem(nullptr) {}
 Scene::Scene(Music m)
     : finishScreen(UNKNOWN), canvas(UI()), music(m), hasMusic(true),
-      collisionSystem(CS_SIMPLE) {};
-Scene::Scene(CollisionSystem collisionSystem, Music m)
+      objectType(OS_NONE), objectSystem(nullptr) {}
+Scene::Scene(OSystemType collisionSystem, Music m)
     : finishScreen(UNKNOWN), canvas(UI()), music(m), hasMusic(true),
-      collisionSystem(collisionSystem) {}
+      objectType(collisionSystem)
+{
+  switch (objectType)
+  {
+  case OS_SIMPLE:
+    objectSystem = new SimpleCollision(
+        [this](GameObject2D *obj1, GameObject2D *obj2)
+        {
+          OnCollision(obj1, obj2);
+        });
+    break;
+
+  default:
+    break;
+  }
+}
+
+Scene::~Scene()
+{
+  delete objectSystem;
+}
 
 void Scene::InitScene()
 {
@@ -17,28 +37,8 @@ void Scene::InitScene()
     SetMusicVolume(music, 0.8f);
     PlayMusicStream(music);
   }
-  if (collisionSystem == CS_BY_LAYERS)
-  {
-    // TODO: Create layers and Masks
-  }
-  else if (collisionSystem == CS_DYNAMIC_AABB_TREE_2D)
-  {
-    // TODO: Create the dinamic tree;
-  }
-}
-
-void Scene::AddGameObject(GameObject2D *obj)
-{
-  switch (collisionSystem)
-  {
-  case CS_SIMPLE:
-    obj->SetId(simpleObjects.size());
-    simpleObjects.push_back(obj);
-    break;
-  // TODO: Others systems
-  default:
-    break;
-  }
+  // Each time a scene is loaded it is created a new object system
+  //  as every time the scene is unloaded, the sistem is deleted
 }
 
 void Scene::ManageInterruptions()
@@ -52,33 +52,6 @@ void Scene::ManageInterruptions()
   OnKeyPressed((KeyboardKey)GetKeyPressed());
 };
 
-void Scene::ManageCollisions()
-{
-  if (collisionSystem == CS_SIMPLE)
-  {
-    for (int i = 0; i < simpleObjects.size(); i++)
-    {
-      for (int j = 0; j < simpleObjects.size(); j++)
-      {
-        if (i != j)
-        {
-          if (simpleObjects[i]->IsColliding(simpleObjects[j]))
-            OnCollision(simpleObjects[i], simpleObjects[j]);
-        }
-      }
-    }
-  }
-  else if (collisionSystem == CS_BY_LAYERS)
-  {
-    // TODO: Update by layers
-  }
-  else if (collisionSystem == CS_DYNAMIC_AABB_TREE_2D)
-  {
-    // TODO: Update dinamic AABB tree
-    return;
-  }
-}
-
 void Scene::UpdateScreen(double deltaTime)
 {
   if (hasMusic)
@@ -86,54 +59,26 @@ void Scene::UpdateScreen(double deltaTime)
     UpdateMusicStream(music);
   };
   ManageInterruptions();
-  ManageCollisions();
-
-  for (int i = 0; i < simpleObjects.size(); i++)
+  if (objectSystem != nullptr)
   {
-    simpleObjects[i]->UpdateObject(deltaTime);
+    objectSystem->UpdateObjects(deltaTime);
+    objectSystem->update();
   }
 };
 
 void Scene::DrawScreen()
 {
   // Draw all objects of scene
-  for (int i = 0; i < simpleObjects.size(); i++)
+  if (objectSystem != nullptr)
   {
-    simpleObjects[i]->DrawObject();
+    objectSystem->DrawObjects();
   }
 
   // Draw canvas
   canvas.Draw();
 }
 
-void Scene::UnloadScreen(){
-  while (simpleObjects.size() > 0)
-  {
-    EraseGameobject(simpleObjects[simpleObjects.size()-1]);
-  }
-  
-}
-/*
-void AddShape2D(Scene *scene, Vector2 pos, float rot = 0, Vector2 scl =
-{1.0f, 1.0f}, Shape2D *shape, CollisionLayer layer)
+void Scene::UnloadScreen()
 {
-    GameObject2D *obj = new GameObject2D(pos, rot, scl);
-    obj->AddShapeRenderer(shape);
-    scene->AddGameObject(obj);
-}*/
-
-void Scene::EraseGameobject(GameObject2D *obj)
-{
-  if (collisionSystem == CS_SIMPLE)
-  {
-    uint32_t idx = obj->id;
-    uint32_t last = (uint32_t)simpleObjects.size() - 1;
-    if (idx != last)
-    {
-      simpleObjects[idx] = simpleObjects[last];
-      simpleObjects[idx]->id = idx;
-    }
-    simpleObjects.pop_back();
-    obj->id = GameObject2D::INVALID_INDEX;
-  }
+  delete objectSystem;
 }

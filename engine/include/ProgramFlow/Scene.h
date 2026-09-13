@@ -1,6 +1,7 @@
 #pragma once
 #include "EngineObjects/Collider.h"
 #include "EngineObjects/GameObject.h"
+#include "EngineObjects/ObjectSystem.hpp"
 #include "EngineObjects/UI.h"
 #include <raylib.h>
 
@@ -13,25 +14,25 @@ enum GameScreen
   GAMEOVER = 3
 };
 
-enum CollisionSystem
+enum OSystemType
 {
-  CS_SIMPLE = 0,
-  CS_BY_LAYERS = 1,
-  CS_DYNAMIC_AABB_TREE_2D = 2
+  OS_NONE = 0,
+  OS_SIMPLE = 1,
+  OS_BY_LAYERS = 2,
+  OS_DYNAMIC_AABB_TREE_2D = 3
   // TODO: Add more collision systems here
 };
-
-#define GameplayButtonText "Play!"
 
 class Scene
 {
   //TODO: Make a collision system interface and have just a pointer
-  CollisionSystem collisionSystem;
-  vector<GameObject2D *> simpleObjects;
-  // Get the game objects and their collision layers
-  // And set the collision mask for each layer
-  vector<pair<vector<GameObject2D *>, CollisionLayer>> *layersObjects;
-  Dynamic_AABB_tree *dynamicObjects;
+  OSystemType objectType;
+  IObjectSystem *objectSystem;
+  // vector<GameObject2D *> simpleObjects;
+  // // Get the game objects and their collision layers
+  // // And set the collision mask for each layer
+  // vector<pair<vector<GameObject2D *>, CollisionLayer>> *layersObjects;
+  // Dynamic_AABB_tree *dynamicObjects;
 
 protected:
   GameScreen finishScreen;
@@ -44,8 +45,8 @@ protected:
 public:
   Scene();
   Scene(Music m);
-  Scene(CollisionSystem collisionSystem, Music m = {0});
-  virtual ~Scene() = default;
+  Scene(OSystemType collisionSystem, Music m = {0});
+  virtual ~Scene();
   virtual void InitScene();
   virtual void UpdateScreen(double deltaTime);
   virtual void DrawScreen();
@@ -60,8 +61,8 @@ public:
 
   void ChangeScene(GameScreen sc) { finishScreen = sc; }
   Music GetMusic() { return music; };
-  void AddGameObject(GameObject2D *obj);
-  void EraseGameobject(GameObject2D *obj);
+  void AddGameObject(GameObject2D *obj) {objectSystem->insert(obj);};
+  void EraseGameobject(GameObject2D *obj) {objectSystem->remove(obj);};
 
 private:
   void ManageInterruptions();

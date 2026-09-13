@@ -9,6 +9,7 @@ add_library(engine STATIC
     src/ProgramFlow/Scene.cpp
     src/ProgramFlow/Application.cpp
     src/ProgramFlow/clock.cpp
+    src/EngineObjects/ObjectSystem.cpp
     
 )
 
