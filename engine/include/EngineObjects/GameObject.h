@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <cmath>
+#include <stdint.h>
 #include <algorithm>
 
 #include "EngineObjects/Collider.h"
@@ -26,8 +27,10 @@ class GameObject2D
     Collider2D *collider;
 
 public:
+    static constexpr uint32_t INVALID_INDEX = 0xFFFFFFFF;
+    uint32_t id;
     GameObject2D(string tag = "", Vector2 pos = {0, 0}, float rot = 0.0f, Vector2 scl = {1, 1})
-        : transform(new Transform2D(pos, rot, scl)), renderer(nullptr), collider(nullptr), tag(tag) {}
+        : transform(new Transform2D(pos, rot, scl)), renderer(nullptr), collider(nullptr), tag(tag), id(0) {}
     ~GameObject2D();
     Transform2D *GetTransform() { return transform; }
     Vector2 GetPosition() { return transform->position; }
@@ -36,6 +39,8 @@ public:
     Vector2 GetUp() { return transform->Up(); }
     Vector2 GetForward() { return transform->Forward(); }
     string GetTag() { return tag; }
+    void SetId(uint32_t i) { id = i; }
+    uint32_t GetId() { return id; }
 
     void SetPosition(Vector2 pos)
     {

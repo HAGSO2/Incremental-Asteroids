@@ -24,9 +24,9 @@ Player::Player(Vector2 pos) : GameObject2D("player", pos, 90), rotateLeft(false)
     AddCollider2D(C_CIRCLE);
 };
 
-Player::~Player(){
-    GameObject2D::~GameObject2D();
-}
+// Player::~Player(){
+//     GameObject2D::~GameObject2D();
+// }
 
 void Player::UpdateObject(double deltaTime)
 {

@@ -10,7 +10,7 @@ class Projectile : public GameObject2D
 
 public:
     Projectile(Vector2 pos, Vector2 direction);
-    ~Projectile() { GameObject2D::~GameObject2D(); };
+    ~Projectile() = default;
     void InitializeObject() override {};
     void UpdateObject(double deltaTime) override;
 };

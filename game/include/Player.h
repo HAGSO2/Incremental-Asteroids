@@ -13,7 +13,7 @@ class Player : public GameObject2D
 
 public:
     Player(Vector2 pos);
-    ~Player() override;
+    ~Player() = default;
     void CreateSprite();
 
     void InitializeObject() override {};

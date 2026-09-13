@@ -191,16 +191,16 @@ void Gameplay::OnCollision(GameObject2D *obj1, GameObject2D *obj2)
   }
   else
     return;
-  TraceLog(LOG_ALL, "Deleting asteroid");
-  TraceLog(LOG_ALL,"%s",asteroid->GetTag().c_str());
-  delete asteroid;
+  
+  EraseGameobject(asteroid);
+  
+  
   if (other->GetTag() == PLAYER_TAG)
     livesnum--;
   else
   {
     scorenum += 5;
-    Projectile *aux = (Projectile *)other;
-    delete aux;
+    EraseGameobject(other);
   }
 }
 

@@ -32,6 +32,7 @@ void Scene::AddGameObject(GameObject2D *obj)
   switch (collisionSystem)
   {
   case CS_SIMPLE:
+    obj->SetId(simpleObjects.size());
     simpleObjects.push_back(obj);
     break;
   // TODO: Others systems
@@ -112,3 +113,19 @@ void AddShape2D(Scene *scene, Vector2 pos, float rot = 0, Vector2 scl =
     obj->AddShapeRenderer(shape);
     scene->AddGameObject(obj);
 }*/
+
+void Scene::EraseGameobject(GameObject2D *obj)
+{
+  if (collisionSystem == CS_SIMPLE)
+  {
+    uint32_t idx = obj->id;
+    uint32_t last = (uint32_t)simpleObjects.size() - 1;
+    if (idx != last)
+    {
+      simpleObjects[idx] = simpleObjects[last];
+      simpleObjects[idx]->id = idx;
+    }
+    simpleObjects.pop_back();
+    obj->id = GameObject2D::INVALID_INDEX;
+  }
+}

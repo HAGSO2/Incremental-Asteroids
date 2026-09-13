@@ -1,8 +1,13 @@
 #include "EngineObjects/Collider.h"
 
-Collider2D::~Collider2D(){
-    for(int i = 0; i < points.size(); ++i){
-        delete points[i];
+Collider2D::~Collider2D()
+{
+    if (form == C_CUSTOM)
+    {
+        for (int i = 0; i < points.size(); i++)
+        {
+            delete points[i];
+        }
     }
 }
 
