@@ -16,6 +16,7 @@ protected:
     double lastTime = 0.0;
 
 public:
+    Application(int w, int h, int fps, string name) : screenWidth(w), screenHeight(h), FPs(fps), ApplicationName(name){};
     void run();
 
 protected:

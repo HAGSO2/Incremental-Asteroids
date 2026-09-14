@@ -10,15 +10,6 @@
 
 class Game : public Application
 {
-public:
-    Game(int w, int h, int fps, string name)
-    {
-        screenWidth = w;
-        screenHeight = h;
-        FPs = fps;
-        ApplicationName = name;
-    }
-
     /********************
      * GLOBAL VARIABLES *
      ********************/
@@ -47,6 +38,7 @@ public:
     void DrawTransition(void);
 
 public:
+    Game(int w, int h, int fps, string name) : Application(w, h, fps, name) {};
     void Init() override;
     void Update(double deltaTime) override;
     void Draw() override;
