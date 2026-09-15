@@ -1,7 +1,6 @@
 #pragma once
 #include "EngineObjects/GameObject.h"
-
-#define ASTEROID_TAG "asteroid"
+#include "Scenes/Gameplay_definitions.h"
 
 class Asteroid : public GameObject2D
 {

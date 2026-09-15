@@ -1,6 +1,6 @@
 #include "Projectile.h"
 
-Projectile::Projectile(Vector2 pos, Vector2 direction) : GameObject2D("projectile", pos), direction(direction)
+Projectile::Projectile(Vector2 pos, Vector2 direction) : GameObject2D(GL_PROJECTILE, pos), direction(direction)
 {
     AddShapeRenderer(new Shape2D(S_CIRCLE, PURPLE, 10));
     AddCollider2D(C_CIRCLE);

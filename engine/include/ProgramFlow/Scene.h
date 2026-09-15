@@ -25,14 +25,9 @@ enum OSystemType
 
 class Scene
 {
-  //TODO: Make a collision system interface and have just a pointer
+  // TODO: Make a collision system interface and have just a pointer
   OSystemType objectType;
   IObjectSystem *objectSystem;
-  // vector<GameObject2D *> simpleObjects;
-  // // Get the game objects and their collision layers
-  // // And set the collision mask for each layer
-  // vector<pair<vector<GameObject2D *>, CollisionLayer>> *layersObjects;
-  // Dynamic_AABB_tree *dynamicObjects;
 
 protected:
   GameScreen finishScreen;
@@ -45,28 +40,26 @@ protected:
 public:
   Scene();
   Scene(Music m);
-  Scene(OSystemType collisionSystem, Music m = {0});
+  Scene(OSystemType collisionSystem, Music m = {0}, int layers = 0, vector<uint32_t> mask = {});
   virtual ~Scene();
   virtual void InitScene();
   virtual void UpdateScreen(double deltaTime);
   virtual void DrawScreen();
   virtual void UnloadScreen();
   GameScreen FinishScreen() { return finishScreen; };
-
-  virtual void OnMouseDown() = 0;
-  virtual void OnKeyPressed(KeyboardKey) = 0;
-  // TODO: Make on collision a method with two game object references
-  // virtual void OnCollision(GameObject2D *obj1, GameObject2D *obj2) = 0;
-  virtual void OnCollision(GameObject2D *obj1, GameObject2D *obj2) = 0;
-
   void ChangeScene(GameScreen sc) { finishScreen = sc; }
   Music GetMusic() { return music; };
-  void AddGameObject(GameObject2D *obj) {objectSystem->insert(obj);};
-  void EraseGameobject(GameObject2D *obj) {objectSystem->remove(obj);};
+
+protected:
+  virtual void OnMouseDown() = 0;
+  virtual void OnKeyPressed(KeyboardKey) = 0;
+  virtual void OnCollision(GameObject2D *obj1, GameObject2D *obj2) = 0;
+
+  void AddGameObject(GameObject2D *obj) { objectSystem->insert(obj); };
+  void EraseGameobject(GameObject2D *obj) { objectSystem->remove(obj); };
 
 private:
   void ManageInterruptions();
-  void ManageCollisions();
 };
 
 // void AddShape2D(Scene *scene, Vector2 pos, float rot = 0, Vector2 scl =

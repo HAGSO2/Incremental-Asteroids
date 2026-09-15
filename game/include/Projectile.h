@@ -1,8 +1,6 @@
 #pragma once
 #include "EngineObjects/GameObject.h"
-
-#define PROYECTILE_SPEED 300
-#define PROJECTILE_TAG "projectile"
+#include "Scenes/Gameplay_definitions.h"
 
 class Projectile : public GameObject2D
 {

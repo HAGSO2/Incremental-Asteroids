@@ -2,7 +2,7 @@
 #include <raymath.h>
 #include "Asteroid.h"
 
-Asteroid::Asteroid(float s, Vector2 center, Vector2 initpos, Vector2 scale) : GameObject2D("asteroid", initpos, 0, scale), speed(s), centerposition(center)
+Asteroid::Asteroid(float s, Vector2 center, Vector2 initpos, Vector2 scale) : GameObject2D(GL_ASTEROID, initpos, 0, scale), speed(s), centerposition(center)
 {
     AddShapeRenderer(new Shape2DLined(S_CIRCLE, BLACK, scale.x, WHITE, 1));
     AddCollider2D(C_CIRCLE);

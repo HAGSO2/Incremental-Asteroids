@@ -4,18 +4,19 @@
 
 using namespace std;
 
-enum CollisionLayer
-{
-    CL_Player = 1 << 0,
-    CL_Enemy = 1 << 1,
-    CL_PlayerProjectile = 1 << 2
-};
+// #define LAYERS_NUMBER 3
 
-bool CheckCollisionLayers(CollisionLayer layer1, CollisionLayer layer2);
+// enum GameplayLayers
+// {
+//     CL_NONE = 0,
+//     CL_PLAYER = 1 << 0,
+//     CL_ENEMY = 1 << 1,
+//     CL_PROJECTILE = 1 << 2
+// };
 
 enum ColliderType
 {
-    //TODO: Line
+    // TODO: Line
     C_RECTANGLE = 0,
     C_CIRCLE = 1,
     C_CUSTOM = 2
@@ -34,10 +35,4 @@ public:
     ~Collider2D();
     bool isColliding(Vector2 p);
     bool isColliding(Collider2D *other);
-};
-
-class Dynamic_AABB_tree
-{
-public:
-    Dynamic_AABB_tree(){};
 };

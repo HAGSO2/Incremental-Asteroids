@@ -6,7 +6,7 @@ Scene::Scene()
 Scene::Scene(Music m)
     : finishScreen(UNKNOWN), canvas(UI()), music(m), hasMusic(true),
       objectType(OS_NONE), objectSystem(nullptr) {}
-Scene::Scene(OSystemType collisionSystem, Music m)
+Scene::Scene(OSystemType collisionSystem, Music m, int layers, vector<uint32_t> mask)
     : finishScreen(UNKNOWN), canvas(UI()), music(m), hasMusic(true),
       objectType(collisionSystem)
 {
@@ -18,6 +18,13 @@ Scene::Scene(OSystemType collisionSystem, Music m)
         {
           OnCollision(obj1, obj2);
         });
+    break;
+  case OS_BY_LAYERS:
+    objectSystem = new LayersMaskCollision(layers, mask,
+                                           [this](GameObject2D *obj1, GameObject2D *obj2)
+                                           {
+                                             OnCollision(obj1, obj2);
+                                           });
     break;
 
   default:

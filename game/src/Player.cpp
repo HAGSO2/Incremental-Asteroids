@@ -18,7 +18,7 @@ void Player::CreateSprite()
     // return SpriteFormLined(p1, p2, p3, BLACK, 270.0f, WHITE, 1);
 }
 
-Player::Player(Vector2 pos) : GameObject2D("player", pos, 90), rotateLeft(false), rotateRight(false)
+Player::Player(Vector2 pos) : GameObject2D(GL_PLAYER, pos, 90), rotateLeft(false), rotateRight(false)
 {
     CreateSprite();
     AddCollider2D(C_CIRCLE);

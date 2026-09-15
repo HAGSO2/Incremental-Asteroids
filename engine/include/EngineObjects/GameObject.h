@@ -21,7 +21,6 @@ public:
 
 class GameObject2D
 {
-    string tag;
     Transform2D *transform;
     Renderer *renderer;
     Collider2D *collider;
@@ -29,16 +28,21 @@ class GameObject2D
 public:
     static constexpr uint32_t INVALID_INDEX = 0xFFFFFFFF;
     uint32_t id;
-    GameObject2D(string tag = "", Vector2 pos = {0, 0}, float rot = 0.0f, Vector2 scl = {1, 1})
-        : transform(new Transform2D(pos, rot, scl)), renderer(nullptr), collider(nullptr), tag(tag), id(0) {}
+    uint32_t layer;
+    // Layers are defined on custom objects
+    GameObject2D(Vector2 pos = {0, 0}, float rot = 0.0f, Vector2 scl = {1, 1})
+        : transform(new Transform2D(pos, rot, scl)), renderer(nullptr), collider(nullptr), id(0), layer(0) {}
+    GameObject2D(uint32_t l = 0, Vector2 pos = {0, 0}, float rot = 0.0f, Vector2 scl = {1, 1})
+        : transform(new Transform2D(pos, rot, scl)), renderer(nullptr), collider(nullptr), id(0), layer(l) {}
     virtual ~GameObject2D();
+
+#pragma region Transform Methods
     Transform2D *GetTransform() { return transform; }
     Vector2 GetPosition() { return transform->position; }
     float GetRotation() { return transform->rotation; }
     Vector2 GetScale() { return transform->scale; }
     Vector2 GetUp() { return transform->Up(); }
     Vector2 GetForward() { return transform->Forward(); }
-    string GetTag() { return tag; }
     void SetId(uint32_t i) { id = i; }
     uint32_t GetId() { return id; }
 
@@ -73,7 +77,8 @@ public:
         if (renderer != nullptr)
             renderer->UpdateObject(transform);
     }
-
+#pragma endregion
+#pragma region Loop Methods
     // ¿Objetos o Agentes?
     virtual void InitializeObject() = 0;
     void DrawObject()
@@ -91,14 +96,16 @@ public:
             renderer->UnloadObject();
         }
     }
-
+#pragma endregion
+#pragma region Components Methods
     void AddShapeRenderer(Shape2D *r)
     {
         renderer = r;
         renderer->UpdateObject(transform);
     }
-    //TODO: Change the vector to a static array
+    // TODO: Change the vector to a static array
     void AddCollider2D(ColliderType type, vector<Vector2 *> otherPoints = {});
 
     bool IsColliding(GameObject2D *other);
+#pragma endregion
 };

@@ -1,5 +1,16 @@
 #include "ProgramFlow/Scene.h"
 
+// enum TemplateLayers
+// {
+//     TL_NONE = 0,
+//     TL_PLAYER = 1 << 0,
+//     TL_ASTEROID = 1 << 1,
+//     TL_PROJECTILE = 1 << 2
+
+// };
+
+// vector<uint32_t> mask = {GL_ASTEROID, GL_PROJECTILE, 0};
+
 class TemplateScene : public Scene
 {
 public:

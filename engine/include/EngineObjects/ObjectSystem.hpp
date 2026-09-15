@@ -4,13 +4,15 @@
 #include <vector>
 #include "EngineObjects/GameObject.h"
 
+using namespace std;
+
 class IObjectSystem
 {
 protected:
-    std::function<void(GameObject2D *, GameObject2D *)> onCollision;
+    function<void(GameObject2D *, GameObject2D *)> onCollision;
 
 public:
-    IObjectSystem(std::function<void(GameObject2D *, GameObject2D *)> collision)
+    IObjectSystem(function<void(GameObject2D *, GameObject2D *)> collision)
         : onCollision(std::move(collision)) {}
     virtual ~IObjectSystem() = default;
     virtual void insert(GameObject2D *obj) = 0;
@@ -30,6 +32,23 @@ class SimpleCollision : public IObjectSystem
 public:
     using IObjectSystem::IObjectSystem;
     ~SimpleCollision() override;
+    void insert(GameObject2D *obj) override;
+    void remove(GameObject2D *obj) override;
+    void update() override;
+
+    void DrawObjects() override;
+    void UpdateObjects(double deltaTime) override;
+};
+
+class LayersMaskCollision : public IObjectSystem
+{
+    vector<vector<GameObject2D *>> objects;
+    vector<uint32_t> layerCollisionMask;
+
+public:
+    LayersMaskCollision(size_t numLayers, vector<uint32_t> masks, function<void(GameObject2D *, GameObject2D *)> collision)
+        : IObjectSystem(collision), objects(numLayers), layerCollisionMask(masks) {}
+    ~LayersMaskCollision() override;
     void insert(GameObject2D *obj) override;
     void remove(GameObject2D *obj) override;
     void update() override;

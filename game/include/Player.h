@@ -1,8 +1,6 @@
 #include "EngineObjects/GameObject.h"
+#include "Scenes/Gameplay_definitions.h"
 #include <cmath>
-
-#define PLAYER_RADIUS 50.0f
-#define PLAYER_TAG "player"
 
 class Player : public GameObject2D
 {

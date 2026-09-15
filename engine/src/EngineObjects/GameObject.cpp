@@ -1,7 +1,8 @@
 #include "EngineObjects/GameObject.h"
 
 void GameObject2D::AddCollider2D(ColliderType type,
-                                 vector<Vector2 *> otherPoints)
+                                 vector<Vector2 *>
+                                     otherPoints)
 {
   if (type != C_CUSTOM)
   {

@@ -11,8 +11,6 @@ Collider2D::~Collider2D()
     }
 }
 
-bool CheckCollisionLayers(CollisionLayer layer1, CollisionLayer layer2) { return (layer1 & layer2) != 0; };
-
 bool Collider2D::isColliding(Vector2 p)
 {
     switch (form)
