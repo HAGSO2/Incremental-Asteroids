@@ -6,29 +6,22 @@
 #include "Scenes/Gameplay.h"
 #include "Scenes/GameOver.h"
 
+#define NUMBER_OF_SCENES 4
+
 class Game : public Application
 {
-public:
-    Game(int w, int h, int fps, string name)
-    {
-        screenWidth = w;
-        screenHeight = h;
-        FPs = fps;
-        ApplicationName = name;
-    }
-
     /********************
      * GLOBAL VARIABLES *
      ********************/
     Font font = {0};
-    //Music music = {};
+    // Music music = {};
     Sound logo_music = {};
     Music tittle_music = {};
     Music gameplay_music = {};
 
     // TODO: Take this to the Application class, maybe with some methods to manage it?
     GameScreen currentScreen;
-    Scene *gameScenes[4] = {0};
+    Scene *gameScenes[NUMBER_OF_SCENES] = {0};
     float transAlpha = 0.0f;
     bool onTransition = false;
     bool transFadeOut = false;
@@ -45,6 +38,7 @@ public:
     void DrawTransition(void);
 
 public:
+    Game(int w, int h, int fps, string name) : Application(w, h, fps, name) {};
     void Init() override;
     void Update(double deltaTime) override;
     void Draw() override;

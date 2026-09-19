@@ -41,7 +41,7 @@ void Game::Init()
 {
     // Initialize window and traces log.
     InitWindow(screenWidth, screenHeight, ApplicationName.c_str());
-    SetTraceLogLevel(LOG_ALL);    
+    SetTraceLogLevel(LOG_INFO);    
     // Initialize game resources here
     LoadResources();
     InitStarters();
@@ -89,6 +89,9 @@ void Game::Unload()
 {
     gameScenes[currentScreen]->UnloadScreen();
     UnLoadResources();
+    for (int i = 0; i < NUMBER_OF_SCENES; i++){
+        delete gameScenes[i];
+    }
 }
 
 #pragma region Transition Methods

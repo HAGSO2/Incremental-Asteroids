@@ -10,11 +10,13 @@ class Tittle : public Scene {
 	
 public:
 	Tittle(Font f,Music m, int w, int h);
+	~Tittle() = default;
 	void InitScene() override {Scene::InitScene(); finishScreen = UNKNOWN;};
 	void UpdateScreen(double deltaTime) override;
 	void DrawScreen() override;
 	void UnloadScreen() override {finishScreen = UNKNOWN;};
 	void OnMouseDown() override;
 	void OnKeyPressed(KeyboardKey) override {};
+	void OnCollision(GameObject2D *obj1, GameObject2D *obj2) override {};
 	private:
 };
