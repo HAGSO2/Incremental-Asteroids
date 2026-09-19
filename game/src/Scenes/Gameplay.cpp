@@ -24,8 +24,6 @@ Gameplay::Gameplay(Music m)
   centerposition = {w / 2.0f, h / 2.0f};
   player = new Player(centerposition);
   AddGameObject(player);
-  // TODO: Add Walls at the end of the screen
-  //  GameObject2D
 };
 
 void Gameplay::InitScene()
@@ -33,22 +31,29 @@ void Gameplay::InitScene()
   Scene::InitScene(); // Call base class InitScene to handle common
                       // initialization tasks
   // Initialize scene elements here (e.g., load textures, set up UI, etc.)
+  // Load background images
   Image bck1 = LoadImage(BACKGROUND_1);
   Image bck2 = LoadImage(BACKGROUND_2);
+  // Set background structure
   background.layer_1 = LoadTextureFromImage(bck1);
   background.layer_2 = LoadTextureFromImage(bck2);
   background.size_2 = {(float)bck2.width, (float)bck2.height};
   UnloadImage(bck1);
   UnloadImage(bck2);
 
+  // Set screen limits, 20 units out of visible screen
   SetOffscreenShape();
-  // SetOffscreenOffset(20);
+  SetOffscreenOffset(20);
 };
 
 void Gameplay::UpdateScreen(double deltaTime)
 {
   // Update base scene logic (e.g., handle input, update UI, etc.)
   Scene::UpdateScreen(deltaTime);
+
+  // Defeat condition
+  if (livesnum < 0)
+    finishScreen = GAMEOVER;
 
   // Update asteroids and spawn new ones if needed
   asteroidSpawnTimer += deltaTime;
@@ -114,9 +119,14 @@ void Gameplay::OnKeyPressed(KeyboardKey k)
 
 void Gameplay::OnCollision(GameObject2D *obj1, GameObject2D *obj2)
 {
+  // Handle all collisions:
+
+  // Non important collisions
   if ((obj1->layer == GL_PLAYER && obj2->layer == GL_PROJECTILE) ||
       (obj2->layer == GL_PLAYER && obj1->layer == GL_PROJECTILE))
     return;
+
+  // Set wich pointer is the asteroid
   Asteroid *asteroid = nullptr;
   GameObject2D *other = nullptr;
   if (obj1->layer == GL_ASTEROID && obj2->layer != GL_ASTEROID)
@@ -132,6 +142,7 @@ void Gameplay::OnCollision(GameObject2D *obj1, GameObject2D *obj2)
   else
     return;
 
+  // Erase asteroid and handle reward or punishment
   EraseGameobject(asteroid);
 
   if (other->layer == GL_PLAYER)
@@ -150,8 +161,8 @@ void Gameplay::CreateRandomAsteroid(float screenWidth, float screenHeight,
 {
   Vector2 position;
 
-  // Generar hasta encontrar una posición suficientemente
-  // alejada del centro.
+  // Generate until find a enough far position
+  // from the center.
   do
   {
     position = {static_cast<float>(rand() % static_cast<int>(screenWidth)),
@@ -160,8 +171,9 @@ void Gameplay::CreateRandomAsteroid(float screenWidth, float screenHeight,
 
   float radius = 10.0f + static_cast<float>(rand() % 21);
   int speed = 50 + rand() % 5;
+
+  // Add the object if posible
   Asteroid *posibleAst = new Asteroid(speed, centerposition, position, {radius, radius});
   if (!AddGameObject(posibleAst))
     delete posibleAst;
-  // return new Asteroid(position, radius, speed);
 }

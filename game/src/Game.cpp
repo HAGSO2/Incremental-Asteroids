@@ -41,7 +41,7 @@ void Game::Init()
 {
     // Initialize window and traces log.
     InitWindow(screenWidth, screenHeight, ApplicationName.c_str());
-    SetTraceLogLevel(LOG_ALL);    
+    SetTraceLogLevel(LOG_INFO);    
     // Initialize game resources here
     LoadResources();
     InitStarters();

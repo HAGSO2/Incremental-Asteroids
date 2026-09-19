@@ -17,13 +17,13 @@ void GameObject2D::AddCollider2D(ColliderType type,
 
 GameObject2D::~GameObject2D()
 {
-  TraceLog(LOG_ALL, "Deleting collider");
+  TraceLog(LOG_DEBUG, "Deleting collider");
   if (collider != nullptr)
     delete collider;
-  TraceLog(LOG_ALL, "Deleting renderer");
+  TraceLog(LOG_DEBUG, "Deleting renderer");
   if (renderer != nullptr)
     delete renderer;
-  TraceLog(LOG_ALL, "Deleting transform");
+  TraceLog(LOG_DEBUG, "Deleting transform");
   delete transform;
 };
 
