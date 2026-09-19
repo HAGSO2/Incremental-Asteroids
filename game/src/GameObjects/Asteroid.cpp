@@ -1,6 +1,6 @@
 #include <raylib.h>
 #include <raymath.h>
-#include "Asteroid.h"
+#include "GameObjects/Asteroid.h"
 
 Asteroid::Asteroid(float s, Vector2 center, Vector2 initpos, Vector2 scale) : GameObject2D(GL_ASTEROID, initpos, 0, scale), speed(s), centerposition(center)
 {
@@ -8,7 +8,7 @@ Asteroid::Asteroid(float s, Vector2 center, Vector2 initpos, Vector2 scale) : Ga
     AddCollider2D(C_CIRCLE);
 };
 
-void Asteroid::UpdateObject(double deltaTime)
+bool Asteroid::UpdateObject(double deltaTime, Rectangle scene)
 {
     Vector2 direction = Vector2Subtract(centerposition, GetPosition());
 
@@ -17,5 +17,5 @@ void Asteroid::UpdateObject(double deltaTime)
     direction.x = direction.x * speed * deltaTime;
     direction.y = direction.y * speed * deltaTime;
 
-    Move(direction);
+    return Move(direction, scene);
 }

@@ -1,4 +1,4 @@
-#include "Projectile.h"
+#include "GameObjects/Projectile.h"
 
 Projectile::Projectile(Vector2 pos, Vector2 direction) : GameObject2D(GL_PROJECTILE, pos), direction(direction)
 {
@@ -6,9 +6,9 @@ Projectile::Projectile(Vector2 pos, Vector2 direction) : GameObject2D(GL_PROJECT
     AddCollider2D(C_CIRCLE);
 };
 
-void Projectile::UpdateObject(double deltaTime)
+bool Projectile::UpdateObject(double deltaTime, Rectangle scene)
 {
     float x = direction.x * PROYECTILE_SPEED * deltaTime;
     float y = direction.y * PROYECTILE_SPEED * deltaTime;
-    Move({x, y});
+    return Move({x, y}, scene);
 }

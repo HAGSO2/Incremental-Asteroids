@@ -55,8 +55,10 @@ protected:
   virtual void OnKeyPressed(KeyboardKey) = 0;
   virtual void OnCollision(GameObject2D *obj1, GameObject2D *obj2) = 0;
 
-  void AddGameObject(GameObject2D *obj) { objectSystem->insert(obj); };
-  void EraseGameobject(GameObject2D *obj) { objectSystem->remove(obj); };
+  bool AddGameObject(GameObject2D *obj) { return objectSystem->insert(obj); };
+  void EraseGameobject(GameObject2D *obj) { objectSystem->save_remove(obj); };
+  void SetOffscreenShape() { objectSystem->ChangeForm(GetScreenHeight(), GetScreenWidth()); }
+  void SetOffscreenOffset(float off) { objectSystem->AddOffset(off); }
 
 private:
   void ManageInterruptions();

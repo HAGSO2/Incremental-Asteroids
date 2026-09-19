@@ -15,7 +15,7 @@ public:
     void CreateSprite();
 
     void InitializeObject() override {};
-    void UpdateObject(double deltaTime) override;
+    bool UpdateObject(double deltaTime, Rectangle scene) override;
 
     // Vector2 GetPosition() { return playerSprite.GetPosition(); };
     float GetSize() { return PLAYER_RADIUS; }; // Assuming square shape for simplicity

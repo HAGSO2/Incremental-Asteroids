@@ -15,13 +15,12 @@
 #define ASTEROID_MIN_DISTANCE 150.0f
 #define PLAYER_LIVES 5
 
-#define NUMBER_LAYERS 5
+#define NUMBER_LAYERS 4
 
 enum GameplayLayers
 {
     GL_NONE = 0,
     GL_PLAYER = 1 << 0,    //[1]
     GL_ASTEROID = 1 << 1,  //[2]
-    GL_PROJECTILE = 1 << 2,//[3]
-    GL_WALL = 1 << 3
+    GL_PROJECTILE = 1 << 2 //[3]
 };

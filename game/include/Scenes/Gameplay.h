@@ -1,9 +1,9 @@
 #include "ProgramFlow/Scene.h"
 #include "AssetsPath.hpp"
 #include "Scenes/Gameplay_definitions.h"
-#include "Player.h"
-#include "Projectile.h"
-#include "Asteroid.h"
+#include "GameObjects/Player.h"
+#include "GameObjects/Projectile.h"
+#include "GameObjects/Asteroid.h"
 
 class Gameplay : public Scene
 {

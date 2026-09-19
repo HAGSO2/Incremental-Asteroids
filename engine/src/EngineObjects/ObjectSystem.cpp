@@ -1,5 +1,29 @@
 #include "EngineObjects/ObjectSystem.hpp"
 
+void IObjectSystem::ChangeForm(float h, float w)
+{
+    MAX_BOX.x = 0;
+    MAX_BOX.y = 0;
+    MAX_BOX.height = h;
+    MAX_BOX.width = w;
+}
+
+void IObjectSystem::AddOffset(float offset)
+{
+    MAX_BOX.x -= offset;
+    MAX_BOX.y -= offset;
+    MAX_BOX.height += offset * 2;
+    MAX_BOX.width += offset * 2;
+}
+
+void IObjectSystem::update(){
+    for (int i = 0; i < remove_later.size(); ++i){
+        remove(remove_later[i]);
+        delete remove_later[i];
+    }
+    remove_later.clear();
+}
+
 #pragma region SimpleCollision
 
 SimpleCollision::~SimpleCollision()
@@ -11,10 +35,13 @@ SimpleCollision::~SimpleCollision()
     objects.clear();
 }
 
-void SimpleCollision::insert(GameObject2D *obj)
+bool SimpleCollision::insert(GameObject2D *obj)
 {
+    if (objects.size() > MAX_OBJECTS_SIMPLE)
+        return false;
     obj->id = (uint32_t)objects.size();
     objects.push_back(obj);
+    return true;
 }
 
 void SimpleCollision::remove(GameObject2D *obj)
@@ -42,6 +69,7 @@ void SimpleCollision::update()
             }
         }
     }
+    IObjectSystem::update();
 }
 
 void SimpleCollision::DrawObjects()
@@ -56,7 +84,11 @@ void SimpleCollision::UpdateObjects(double deltaTime)
 {
     for (int i = 0; i < objects.size(); i++)
     {
-        objects[i]->UpdateObject(deltaTime);
+        if (!objects[i]->UpdateObject(deltaTime, MAX_BOX))
+        {
+            // Object is out of bounds
+            remove(objects[i]);
+        }
     }
 }
 
@@ -76,7 +108,7 @@ LayersMaskCollision::~LayersMaskCollision()
     }
 };
 
-void LayersMaskCollision::insert(GameObject2D *obj)
+bool LayersMaskCollision::insert(GameObject2D *obj)
 {
     uint32_t laux = obj->layer;
     int layer = 0;
@@ -85,8 +117,11 @@ void LayersMaskCollision::insert(GameObject2D *obj)
         layer++;
         laux = laux >> 1;
     };
+    if (objects[layer].size() > MAX_OBJECTS_LAYERS)
+        return false;
     obj->id = objects[layer].size();
     objects[layer].push_back(obj);
+    return true;
 };
 
 void LayersMaskCollision::remove(GameObject2D *obj)
@@ -111,13 +146,13 @@ void LayersMaskCollision::remove(GameObject2D *obj)
 
 void LayersMaskCollision::update()
 {
-    for (int l1 = 0; l1 < layerCollisionMask.size(); ++l1)
+    for (int l1 = 0; l1 < objects.size() - 1; ++l1)
     { // For each layer...
         if (layerCollisionMask[l1] == 0)
             continue;
         for (int l2 = l1 + 1; l2 < objects.size(); ++l2)
         { // Seek for each layer above...
-            if (((1 << (l2 - 1)) & layerCollisionMask[l1]) != 0)
+            if ((layerCollisionMask[l1] & (1 << (l2 - 1))) != 0)
             { // if the mask is define to collide...
                 for (int i = 0; i < objects[l1].size(); ++i)
                 { // Check every posible collision...
@@ -132,6 +167,7 @@ void LayersMaskCollision::update()
             }
         }
     }
+    IObjectSystem::update();
 }
 
 void LayersMaskCollision::DrawObjects()
@@ -153,7 +189,11 @@ void LayersMaskCollision::UpdateObjects(double deltaTime)
     {
         for (int j = 0; j < objects[i].size(); ++j)
         {
-            objects[i][j]->UpdateObject(deltaTime);
+            if (!objects[i][j]->UpdateObject(deltaTime, MAX_BOX))
+            {
+                // Object is out of bounds
+                remove(objects[i][j]);
+            }
         }
     }
 }

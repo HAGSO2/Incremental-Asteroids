@@ -10,7 +10,7 @@
 
 // Constructor
 Gameplay::Gameplay(Music m)
-  : Scene(OS_BY_LAYERS, m, NUMBER_LAYERS, {0, GL_ASTEROID, GL_PROJECTILE, GL_WALL}), scorenum(0.0f),
+    : Scene(OS_BY_LAYERS, m, NUMBER_LAYERS, {0, GL_ASTEROID, GL_PROJECTILE, 0}), scorenum(0.0f),
       livesnum(PLAYER_LIVES) /*, player(PLAYER_LIVES)*/
 {
   // Initialize UI canvas and add buttons
@@ -24,10 +24,8 @@ Gameplay::Gameplay(Music m)
   centerposition = {w / 2.0f, h / 2.0f};
   player = new Player(centerposition);
   AddGameObject(player);
-  //TODO: Add Walls at the end of the screen
-  Vector2 zero = {};
-  Vector2 hizq = {GetScreenHeight(), 0};
-  // GameObject2D
+  // TODO: Add Walls at the end of the screen
+  //  GameObject2D
 };
 
 void Gameplay::InitScene()
@@ -42,13 +40,16 @@ void Gameplay::InitScene()
   background.size_2 = {(float)bck2.width, (float)bck2.height};
   UnloadImage(bck1);
   UnloadImage(bck2);
+
+  SetOffscreenShape();
+  // SetOffscreenOffset(20);
 };
 
 void Gameplay::UpdateScreen(double deltaTime)
 {
   // Update base scene logic (e.g., handle input, update UI, etc.)
   Scene::UpdateScreen(deltaTime);
-  
+
   // Update asteroids and spawn new ones if needed
   asteroidSpawnTimer += deltaTime;
   if (asteroidSpawnTimer >= ASTEROID_SPAWN_INTERVAL)
@@ -71,7 +72,6 @@ void Gameplay::DrawScreen()
               Fade(WHITE, 0.3f));
   // Draw IU and gameobjects;
   Scene::DrawScreen();
-
 };
 
 void Gameplay::UnloadScreen()
@@ -103,22 +103,12 @@ void Gameplay::OnKeyPressed(KeyboardKey k)
   }
   else if (k == KEY_SPACE)
   {
-    // TODO: Handle number of Projectiles
-    //  if (projectiles.size() >= MAX_PROjECTILES)
-    //  {
-    //    TraceLog(LOG_WARNING,
-    //             "Maximum number of projectiles reached. Cannot shoot more.");
-    //    return; // Exit early if the maximum number of projectiles is reached
-    //  }
-    //  Shoot a projectile
     Vector2 forw = player->GetForward();
     Vector2 apex = Vector2{forw.x * 50 + centerposition.x, forw.y * 50 + centerposition.y};
-    TraceLog(LOG_ALL, "Projectile created");
     // DrawCircleV(apex, PLAYER_RADIUS / 3, YELLOW);
-
-    AddGameObject(new Projectile(apex, forw));
-    // Projectile *newProjectile = player.ShootProjectile();
-    // projectiles.push_back(newProjectile);
+    Projectile *posiblePro = new Projectile(apex, forw);
+    if (!AddGameObject(posiblePro))
+      delete posiblePro;
   }
 };
 
@@ -127,7 +117,6 @@ void Gameplay::OnCollision(GameObject2D *obj1, GameObject2D *obj2)
   if ((obj1->layer == GL_PLAYER && obj2->layer == GL_PROJECTILE) ||
       (obj2->layer == GL_PLAYER && obj1->layer == GL_PROJECTILE))
     return;
-  TraceLog(LOG_ALL, "Is valid collision");
   Asteroid *asteroid = nullptr;
   GameObject2D *other = nullptr;
   if (obj1->layer == GL_ASTEROID && obj2->layer != GL_ASTEROID)
@@ -142,10 +131,9 @@ void Gameplay::OnCollision(GameObject2D *obj1, GameObject2D *obj2)
   }
   else
     return;
-  
+
   EraseGameobject(asteroid);
-  
-  
+
   if (other->layer == GL_PLAYER)
     livesnum--;
   else
@@ -172,7 +160,8 @@ void Gameplay::CreateRandomAsteroid(float screenWidth, float screenHeight,
 
   float radius = 10.0f + static_cast<float>(rand() % 21);
   int speed = 50 + rand() % 5;
-
-  AddGameObject(new Asteroid(speed, centerposition, position, {radius, radius}));
+  Asteroid *posibleAst = new Asteroid(speed, centerposition, position, {radius, radius});
+  if (!AddGameObject(posibleAst))
+    delete posibleAst;
   // return new Asteroid(position, radius, speed);
 }

@@ -10,5 +10,5 @@ public:
     Projectile(Vector2 pos, Vector2 direction);
     ~Projectile() = default;
     void InitializeObject() override {};
-    void UpdateObject(double deltaTime) override;
+    bool UpdateObject(double deltaTime, Rectangle scene) override;
 };

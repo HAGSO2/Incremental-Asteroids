@@ -12,6 +12,9 @@
 
 using namespace std;
 
+#define MAX_OBJECT_DISTANCE_X 300
+#define MAX_OBJECT_DISTANCE_Y 300
+
 class GameObject
 {
 public:
@@ -26,7 +29,7 @@ class GameObject2D
     Collider2D *collider;
 
 public:
-    static constexpr uint32_t INVALID_INDEX = 0xFFFFFFFF;
+    inline static constexpr uint32_t INVALID_INDEX = 0xFFFFFFFF;
     uint32_t id;
     uint32_t layer;
     // Layers are defined on custom objects
@@ -52,12 +55,13 @@ public:
         if (renderer != nullptr)
             renderer->UpdateObject(transform);
     }
-    void Move(Vector2 dist)
+    bool Move(Vector2 dist, Rectangle scene)
     {
         Vector2 lastpos = transform->position;
         transform->position = {lastpos.x + dist.x, lastpos.y + dist.y};
         if (renderer != nullptr)
             renderer->UpdateObject(transform);
+        return CheckCollisionPointRec(transform->position, scene);
     }
     void SetRotation(float rot)
     {
@@ -88,7 +92,8 @@ public:
             renderer->DrawObject(transform);
         }
     }
-    virtual void UpdateObject(double deltaTime) = 0;
+    // Returns if the objects has been moved
+    virtual bool UpdateObject(double deltaTime, Rectangle scene) = 0;
     void UnloadObject()
     {
         if (renderer != nullptr)

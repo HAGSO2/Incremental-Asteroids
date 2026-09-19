@@ -1,4 +1,4 @@
-#include "Player.h"
+#include "GameObjects/Player.h"
 
 void Player::CreateSprite()
 {
@@ -28,7 +28,7 @@ Player::Player(Vector2 pos) : GameObject2D(GL_PLAYER, pos, 90), rotateLeft(false
 //     GameObject2D::~GameObject2D();
 // }
 
-void Player::UpdateObject(double deltaTime)
+bool Player::UpdateObject(double deltaTime, Rectangle scene)
 {
     // Update player logic here (e.g., movement, collision detection, etc.)
     if (rotateLeft)
@@ -49,6 +49,7 @@ void Player::UpdateObject(double deltaTime)
             rotateRight = false; // Reset the flag after rotation
         }
     }
+    return true;
 };
 
 // void Player::Draw()

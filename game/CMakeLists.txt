@@ -6,9 +6,9 @@ add_executable(game
     src/Scenes/TemplateScene.cpp
     src/Scenes/Gameplay.cpp
     src/Scenes/GameOver.cpp
-    src/Player.cpp
-    src/Projectile.cpp
-    src/Asteroid.cpp
+    src/GameObjects/Player.cpp
+    src/GameObjects/Projectile.cpp
+    src/GameObjects/Asteroid.cpp
 )
 
 # Copy assets to the output directory after building the game
