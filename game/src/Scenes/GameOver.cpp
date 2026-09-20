@@ -4,7 +4,8 @@ GameOver::GameOver() : Scene()
 {
     // Initialize UI canvas and add buttons
     canvas = UI();
-    backgroundColor = BLACK;
+    backgroundColor = GRAY;
+    canvas.AddPlainText(GetScreenWidth() / 2, GetScreenHeight() / 2, 500, 200, 16, "Game Over");
 };
 
 void GameOver::InitScene() {

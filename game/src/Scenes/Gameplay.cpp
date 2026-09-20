@@ -10,13 +10,13 @@
 
 // Constructor
 Gameplay::Gameplay(Music m)
-    : Scene(OS_BY_LAYERS, m, NUMBER_LAYERS, {0, GL_ASTEROID, GL_PROJECTILE, 0}), scorenum(0.0f),
+    : Scene(OS_BY_LAYERS, m, NUMBER_LAYERS, {0, GL_ASTEROID, GL_PROJECTILE, 0}), scorenum(0),
       livesnum(PLAYER_LIVES) /*, player(PLAYER_LIVES)*/
 {
   // Initialize UI canvas and add buttons
   canvas = UI();
-  canvas.AddPlainText(10, 10, 100, 30, 20, "Score: ", scorenum);
-  canvas.AddPlainText(10, 50, 100, 30, 20, "Lives: ", livesnum);
+  canvas.AddPlainText(10, 10, 100, 30, 20, "Score: %d", &scorenum);
+  canvas.AddPlainText(10, 50, 100, 30, 20, "Lives: %d", &livesnum);
   backgroundColor = GRAY;
   background = Background();
   float h = GetScreenHeight();

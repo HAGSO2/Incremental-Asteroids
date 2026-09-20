@@ -15,7 +15,7 @@ void UI::AddTextBox(float x, float y, float width, float height, string &reftxt)
     elements.push_back(new TextBox(x, y, width, height, reftxt));
 };
 
-void UI::AddPlainText(float x, float y, float width, float height, int size, const char *texto, float &numref)
+void UI::AddPlainText(float x, float y, float width, float height, int size, const char *texto, int *numref)
 {
     elements.push_back(new PlainText(x, y, width, height, size, texto, numref));
 };
@@ -87,12 +87,19 @@ void Button::UpdateScreen(Vector2 p)
 
 #pragma region PlainText
 
-PlainText::PlainText(float x, float y, float width, float height, int size, const char *texto, float &numref) : UIElement(x, y, width, height), texto{texto}, numero{numref}, size{size} {};
+PlainText::PlainText(float x, float y, float width, float height, int size, const char *texto, int *numref) : UIElement(x, y, width, height), texto{texto}, numero{numref}, size{size} {};
 
 void PlainText::Draw()
 {
-    string final = string(texto) + to_string(numero);
-    DrawText(final.c_str(), area.x, area.y, size, BLACK);
+    if (numero != nullptr)
+    {
+        snprintf(buffer, sizeof(buffer), texto, *numero);
+        DrawText(buffer, area.x, area.y, size, BLACK);
+    }
+    else
+    {
+        DrawText(texto, area.x, area.y, size, BLACK);
+    }
 }
 
 #pragma endregion

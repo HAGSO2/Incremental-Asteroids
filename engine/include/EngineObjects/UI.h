@@ -36,7 +36,7 @@ public:
     void AddButton(float x, float y, float width, float height, int fontsize, const char *s, Color c, void (*Func)(void *), void *miptr);
     // void AddButtonScene(float x, float y, float width, float height, char* s, Color c, void (*Func)(GameScreen & variable), GameScreen &meptr);
     void AddTextBox(float x, float y, float width, float height, string &reftxt);
-    void AddPlainText(float x, float y, float width, float height, int size, const char *texto, float &numref);
+    void AddPlainText(float x, float y, float width, float height, int size, const char *texto, int *numref = nullptr);
     void Draw();
     void UpdateScreen(Vector2);
     void UpdateKeyboard(KeyboardKey);
@@ -71,17 +71,18 @@ public:
 
 class PlainText : public UIElement
 {
+    char buffer[256];
     const char *texto;
-    float &numero;
+    int *numero;
     int size;
 
 public:
-    PlainText(float x, float y, float width, float height, int size, const char *texto, float &numref);
+    PlainText(float x, float y, float width, float height, int size, const char *texto, int *numref);
     ~PlainText() = default;
-    void Draw();
-    void SetOut() {};
-    void UpdateScreen(Vector2){};
-    void UpdateKeyboard(KeyboardKey){};
+    void Draw() override;
+    void SetOut() override {};
+    void UpdateScreen(Vector2) override{};
+    void UpdateKeyboard(KeyboardKey) override{};
 };
 
 #define NO_SELECCIONADO ORANGE
@@ -94,8 +95,8 @@ class TextBox : public UIElement
 public:
     TextBox(float x, float y, float width, float height, string &reftxt);
     ~TextBox() = default;
-    void Draw();
-    void SetOut() { seleccionado = false; };
-    void UpdateScreen(Vector2);
-    void UpdateKeyboard(KeyboardKey);
+    void Draw() override;
+    void SetOut() override { seleccionado = false; };
+    void UpdateScreen(Vector2) override;
+    void UpdateKeyboard(KeyboardKey) override;
 };
