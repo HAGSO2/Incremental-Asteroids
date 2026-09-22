@@ -29,4 +29,7 @@ public:
 	void OnMouseDown() override {};
 	void OnKeyPressed(KeyboardKey key) override {};
 	void OnCollision(GameObject2D *obj1, GameObject2D *obj2) override {};
+
+	void Save(json &out) const override{};
+    void Load(const json &in) override{};
 };

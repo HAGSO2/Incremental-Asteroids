@@ -2,17 +2,10 @@
 #include "EngineObjects/Collider.h"
 #include "EngineObjects/GameObject.h"
 #include "EngineObjects/ObjectSystem.hpp"
+#include "ProgramFlow/ISerializable.hpp"
+#include "ProgramFlow/GameScreen.h"
 #include "EngineObjects/UI.h"
 #include <raylib.h>
-
-enum GameScreen
-{
-  UNKNOWN = -1,
-  LOGO = 0,
-  TITTLE = 1,
-  GAMEPLAY = 2,
-  GAMEOVER = 3
-};
 
 enum OSystemType
 {
@@ -23,9 +16,8 @@ enum OSystemType
   // TODO: Add more collision systems here
 };
 
-class Scene
+class Scene : public ISerializable
 {
-  // TODO: Make a collision system interface and have just a pointer
   OSystemType objectType;
   IObjectSystem *objectSystem;
 

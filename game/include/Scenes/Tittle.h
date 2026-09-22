@@ -1,22 +1,31 @@
 #pragma once
 #include "ProgramFlow/Scene.h"
 
-class Tittle : public Scene {
+class Tittle : public Scene
+{
 	int framesCounter;
 	Font font;
 	int click;
 	int screenWidth;
 	int screenHeight;
-	
+
 public:
-	Tittle(Font f,Music m, int w, int h);
+	Tittle(Font f, Music m, int w, int h);
 	~Tittle() = default;
-	void InitScene() override {Scene::InitScene(); finishScreen = UNKNOWN;};
+	void InitScene() override
+	{
+		Scene::InitScene();
+		finishScreen = UNKNOWN;
+	};
 	void UpdateScreen(double deltaTime) override;
 	void DrawScreen() override;
-	void UnloadScreen() override {finishScreen = UNKNOWN;};
+	void UnloadScreen() override { finishScreen = UNKNOWN; };
 	void OnMouseDown() override;
-	void OnKeyPressed(KeyboardKey) override {};
+	void OnKeyPressed(KeyboardKey) override{};
 	void OnCollision(GameObject2D *obj1, GameObject2D *obj2) override {};
-	private:
+
+	void Save(json &out) const override {};
+	void Load(const json &in) override {};
+
+private:
 };

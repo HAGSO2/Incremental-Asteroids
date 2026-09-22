@@ -1,5 +1,4 @@
 #include "ProgramFlow/Application.hpp"
-#include "ProgramFlow/Scene.h"
 
 #include "Scenes/Logo.h"
 #include "Scenes/Tittle.h"
@@ -19,14 +18,7 @@ class Game : public Application
     Music tittle_music = {};
     Music gameplay_music = {};
 
-    // TODO: Take this to the Application class, maybe with some methods to manage it?
-    GameScreen currentScreen;
     Scene *gameScenes[NUMBER_OF_SCENES] = {0};
-    float transAlpha = 0.0f;
-    bool onTransition = false;
-    bool transFadeOut = false;
-    int transFromScreen = -1;
-    GameScreen transToScreen = GameScreen(UNKNOWN);
 
     void LoadResources();
     void UnLoadResources();
