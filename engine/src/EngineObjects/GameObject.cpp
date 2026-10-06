@@ -9,10 +9,10 @@ void GameObject2D::AddCollider2D(ColliderType type,
     vector<Vector2 *> points = vector<Vector2 *>(2);
     points[0] = &transform->position;
     points[1] = &transform->scale;
-    collider = new Collider2D(type, points);
+    collider = new ShapeCollider(type, points);
     return;
   }
-  collider = new Collider2D(type, otherPoints);
+  collider = new ShapeCollider(type, otherPoints);
 };
 
 GameObject2D::~GameObject2D()
