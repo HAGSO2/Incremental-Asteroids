@@ -1,6 +1,6 @@
 #include "EngineObjects/Collider.h"
 
-Collider2D::~Collider2D()
+ShapeCollider::~ShapeCollider()
 {
     if (form == C_CUSTOM)
     {
@@ -11,7 +11,7 @@ Collider2D::~Collider2D()
     }
 }
 
-bool Collider2D::isColliding(Vector2 p)
+bool ShapeCollider::isColliding(Vector2 p)
 {
     switch (form)
     {
@@ -26,8 +26,15 @@ bool Collider2D::isColliding(Vector2 p)
     }
 }
 
-bool Collider2D::isColliding(Collider2D *other)
+bool ShapeCollider::isColliding(Vector2 p1, Vector2 p2)
 {
+    //TODO:
+    return false;
+}
+
+bool ShapeCollider::isColliding(Collider2D *otherC)
+{
+    ShapeCollider* other = (ShapeCollider*)otherC;
     vector<Vector2 *> otherPoints = other->points;
     switch (form)
     {
