@@ -10,6 +10,11 @@ void UI::AddButton(float x, float y, float width, float height, int fontsize, co
     elements.push_back(new Button(x, y, width, height, fontsize, s, c, Func, ptr));
 }
 
+void UI::AddImageButton(float x, float y, float width, float height, string texturepath, void (*Func)(void *), void *ptr)
+{
+    elements.push_back(new ImageButton(x, y, width, height, texturepath, Func, ptr));
+}
+
 void UI::AddTextBox(float x, float y, float width, float height, string &reftxt)
 {
     elements.push_back(new TextBox(x, y, width, height, reftxt));
@@ -78,6 +83,26 @@ void Button::Draw()
 };
 
 void Button::UpdateScreen(Vector2 p)
+{
+    callback.Execute();
+    WaitTime(0.1f);
+}
+
+#pragma endregion
+
+#pragma region ImageButton
+
+ImageButton::ImageButton(float x, float y, float width, float height, string texturepath, void (*Func)(void *), void *miptrs) : UIElement(x, y, width, height), callback{CallBack(Func, miptrs)}
+{
+    texture = LoadTexture(texturepath.c_str());
+}
+
+void ImageButton::Draw()
+{
+    DrawTexture(texture, area.x, area.y, WHITE);
+};
+
+void ImageButton::UpdateScreen(Vector2 p)
 {
     callback.Execute();
     WaitTime(0.1f);

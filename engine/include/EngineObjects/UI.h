@@ -34,6 +34,7 @@ public:
             delete elements[i];
     };
     void AddButton(float x, float y, float width, float height, int fontsize, const char *s, Color c, void (*Func)(void *), void *miptr);
+    void AddImageButton(float x, float y, float width, float height, string texturepath, void (*Func)(void *), void *miptr);
     // void AddButtonScene(float x, float y, float width, float height, char* s, Color c, void (*Func)(GameScreen & variable), GameScreen &meptr);
     void AddTextBox(float x, float y, float width, float height, string &reftxt);
     void AddPlainText(float x, float y, float width, float height, int size, const char *texto, float &numref);
@@ -63,6 +64,20 @@ class Button : public UIElement
 public:
     Button(float x, float y, float width, float height, int fontsize, const char *s, Color c, void (*Func)(void *), void *miptrs);
     ~Button() = default;
+    void Draw();
+    void SetOut() {};
+    void UpdateScreen(Vector2);
+    void UpdateKeyboard(KeyboardKey){};
+};
+
+class ImageButton : public UIElement
+{
+    Texture2D texture;
+    CallBack callback;
+
+public:
+    ImageButton(float x, float y, float width, float height, string texturepath, void (*Func)(void *), void *miptrs);
+    ~ImageButton() = default;
     void Draw();
     void SetOut() {};
     void UpdateScreen(Vector2);
