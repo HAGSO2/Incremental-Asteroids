@@ -1,0 +1,92 @@
+{
+    "upgrades": [
+        {
+            "cost": 100,
+            "description": "Fires two projectiles at once.",
+            "iconPath": "assets/icons/upgrade",
+            "id": 0,
+            "level": 0,
+            "name": "Double Shot",
+            "unlocked": false,
+            "x": 100.0,
+            "y": 100.0
+        },
+        {
+            "cost": 200,
+            "description": "Increases projectile damage.",
+            "iconPath": "assets/icons/upgrade",
+            "id": 1,
+            "level": 0,
+            "name": "Sharper Shot",
+            "unlocked": false,
+            "x": 200.0,
+            "y": 100.0
+        },
+        {
+            "cost": 300,
+            "description": "Fires a continuous laser beam.",
+            "iconPath": "assets/icons/upgrade",
+            "id": 2,
+            "level": 0,
+            "name": "Laser Beam",
+            "unlocked": false,
+            "x": 300.0,
+            "y": 100.0
+        },
+        {
+            "cost": 400,
+            "description": "Grants an extra life.",
+            "iconPath": "assets/icons/upgrade",
+            "id": 3,
+            "level": 0,
+            "name": "Extra Life",
+            "unlocked": false,
+            "x": 400.0,
+            "y": 100.0
+        },
+        {
+            "cost": 500,
+            "description": "Provides a temporary shield.",
+            "iconPath": "assets/icons/upgrade",
+            "id": 4,
+            "level": 0,
+            "name": "Shield",
+            "unlocked": false,
+            "x": 500.0,
+            "y": 100.0
+        },
+        {
+            "cost": 600,
+            "description": "Fires homing missiles.",
+            "iconPath": "assets/icons/upgrade",
+            "id": 5,
+            "level": 0,
+            "name": "Homing Missiles",
+            "unlocked": false,
+            "x": 600.0,
+            "y": 100.0
+        },
+        {
+            "cost": 700,
+            "description": "Slows down time for a short duration.",
+            "iconPath": "assets/icons/upgrade",
+            "id": 6,
+            "level": 0,
+            "name": "Time Slowdown",
+            "unlocked": false,
+            "x": 700.0,
+            "y": 100.0
+        },
+        {
+            "cost": 800,
+            "description": "Makes the player invisible to enemies.",
+            "iconPath": "assets/icons/upgrade",
+            "id": 7,
+            "level": 0,
+            "name": "Stealth Mode",
+            "unlocked": false,
+            "x": 800.0,
+            "y": 100.0
+        }
+    ]
+}

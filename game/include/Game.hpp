@@ -5,6 +5,8 @@
 #include "Scenes/Gameplay.h"
 #include "Scenes/GameOver.h"
 
+#include "Misc/Upgrade.h"
+
 #define NUMBER_OF_SCENES 4
 
 class Game : public Application
@@ -17,11 +19,13 @@ class Game : public Application
     Sound logo_music = {};
     Music tittle_music = {};
     Music gameplay_music = {};
+    vector<Upgrade> upgrades;
 
     Scene *gameScenes[NUMBER_OF_SCENES] = {0};
 
     void LoadResources();
     void UnLoadResources();
+    void LoadUpgrades();
     void InitStarters();
     void UpdateDrawFrame();
     // TODO: Take this to the Application class, maybe with some methods to manage it?

@@ -12,14 +12,30 @@ struct Upgrade
     string iconPath;
     int cost;
     bool unlocked;
-    
-    Upgrade(int id, std::string name, std::string description, const float x, const float y, std::string iconPath, int cost, bool unlocked) : id(id), name(name), description(description), x(x), y(y), iconPath(iconPath), cost(cost), unlocked(unlocked) {};
+    int level;
+
+    Upgrade(int id, std::string name, std::string description, const float x, const float y, std::string iconPath, int cost, bool unlocked, int level) : id(id), name(name), description(description), x(x), y(y), iconPath(iconPath), cost(cost), unlocked(unlocked), level(level) {};
+    json ToJson() const
+    {
+        json upgradeJson;
+        upgradeJson["id"] = id;
+        upgradeJson["name"] = name;
+        upgradeJson["description"] = description;
+        upgradeJson["x"] = x;
+        upgradeJson["y"] = y;
+        upgradeJson["iconPath"] = iconPath;
+        upgradeJson["cost"] = cost;
+        upgradeJson["unlocked"] = unlocked;
+        upgradeJson["level"] = level;
+        return upgradeJson;
+    }
 };
 
 class UpgradeManager : public ISerializable
 {
     vector<Upgrade> upgrades;
-    public:
+
+public:
     UpgradeManager() = default;
     virtual ~UpgradeManager() = default;
     void Save(json &out) const override
@@ -36,10 +52,11 @@ class UpgradeManager : public ISerializable
             upgradeJson["iconPath"] = upgrade.iconPath;
             upgradeJson["cost"] = upgrade.cost;
             upgradeJson["unlocked"] = upgrade.unlocked;
+            upgradeJson["level"] = upgrade.level;
             out["upgrades"].push_back(upgradeJson);
         }
     }
-    virtual void Load(const json &in) override
+    void Load(const json &in) override
     {
         upgrades.clear();
         for (const auto &upgradeJson : in["upgrades"])
@@ -52,8 +69,17 @@ class UpgradeManager : public ISerializable
                 upgradeJson.value("y", 0.0f),
                 upgradeJson.value("iconPath", std::string()),
                 upgradeJson.value("cost", 0),
-                upgradeJson.value("unlocked", false));
+                upgradeJson.value("unlocked", false),
+                upgradeJson.value("level", 0));
             upgrades.push_back(upgrade);
         }
+    }
+    void AddUpgrade(const Upgrade &upgrade)
+    {
+        upgrades.push_back(upgrade);
+    }
+    vector<Upgrade> GetUpgrades() const
+    {
+        return upgrades;
     }
 };

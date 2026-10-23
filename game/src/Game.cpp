@@ -24,6 +24,14 @@ void Game::UnLoadResources()
     CloseAudioDevice(); // Close audio context
 }
 
+void Game::LoadUpgrades()
+{    
+    UpgradeManager upgradeManager;
+    upgradeManager.LoadFromFile(UPGRADE_FILE);
+    upgrades = upgradeManager.GetUpgrades();
+    TraceLog(LOG_INFO, "Loaded %d upgrades from file: %s", upgrades.size(), UPGRADE_FILE);
+}
+
 void Game::InitStarters()
 {
     SetTargetFPS(FPs);
@@ -44,6 +52,7 @@ void Game::Init()
     SetTraceLogLevel(LOG_INFO);    
     // Initialize game resources here
     LoadResources();
+    LoadUpgrades();
     InitStarters();
 
     PlaySound(logo_music);

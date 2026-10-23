@@ -1,9 +1,13 @@
 #include "ProgramFlow/Scene.h"
+#include "Misc/Upgrade.h"
+
+using namespace std;
 
 class UpgradeScreen : public Scene
 {
+    vector<Upgrade> upgrades;
 public:
-    UpgradeScreen();
+    UpgradeScreen(vector<Upgrade> upgrades) : Scene(Music{}), upgrades(upgrades) {};
     ~UpgradeScreen() = default;
 
     void InitScene() override;
