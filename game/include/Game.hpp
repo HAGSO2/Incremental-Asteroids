@@ -3,11 +3,12 @@
 #include "Scenes/Logo.h"
 #include "Scenes/Tittle.h"
 #include "Scenes/Gameplay.h"
+#include "Scenes/UpgradesScreen.h"
 #include "Scenes/GameOver.h"
 
 #include "Misc/Upgrade.h"
 
-#define NUMBER_OF_SCENES 4
+#define NUMBER_OF_SCENES 5
 
 class Game : public Application
 {
@@ -23,6 +24,9 @@ class Game : public Application
 
     Scene *gameScenes[NUMBER_OF_SCENES] = {0};
 
+    // TODO: Load each scene from its own file. 
+    // As it is serializable, it should be possible to load each scene from a JSON file, including its objects and properties. 
+    // This would allow for more flexibility and easier modifications without recompiling the code.
     void LoadResources();
     void UnLoadResources();
     void LoadUpgrades();

@@ -39,6 +39,7 @@ void Game::InitStarters()
     gameScenes[LOGO] = new Logo();
     gameScenes[TITTLE] = new Tittle(font, tittle_music, screenWidth, screenHeight);
     gameScenes[GAMEPLAY] = new Gameplay(gameplay_music);
+    gameScenes[UPGRADES] = new UpgradeScreen(upgrades);
     gameScenes[GAMEOVER] = new GameOver();
 
     currentScreen = LOGO;

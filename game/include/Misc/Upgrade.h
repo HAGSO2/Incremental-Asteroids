@@ -1,5 +1,7 @@
 #include "ProgramFlow/ISerializable.hpp"
 
+#pragma once
+
 using namespace std;
 
 struct Upgrade
