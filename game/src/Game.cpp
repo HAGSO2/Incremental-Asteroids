@@ -24,6 +24,14 @@ void Game::UnLoadResources()
     CloseAudioDevice(); // Close audio context
 }
 
+void Game::LoadUpgrades()
+{    
+    UpgradeManager upgradeManager;
+    upgradeManager.LoadFromFile(UPGRADE_FILE);
+    upgrades = upgradeManager.GetUpgrades();
+    TraceLog(LOG_INFO, "Loaded %d upgrades from file: %s", upgrades.size(), UPGRADE_FILE);
+}
+
 void Game::InitStarters()
 {
     SetTargetFPS(FPs);
@@ -31,6 +39,7 @@ void Game::InitStarters()
     gameScenes[LOGO] = new Logo();
     gameScenes[TITTLE] = new Tittle(font, tittle_music, screenWidth, screenHeight);
     gameScenes[GAMEPLAY] = new Gameplay(gameplay_music);
+    gameScenes[UPGRADES] = new UpgradeScreen(upgrades);
     gameScenes[GAMEOVER] = new GameOver();
 
     currentScreen = LOGO;
@@ -44,6 +53,7 @@ void Game::Init()
     SetTraceLogLevel(LOG_INFO);    
     // Initialize game resources here
     LoadResources();
+    LoadUpgrades();
     InitStarters();
 
     PlaySound(logo_music);

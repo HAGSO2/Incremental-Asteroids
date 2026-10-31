@@ -9,6 +9,7 @@ add_executable(game
     src/GameObjects/Player.cpp
     src/GameObjects/Projectile.cpp
     src/GameObjects/Asteroid.cpp
+    src/Scenes/UpgradesScreen.cpp
 )
 
 # Copy assets to the output directory after building the game

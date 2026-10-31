@@ -6,5 +6,6 @@ enum GameScreen
   LOGO = 0,
   TITTLE = 1,
   GAMEPLAY = 2,
-  GAMEOVER = 3
+  UPGRADES = 3,
+  GAMEOVER = 4
 };

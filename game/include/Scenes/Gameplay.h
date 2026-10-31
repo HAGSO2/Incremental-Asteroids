@@ -25,8 +25,8 @@ class Gameplay : public Scene
     // vector<Projectile *> projectiles; // Store active projectiles
     // vector<Asteroid *> asteroids;     // Store active asteroids
 
-    float scorenum; // Store the score text to display on the screen
-    float livesnum; // Store the lives text to display on the screen
+    int scorenum; // Store the score text to display on the screen
+    int livesnum; // Store the lives text to display on the screen
 
 public:
     Gameplay(Music m);

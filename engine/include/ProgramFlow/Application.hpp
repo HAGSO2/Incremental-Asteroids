@@ -28,8 +28,8 @@ public:
     void run();
 
 protected:
-    virtual void Init() {}
-    virtual void Update(double deltaTime) {}
-    virtual void Draw() {}
-    virtual void Unload() {};
+    virtual void Init() = 0;
+    virtual void Update(double deltaTime) = 0;
+    virtual void Draw() = 0;
+    virtual void Unload() = 0;
 };
