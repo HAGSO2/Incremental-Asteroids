@@ -10,7 +10,7 @@
 
 // Constructor
 Gameplay::Gameplay(Music m)
-    : Scene(OS_BY_LAYERS, m, NUMBER_LAYERS, {0, GL_ASTEROID, GL_PROJECTILE, 0}), scorenum(0),
+    : Scene(GAMEPLAY, OS_BY_LAYERS, m, NUMBER_LAYERS, {0, GL_ASTEROID, GL_PROJECTILE, 0}), scorenum(0),
       livesnum(PLAYER_LIVES) /*, player(PLAYER_LIVES)*/
 {
   // Initialize UI canvas and add buttons

@@ -1,14 +1,14 @@
 #include "ProgramFlow/Scene.h"
 
-Scene::Scene()
-    : finishScreen(UNKNOWN), canvas(UI()), music({0}), hasMusic(true),
-      objectType(OS_NONE), objectSystem(nullptr) {}
-Scene::Scene(Music m)
-    : finishScreen(UNKNOWN), canvas(UI()), music(m), hasMusic(true),
-      objectType(OS_NONE), objectSystem(nullptr) {}
-Scene::Scene(OSystemType collisionSystem, Music m, int layers, vector<uint32_t> mask)
-    : finishScreen(UNKNOWN), canvas(UI()), music(m), hasMusic(true),
-      objectType(collisionSystem)
+Scene::Scene(GameScreen gs)
+    : actualScreen(gs), finishScreen(UNKNOWN), canvas(UI()), music({0}), hasMusic(true),
+      objectType(OS_NONE), objectSystem(nullptr), ISerializable(GetScenePath(gs)) {}
+Scene::Scene(GameScreen gs, Music m)
+    : actualScreen(gs), finishScreen(UNKNOWN), canvas(UI()), music(m), hasMusic(true),
+      objectType(OS_NONE), objectSystem(nullptr), ISerializable(GetScenePath(gs)) {}
+Scene::Scene(GameScreen gs, OSystemType collisionSystem, Music m, int layers, vector<uint32_t> mask)
+    : actualScreen(gs), finishScreen(UNKNOWN), canvas(UI()), music(m), hasMusic(true),
+      objectType(collisionSystem), ISerializable(GetScenePath(gs))
 {
   switch (objectType)
   {
@@ -39,6 +39,8 @@ Scene::~Scene()
 
 void Scene::InitScene()
 {
+  LoadFromFile();
+
   if (hasMusic)
   {
     SetMusicVolume(music, 0.8f);
@@ -87,5 +89,26 @@ void Scene::DrawScreen()
 
 void Scene::UnloadScreen()
 {
+  DumpToFile();
   delete objectSystem;
 }
+
+string Scene::GetScenePath(GameScreen sc)
+{
+  switch (sc)
+  {
+  case LOGO:
+    return "assets/data/scenes/logo.json";
+  case TITTLE:
+    return "assets/data/scenes/tittle.json";
+  case GAMEPLAY:
+    return "assets/data/scenes/gameplay.json";
+  case UPGRADES:
+    return "assets/data/scenes/upgrades.json";
+  case GAMEOVER:
+    return "assets/data/scenes/gameover.json";
+  default:
+    return "assets/data/scenes/unknown.json";
+  };
+}
+

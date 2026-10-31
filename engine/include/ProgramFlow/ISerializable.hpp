@@ -5,11 +5,17 @@
 #include <fstream>
 using json = nlohmann::json;
 
-// Apply this to any scene
+// Interface for serializable objects
+
+//NOTE: Any Serializable object must have a file in wich is saved and loaded.
 
 class ISerializable
 {
+    // The filename to save/load the object
+    std::string filename;
+
 public:
+    ISerializable(std::string fn) : filename(fn) {};
     virtual ~ISerializable() = default;
     virtual void Save(json &out) const = 0;
     virtual void Load(const json &in) = 0;
@@ -34,35 +40,6 @@ public:
     //     nombre = in.value("nombre", std::string());
     //     inventarioIDs = in.value("inventarioIDs", std::vector<int>{});
     // }
-
-    void DumpToFile(const std::string &filename) const
-    {
-        json out;
-        Save(out);
-        std::ofstream file(filename);
-        if (file.is_open())
-        {
-            file << out.dump(4); // Pretty print with 4 spaces indentation
-            file.close();
-        }
-        else
-        {
-            std::cerr << "Error: Could not open file " << filename << " for writing." << std::endl;
-        }
-    }
-    void LoadFromFile(const std::string &filename)
-    {
-        std::ifstream file(filename);
-        if (file.is_open())
-        {
-            json in;
-            file >> in;
-            Load(in);
-            file.close();
-        }
-        else
-        {
-            std::cerr << "Error: Could not open file " << filename << " for reading." << std::endl;
-        }
-    }
+    void DumpToFile() const;
+    void LoadFromFile();
 };

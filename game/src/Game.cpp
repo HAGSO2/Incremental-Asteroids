@@ -26,8 +26,8 @@ void Game::UnLoadResources()
 
 void Game::LoadUpgrades()
 {    
-    UpgradeManager upgradeManager;
-    upgradeManager.LoadFromFile(UPGRADE_FILE);
+    UpgradeManager upgradeManager(UPGRADE_FILE);
+    upgradeManager.LoadFromFile();
     upgrades = upgradeManager.GetUpgrades();
     TraceLog(LOG_INFO, "Loaded %d upgrades from file: %s", upgrades.size(), UPGRADE_FILE);
 }

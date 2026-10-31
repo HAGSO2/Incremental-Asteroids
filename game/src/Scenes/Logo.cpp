@@ -1,7 +1,7 @@
 #include "Scenes/Logo.h"
 #include <raylib.h>
 
-Logo::Logo() {};
+Logo::Logo() : Scene(LOGO) {};
 
 void Logo::InitScene()
 {

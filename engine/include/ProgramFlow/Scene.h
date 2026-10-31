@@ -16,12 +16,16 @@ enum OSystemType
   // TODO: Add more collision systems here
 };
 
+// NOTE: The object system does not save any object.
+// It is the responsibility of the scene to save and load the objects.
+// The object system only manages the objects in memory and handles collisions.
 class Scene : public ISerializable
 {
   OSystemType objectType;
   IObjectSystem *objectSystem;
 
 protected:
+  GameScreen actualScreen;
   GameScreen finishScreen;
   Vector2 mousePosition;
   UI canvas;
@@ -30,9 +34,9 @@ protected:
   bool hasMusic = false;
 
 public:
-  Scene();
-  Scene(Music m);
-  Scene(OSystemType collisionSystem, Music m = {0}, int layers = 0, vector<uint32_t> mask = {});
+  Scene(GameScreen gs);
+  Scene(GameScreen gs, Music m);
+  Scene(GameScreen gs, OSystemType collisionSystem, Music m = {0}, int layers = 0, vector<uint32_t> mask = {});
   virtual ~Scene();
   virtual void InitScene();
   virtual void UpdateScreen(double deltaTime);
@@ -54,6 +58,8 @@ protected:
 
 private:
   void ManageInterruptions();
+  string GetScenePath(GameScreen sc);
+  // const std::string &filename
 };
 
 // void AddShape2D(Scene *scene, Vector2 pos, float rot = 0, Vector2 scl =

@@ -8,3 +8,4 @@
 #define BACKGROUND_1 "assets/textures/noise2.png"
 #define BACKGROUND_2 "assets/textures/noise3.png"
 #define UPGRADE_FILE "assets/data/upgrades.json"
+#define GLOBAL_VARIABLES_FILE "assets/data/global_variables.json"

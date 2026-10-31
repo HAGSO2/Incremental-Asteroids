@@ -12,7 +12,7 @@ void ToGameplay(void *ptr)
 #pragma endregion
 
 // Constructor
-TemplateScene::TemplateScene() : Scene()
+TemplateScene::TemplateScene() : Scene(UNKNOWN)
 {
     // Initialize UI canvas and add buttons
     canvas = UI();

@@ -1,6 +1,6 @@
 #include "Scenes/GameOver.h"
 
-GameOver::GameOver() : Scene()
+GameOver::GameOver() : Scene(GAMEOVER)
 {
     // Initialize UI canvas and add buttons
     canvas = UI();

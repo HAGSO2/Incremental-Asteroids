@@ -12,7 +12,7 @@ void ToGameplay(void *ptr)
 #pragma endregion
 
 // Constructor
-UpgradeScreen::UpgradeScreen(vector<Upgrade> upgrades) : Scene(Music{}), upgrades(upgrades)
+UpgradeScreen::UpgradeScreen(vector<Upgrade> upgrades) : Scene(UPGRADES, Music{}), upgrades(upgrades)
 {
     // Initialize UI canvas and add buttons
     canvas = UI();
