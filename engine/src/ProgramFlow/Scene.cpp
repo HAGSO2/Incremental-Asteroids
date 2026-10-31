@@ -2,10 +2,10 @@
 
 Scene::Scene(GameScreen gs)
     : actualScreen(gs), finishScreen(UNKNOWN), canvas(UI()), music({0}), hasMusic(true),
-      objectType(OS_NONE), objectSystem(nullptr), ISerializable(GetScenePath(gs)) {}
+      objectType(OS_NONE), objectSystem(nullptr), ISerializable(GetScenePath(gs)) { LoadFromFile(); }
 Scene::Scene(GameScreen gs, Music m)
     : actualScreen(gs), finishScreen(UNKNOWN), canvas(UI()), music(m), hasMusic(true),
-      objectType(OS_NONE), objectSystem(nullptr), ISerializable(GetScenePath(gs)) {}
+      objectType(OS_NONE), objectSystem(nullptr), ISerializable(GetScenePath(gs)) { LoadFromFile(); }
 Scene::Scene(GameScreen gs, OSystemType collisionSystem, Music m, int layers, vector<uint32_t> mask)
     : actualScreen(gs), finishScreen(UNKNOWN), canvas(UI()), music(m), hasMusic(true),
       objectType(collisionSystem), ISerializable(GetScenePath(gs))
@@ -30,6 +30,7 @@ Scene::Scene(GameScreen gs, OSystemType collisionSystem, Music m, int layers, ve
   default:
     break;
   }
+  LoadFromFile();
 }
 
 Scene::~Scene()
@@ -39,8 +40,6 @@ Scene::~Scene()
 
 void Scene::InitScene()
 {
-  LoadFromFile();
-
   if (hasMusic)
   {
     SetMusicVolume(music, 0.8f);
@@ -111,4 +110,3 @@ string Scene::GetScenePath(GameScreen sc)
     return "assets/data/scenes/unknown.json";
   };
 }
-

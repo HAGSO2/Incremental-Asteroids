@@ -18,7 +18,7 @@ Gameplay::Gameplay(Music m)
   canvas.AddPlainText(10, 10, 100, 30, 20, "Score: %d", &scorenum);
   canvas.AddPlainText(10, 50, 100, 30, 20, "Lives: %d", &livesnum);
   backgroundColor = GRAY;
-  background = Background();
+  // background = Background();
   float h = GetScreenHeight();
   float w = GetScreenWidth();
   centerposition = {w / 2.0f, h / 2.0f};
@@ -32,12 +32,12 @@ void Gameplay::InitScene()
                       // initialization tasks
   // Initialize scene elements here (e.g., load textures, set up UI, etc.)
   // Load background images
-  Image bck1 = LoadImage(BACKGROUND_1);
-  Image bck2 = LoadImage(BACKGROUND_2);
+  Image bck1 = LoadImage(background->path_1.c_str());
+  Image bck2 = LoadImage(background->path_2.c_str());
   // Set background structure
-  background.layer_1 = LoadTextureFromImage(bck1);
-  background.layer_2 = LoadTextureFromImage(bck2);
-  background.size_2 = {(float)bck2.width, (float)bck2.height};
+  background->layer_1 = LoadTextureFromImage(bck1);
+  background->layer_2 = LoadTextureFromImage(bck2);
+  background->size_2 = {(float)bck2.width, (float)bck2.height};
   UnloadImage(bck1);
   UnloadImage(bck2);
 
@@ -69,11 +69,11 @@ void Gameplay::DrawScreen()
   // Draw the title screen elements here (e.g., background, title text, buttons,
   // etc.) Background DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(),
   // backgroundColor);
-  DrawTexture(background.layer_1, 0, 0, WHITE);
-  DrawTexture(background.layer_2, 0, 0, Fade(WHITE, 0.3f));
-  DrawTexture(background.layer_2, background.size_2.x, 0, Fade(WHITE, 0.3f));
-  DrawTexture(background.layer_2, 0, background.size_2.y, Fade(WHITE, 0.3f));
-  DrawTexture(background.layer_2, background.size_2.x, background.size_2.y,
+  DrawTexture(background->layer_1, 0, 0, WHITE);
+  DrawTexture(background->layer_2, 0, 0, Fade(WHITE, 0.3f));
+  DrawTexture(background->layer_2, background->size_2.x, 0, Fade(WHITE, 0.3f));
+  DrawTexture(background->layer_2, 0, background->size_2.y, Fade(WHITE, 0.3f));
+  DrawTexture(background->layer_2, background->size_2.x, background->size_2.y,
               Fade(WHITE, 0.3f));
   // Draw IU and gameobjects;
   Scene::DrawScreen();
@@ -83,8 +83,8 @@ void Gameplay::UnloadScreen()
 {
   Scene::UnloadScreen();
   // Unload scene resources here (e.g., textures, sounds, etc.)
-  UnloadTexture(background.layer_1);
-  UnloadTexture(background.layer_2);
+  UnloadTexture(background->layer_1);
+  UnloadTexture(background->layer_2);
 };
 
 void Gameplay::OnMouseDown()
@@ -152,6 +152,22 @@ void Gameplay::OnCollision(GameObject2D *obj1, GameObject2D *obj2)
     scorenum += 5;
     EraseGameobject(other);
   }
+}
+
+#pragma endregion
+
+#pragma region I/O Methods
+
+// IU
+// Player
+// Background images
+
+void Gameplay::Load(const json &in)
+{
+  canvas.AddPlainText(10, 10, 100, 30, 20, "Score: %d", &scorenum);
+  canvas.AddPlainText(10, 50, 100, 30, 20, "Lives: %d", &livesnum);
+  background = new Background(in.value("background_path_1", BACKGROUND_1),
+                              in.value("background_path_2", BACKGROUND_2));
 }
 
 #pragma endregion

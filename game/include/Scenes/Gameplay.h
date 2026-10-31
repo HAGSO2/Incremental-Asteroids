@@ -7,18 +7,11 @@
 
 class Gameplay : public Scene
 {
-    struct Background
-    {
-        Texture2D layer_1;
-        Vector2 position_1;
-        Texture2D layer_2;
-        Vector2 position_2;
-        Vector2 size_2;
-        Background() : layer_1{0}, position_1{0, 0}, layer_2{0}, position_2{0, 0}, size_2{0, 0} {}
-    };
-    Background background;
+    Background* background = nullptr; // Background structure to hold background images and their properties
     Vector2 centerposition; // Center point for spawning asteroids
     Player *player;
+
+
 
     float asteroidSpawnTimer = 0.0f; // Timer to control asteroid spawning
 
@@ -39,11 +32,23 @@ public:
     void OnKeyPressed(KeyboardKey) override;
     void OnCollision(GameObject2D *obj1, GameObject2D *obj2) override;
 
-    void Save(json &out) const override{};
-    void Load(const json &in) override{};
+    void Save(json &out) const override {};
+    void Load(const json &in) override;
 
 private:
     void CreateRandomAsteroid(float screenWidth,
                               float screenHeight,
                               float minDistance);
 };
+
+struct Background
+    {
+        string path_1;
+        Texture2D layer_1;
+        Vector2 position_1;
+        string path_2;
+        Texture2D layer_2;
+        Vector2 position_2;
+        Vector2 size_2;
+        Background(const std::string p1, const std::string p2) : path_1(p1), path_2(p2), layer_1{0}, position_1{0, 0}, layer_2{0}, position_2{0, 0}, size_2{0, 0} {}
+    };

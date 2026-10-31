@@ -59,7 +59,6 @@ protected:
 private:
   void ManageInterruptions();
   string GetScenePath(GameScreen sc);
-  // const std::string &filename
 };
 
 // void AddShape2D(Scene *scene, Vector2 pos, float rot = 0, Vector2 scl =
