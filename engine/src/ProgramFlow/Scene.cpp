@@ -2,10 +2,18 @@
 
 Scene::Scene(GameScreen gs)
     : actualScreen(gs), finishScreen(UNKNOWN), canvas(UI()), music({0}), hasMusic(true),
-      objectType(OS_NONE), objectSystem(nullptr), ISerializable(GetScenePath(gs)) { LoadFromFile(); }
+      objectType(OS_NONE), objectSystem(nullptr), ISerializable(GetScenePath(gs))
+{
+  canvas = UI();
+  LoadFromFile();
+}
 Scene::Scene(GameScreen gs, Music m)
     : actualScreen(gs), finishScreen(UNKNOWN), canvas(UI()), music(m), hasMusic(true),
-      objectType(OS_NONE), objectSystem(nullptr), ISerializable(GetScenePath(gs)) { LoadFromFile(); }
+      objectType(OS_NONE), objectSystem(nullptr), ISerializable(GetScenePath(gs))
+{
+  canvas = UI();
+  LoadFromFile();
+}
 Scene::Scene(GameScreen gs, OSystemType collisionSystem, Music m, int layers, vector<uint32_t> mask)
     : actualScreen(gs), finishScreen(UNKNOWN), canvas(UI()), music(m), hasMusic(true),
       objectType(collisionSystem), ISerializable(GetScenePath(gs))
@@ -30,6 +38,7 @@ Scene::Scene(GameScreen gs, OSystemType collisionSystem, Music m, int layers, ve
   default:
     break;
   }
+  canvas = UI();
   LoadFromFile();
 }
 

@@ -12,10 +12,8 @@ void ToGameplay(void *ptr)
 #pragma endregion
 
 // Constructor
-UpgradeScreen::UpgradeScreen(vector<Upgrade> upgrades) : Scene(UPGRADES, Music{}), upgrades(upgrades)
+UpgradeScreen::UpgradeScreen(vector<Upgrade> &upgrades) : Scene(UPGRADES, Music{}), upgrades(upgrades)
 {
-    // Initialize UI canvas and add buttons
-    canvas = UI();
     backgroundColor = PURPLE;
 };
 
@@ -56,4 +54,37 @@ void UpgradeScreen::OnKeyPressed(KeyboardKey k)
 
 void UpgradeScreen::OnCollision(GameObject2D *obj1, GameObject2D *obj2)
 {
+}
+
+void UpdateScreen::Load(const json &in)
+{
+    // NOTE: It would be ideal to have a more generic way to load the canvas, but for now, we will do it manually.
+    for (auto &obj : in["Canvas"])
+    {
+        float x = obj.value("x", 0.0f);
+        float y = obj.value("y", 0.0f);
+        float w = obj.value("width", 0.0f);
+        float h = obj.value("height", 0.0f);
+        if (obj.value("Type", std::string()) == "ImageButton")
+        {
+            string name = obj.value("Name", std::string());
+            string iconPath = obj.value("iconPath", std::string());
+            int cost = obj.value("cost", 0);
+            switch (name)
+            {
+            case "Double Shot":
+                // Add the button for Double Shot upgrade
+                canvas.AddImageButton(x, y, w, h, iconPath.c_str(), nullptr, nullptr);
+                break;
+            case "Shield":
+                // Add the button for Shield upgrade
+                canvas.AddImageButton(x, y, w, h, iconPath.c_str(), nullptr, nullptr);
+                break;
+            case "Speed Boost":
+                // Add the button for Speed Boost upgrade
+                canvas.AddImageButton(x, y, w, h, iconPath.c_str(), nullptr, nullptr);
+                break;
+            }
+        }
+    }
 }

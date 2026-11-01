@@ -85,6 +85,27 @@ void Button::UpdateScreen(Vector2 p)
 
 #pragma endregion
 
+#pragma region ImageButton
+
+ImageButton::ImageButton(float x, float y, float width, float height, const char *imagePath, void (*Func)(void *), void *miptr) : UIElement(x, y, width, height), imagePath{imagePath}, callback{CallBack(Func, miptr)}
+{
+    LoadTexture(imagePath);
+}
+
+void ImageButton::Draw()
+{
+    //TODO: Be able to draw the image button with adaptable size
+    DrawTexture(texture, area.x, area.y, WHITE);
+};
+
+void ImageButton::UpdateScreen(Vector2 p)
+{
+    callback.Execute();
+    WaitTime(0.1f);
+}
+
+#pragma endregion
+
 #pragma region PlainText
 
 PlainText::PlainText(float x, float y, float width, float height, int size, const char *texto, int *numref) : UIElement(x, y, width, height), texto{texto}, numero{numref}, size{size} {};

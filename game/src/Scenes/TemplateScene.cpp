@@ -14,8 +14,6 @@ void ToGameplay(void *ptr)
 // Constructor
 TemplateScene::TemplateScene() : Scene(UNKNOWN)
 {
-    // Initialize UI canvas and add buttons
-    canvas = UI();
     backgroundColor = GREEN;
 };
 

@@ -16,8 +16,6 @@ void ToGameplay(void *ptr)
 // Constructor
 Tittle::Tittle(Font f, Music m, int w, int h) : Scene(TITTLE, m), font{f}, screenWidth{w}, screenHeight{h}
 {
-    // Initialize UI canvas and add buttons
-    canvas = UI();
     backgroundColor = BLUE;
     canvas.AddButton(300, 400, 100, 50, 30, TittleButtonText, GREEN, ToGameplay, this);
 };

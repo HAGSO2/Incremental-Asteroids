@@ -79,7 +79,7 @@
         },
         {
             "cost": 800,
-            "description": "Makes the player invisible to enemies.",
+            "description": "Makes the player invencible to enemies.",
             "iconPath": "assets/icons/upgrade",
             "id": 7,
             "level": 0,
