@@ -18,7 +18,7 @@ using namespace std;
 class GameObject
 {
 public:
-    GameObject();
+    GameObject(){};
     virtual void DrawObject() = 0;
 };
 

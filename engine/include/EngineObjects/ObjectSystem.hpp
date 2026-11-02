@@ -6,6 +6,15 @@
 
 using namespace std;
 
+enum OSystemType
+{
+  OS_NONE = 0,
+  OS_SIMPLE = 1,
+  OS_BY_LAYERS = 2,
+  OS_DYNAMIC_AABB_TREE_2D = 3
+  // TODO: Add more collision systems here
+};
+
 class IObjectSystem
 {
     vector<GameObject2D *> remove_later;

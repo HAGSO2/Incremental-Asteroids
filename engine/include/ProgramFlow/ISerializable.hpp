@@ -7,7 +7,7 @@ using json = nlohmann::json;
 
 // Interface for serializable objects
 
-//NOTE: Any Serializable object must have a file in wich is saved and loaded.
+// Any Serializable object must have a file in wich is saved and loaded.
 
 class ISerializable
 {
@@ -22,24 +22,25 @@ public:
 
     // Example
 
-    // int vida = 100;
-    // float velocidad = 5.5f;
-    // std::string nombre = "Jugador1";
-    // std::vector<int> inventarioIDs;
+    // int health = 100;
+    // float speed = 5.5f;
+    // std::string name = "Jugador1";
+    // std::vector<int> inventoryIds;
 
     // void Save(json& out) const override {
-    //     out["vida"] = vida;
-    //     out["velocidad"] = velocidad;
-    //     out["nombre"] = nombre;
-    //     out["inventarioIDs"] = inventarioIDs;
+    //     out["health"] = health;
+    //     out["speed"] = speed;
+    //     out["name"] = name;
+    //     out["inventoryIds"] = inventoryIds;
     // }
 
     // void Load(const json& in) override {
-    //     vida = in.value("vida", 100);
-    //     velocidad = in.value("velocidad", 0.0f);
-    //     nombre = in.value("nombre", std::string());
-    //     inventarioIDs = in.value("inventarioIDs", std::vector<int>{});
+    //     health = in.value("health", 100);
+    //     speed = in.value("speed", 0.0f);
+    //     name = in.value("name", std::string());
+    //     inventoryIds = in.value("inventoryIds", std::vector<int>{});
     // }
+
     void DumpToFile() const;
     void LoadFromFile();
 };
