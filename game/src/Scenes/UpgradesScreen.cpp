@@ -52,13 +52,13 @@ void UpgradeScreen::OnKeyPressed(KeyboardKey k)
     canvas.UpdateKeyboard(k);
 };
 
-void UpgradeScreen::OnCollision(GameObject2D *obj1, GameObject2D *obj2)
-{
-}
+void UpgradeScreen::OnCollision(GameObject2D *obj1, GameObject2D *obj2) {
+};
 
-void UpdateScreen::Load(const json &in)
+void UpgradeScreen::Load(const json &in)
 {
     // NOTE: It would be ideal to have a more generic way to load the canvas, but for now, we will do it manually.
+    int i = 0;
     for (auto &obj : in["Canvas"])
     {
         float x = obj.value("x", 0.0f);
@@ -67,24 +67,8 @@ void UpdateScreen::Load(const json &in)
         float h = obj.value("height", 0.0f);
         if (obj.value("Type", std::string()) == "ImageButton")
         {
-            string name = obj.value("Name", std::string());
-            string iconPath = obj.value("iconPath", std::string());
-            int cost = obj.value("cost", 0);
-            switch (name)
-            {
-            case "Double Shot":
-                // Add the button for Double Shot upgrade
-                canvas.AddImageButton(x, y, w, h, iconPath.c_str(), nullptr, nullptr);
-                break;
-            case "Shield":
-                // Add the button for Shield upgrade
-                canvas.AddImageButton(x, y, w, h, iconPath.c_str(), nullptr, nullptr);
-                break;
-            case "Speed Boost":
-                // Add the button for Speed Boost upgrade
-                canvas.AddImageButton(x, y, w, h, iconPath.c_str(), nullptr, nullptr);
-                break;
-            }
+            canvas.AddImageButton(x, y, w, h, upgrades[i].iconPath.c_str(), nullptr, nullptr);
         }
+        i++;
     }
 }

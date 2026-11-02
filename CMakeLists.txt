@@ -22,6 +22,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 #----------------------------------------
 # Dependencies
 #----------------------------------------
+# raylib
 set(RAYLIB_VERSION 6.0)
 find_package(raylib ${RAYLIB_VERSION} QUIET) # QUIET or REQUIRED
 if(NOT raylib_FOUND) # If there's none, fetch and build raylib
@@ -36,6 +37,23 @@ if(NOT raylib_FOUND) # If there's none, fetch and build raylib
     set(FETCHCONTENT_QUIET NO)
     fetchcontent_makeavailable(raylib)
   endif()
+endif()
+
+# nlohmann-json
+set(JSON_VERSION 3.12.0)
+
+find_package(nlohmann_json ${JSON_VERSION} QUIET)
+
+if(NOT nlohmann_json_FOUND)
+    include(FetchContent)
+
+    FetchContent_Declare(
+        nlohmann_json
+        DOWNLOAD_EXTRACT_TIMESTAMP OFF
+        URL https://github.com/nlohmann/json/releases/download/v${JSON_VERSION}/json.tar.xz
+    )
+
+    FetchContent_MakeAvailable(nlohmann_json)
 endif()
 
 #----------------------------------------

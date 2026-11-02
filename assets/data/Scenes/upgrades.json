@@ -1,7 +1,6 @@
 {
     "Canvas": [
         {
-            "Name": "Double Shot",
             "Type": "ImageButton",
             "x": 10,
             "y": 10,

@@ -5,13 +5,23 @@
 #include "GameObjects/Projectile.h"
 #include "GameObjects/Asteroid.h"
 
+struct Background
+{
+    string path_1;
+    Texture2D layer_1;
+    Vector2 position_1;
+    string path_2;
+    Texture2D layer_2;
+    Vector2 position_2;
+    Vector2 size_2;
+    Background(const std::string p1, const std::string p2) : path_1(p1), path_2(p2), layer_1{0}, position_1{0, 0}, layer_2{0}, position_2{0, 0}, size_2{0, 0} {}
+};
+
 class Gameplay : public Scene
 {
-    Background* background = nullptr; // Background structure to hold background images and their properties
-    Vector2 centerposition; // Center point for spawning asteroids
+    Background *background = nullptr; // Background structure to hold background images and their properties
+    Vector2 centerposition;           // Center point for spawning asteroids
     Player *player;
-
-
 
     float asteroidSpawnTimer = 0.0f; // Timer to control asteroid spawning
 
@@ -23,7 +33,7 @@ class Gameplay : public Scene
 
 public:
     Gameplay(Music m);
-    ~Gameplay() = default; //NOTE: player is deleted on unload screen
+    ~Gameplay() = default; // NOTE: player is deleted on unload screen
     void InitScene() override;
     void UpdateScreen(double deltaTime) override;
     void DrawScreen() override;
@@ -40,15 +50,3 @@ private:
                               float screenHeight,
                               float minDistance);
 };
-
-struct Background
-    {
-        string path_1;
-        Texture2D layer_1;
-        Vector2 position_1;
-        string path_2;
-        Texture2D layer_2;
-        Vector2 position_2;
-        Vector2 size_2;
-        Background(const std::string p1, const std::string p2) : path_1(p1), path_2(p2), layer_1{0}, position_1{0, 0}, layer_2{0}, position_2{0, 0}, size_2{0, 0} {}
-    };
