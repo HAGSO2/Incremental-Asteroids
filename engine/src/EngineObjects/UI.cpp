@@ -8,14 +8,19 @@ UIElement::UIElement(float x, float y, float width, float height) : area(Rectang
 void UI::AddButton(float x, float y, float width, float height, int fontsize, const char *s, Color c, void (*Func)(void *), void *ptr)
 {
     elements.push_back(new Button(x, y, width, height, fontsize, s, c, Func, ptr));
-}
+};
+
+void UI::AddImageButton(float x, float y, float width, float height, const char *imagePath, void (*Func)(void *), void *ptr)
+{
+    elements.push_back(new ImageButton(x, y, width, height, imagePath, Func, ptr));
+};
 
 void UI::AddTextBox(float x, float y, float width, float height, string &reftxt)
 {
     elements.push_back(new TextBox(x, y, width, height, reftxt));
 };
 
-void UI::AddPlainText(float x, float y, float width, float height, int size, const char *texto, int *numref)
+void UI::AddPlainText(float x, float y, float width, float height, int size, string texto, int *numref)
 {
     elements.push_back(new PlainText(x, y, width, height, size, texto, numref));
 };
@@ -108,18 +113,18 @@ void ImageButton::UpdateScreen(Vector2 p)
 
 #pragma region PlainText
 
-PlainText::PlainText(float x, float y, float width, float height, int size, const char *texto, int *numref) : UIElement(x, y, width, height), texto{texto}, numero{numref}, size{size} {};
+PlainText::PlainText(float x, float y, float width, float height, int size, string texto, int *numref) : UIElement(x, y, width, height), texto{texto}, numero{numref}, size{size} {};
 
 void PlainText::Draw()
 {
     if (numero != nullptr)
     {
-        snprintf(buffer, sizeof(buffer), texto, *numero);
-        DrawText(buffer, area.x, area.y, size, BLACK);
+        buffer = texto + to_string(*numero);
+        DrawText(buffer.c_str(), area.x, area.y, size, BLACK);
     }
     else
     {
-        DrawText(texto, area.x, area.y, size, BLACK);
+        DrawText(texto.c_str(), area.x, area.y, size, BLACK);
     }
 }
 

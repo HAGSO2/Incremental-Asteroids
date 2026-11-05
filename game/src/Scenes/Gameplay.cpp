@@ -13,6 +13,7 @@ Gameplay::Gameplay(Music m)
     : Scene(GAMEPLAY, OS_BY_LAYERS, m, NUMBER_LAYERS, {0, GL_ASTEROID, GL_PROJECTILE, 0}), scorenum(0),
       livesnum(PLAYER_LIVES) /*, player(PLAYER_LIVES)*/
 {
+  LoadFromFile();
   // canvas.AddPlainText(10, 10, 100, 30, 20, "Score: %d", &scorenum);
   // canvas.AddPlainText(10, 50, 100, 30, 20, "Lives: %d", &livesnum);
   backgroundColor = GRAY;
@@ -163,7 +164,7 @@ void Gameplay::OnCollision(GameObject2D *obj1, GameObject2D *obj2)
 void Gameplay::Load(const json &in)
 {
   //NOTE: It would be ideal to have a more generic way to load the canvas, but for now, we will do it manually.
-  for (auto &obj : in["Canvas"])
+  for (const auto &obj : in["Canvas"])
   {
     float x = obj.value("x", 0.0f);
     float y = obj.value("y", 0.0f);
@@ -175,11 +176,11 @@ void Gameplay::Load(const json &in)
       string text = obj.value("Text", std::string());
       if (obj.value("Name", std::string()) == "Score")
       {
-        canvas.AddPlainText(x, y, w, h, size, text.c_str(), &scorenum);
+        canvas.AddPlainText(x, y, w, h, size, text, &scorenum);
       }
       else if (obj.value("Name", std::string()) == "Lives")
       {
-        canvas.AddPlainText(x, y, w, h, size, text.c_str(), &livesnum);
+        canvas.AddPlainText(x, y, w, h, size, text, &livesnum);
       }
     }
   }

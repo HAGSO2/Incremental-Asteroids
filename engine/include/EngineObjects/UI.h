@@ -33,10 +33,15 @@ public:
         for (int i = 0; i < elements.size(); i++)
             delete elements[i];
     };
+    //Add types of UI objects
     void AddButton(float x, float y, float width, float height, int fontsize, const char *s, Color c, void (*Func)(void *), void *miptr);
     void AddImageButton(float x, float y, float width, float height, const char *imagePath, void (*Func)(void *), void *miptrs);
     void AddTextBox(float x, float y, float width, float height, string &reftxt);
-    void AddPlainText(float x, float y, float width, float height, int size, const char *texto, int *numref = nullptr);
+    void AddPlainText(float x, float y, float width, float height, int size, string texto, int *numref = nullptr);
+
+    //TODO: Read and write to a json
+
+    //Control functions
     void Draw();
     void UpdateScreen(Vector2);
     void UpdateKeyboard(KeyboardKey);
@@ -85,13 +90,15 @@ class ImageButton : public UIElement
 
 class PlainText : public UIElement
 {
-    char buffer[256];
-    const char *texto;
+    //char buffer[256];
+    //const char *texto;
+    string buffer;
+    string texto;
     int *numero;
     int size;
 
 public:
-    PlainText(float x, float y, float width, float height, int size, const char *texto, int *numref);
+    PlainText(float x, float y, float width, float height, int size, string texto, int *numref);
     ~PlainText() = default;
     void Draw() override;
     void SetOut() override {};

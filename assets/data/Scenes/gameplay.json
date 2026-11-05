@@ -3,7 +3,7 @@
         {
             "Name": "Score",
             "Type": "PlainText",
-            "Text": "Score: %d",
+            "Text": "Score: ",
             "x": 10,
             "y": 10,
             "width": 100,
@@ -13,7 +13,7 @@
         {
             "Name": "Lives",
             "Type": "PlainText",
-            "Text": "Lives: %d",
+            "Text": "Lives: ",
             "x": 10,
             "y": 50,
             "width": 100,

@@ -5,14 +5,12 @@ Scene::Scene(GameScreen gs)
       objectType(OS_NONE), objectSystem(nullptr), ISerializable(GetScenePath(gs))
 {
   canvas = UI();
-  LoadFromFile();
 }
 Scene::Scene(GameScreen gs, Music m)
     : actualScreen(gs), finishScreen(UNKNOWN), canvas(UI()), music(m), hasMusic(true),
       objectType(OS_NONE), objectSystem(nullptr), ISerializable(GetScenePath(gs))
 {
   canvas = UI();
-  LoadFromFile();
 }
 Scene::Scene(GameScreen gs, OSystemType collisionSystem, Music m, int layers, vector<uint32_t> mask)
     : actualScreen(gs), finishScreen(UNKNOWN), canvas(UI()), music(m), hasMusic(true),
@@ -39,7 +37,6 @@ Scene::Scene(GameScreen gs, OSystemType collisionSystem, Music m, int layers, ve
     break;
   }
   canvas = UI();
-  LoadFromFile();
 }
 
 Scene::~Scene()
@@ -97,7 +94,8 @@ void Scene::DrawScreen()
 
 void Scene::UnloadScreen()
 {
-  DumpToFile();
+  //TODO: It is correct that a Scene has to be dumped at unload.
+  //DumpToFile();
   delete objectSystem;
 }
 
@@ -106,16 +104,16 @@ string Scene::GetScenePath(GameScreen sc)
   switch (sc)
   {
   case LOGO:
-    return "assets/data/scenes/logo.json";
+    return "assets/data/Scenes/logo.json";
   case TITTLE:
-    return "assets/data/scenes/tittle.json";
+    return "assets/data/Scenes/tittle.json";
   case GAMEPLAY:
-    return "assets/data/scenes/gameplay.json";
+    return "assets/data/Scenes/gameplay.json";
   case UPGRADES:
-    return "assets/data/scenes/upgrades.json";
+    return "assets/data/Scenes/upgrades.json";
   case GAMEOVER:
-    return "assets/data/scenes/gameover.json";
+    return "assets/data/Scenes/gameover.json";
   default:
-    return "assets/data/scenes/unknown.json";
+    return "assets/data/Scenes/unknown.json";
   };
 }
