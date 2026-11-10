@@ -15,10 +15,12 @@ void ToGameplay(void *ptr)
 UpgradeScreen::UpgradeScreen(vector<Upgrade> &upgrades) : Scene(UPGRADES, Music{}), upgrades(upgrades)
 {
     backgroundColor = PURPLE;
+    LoadFromFile();
 };
 
 void UpgradeScreen::InitScene() {
     // Initialize scene elements here (e.g., load textures, set up UI, etc.)
+    Scene::InitScene();
 };
 
 void UpgradeScreen::UpdateScreen(double deltaTime)

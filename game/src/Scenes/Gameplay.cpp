@@ -4,6 +4,11 @@
 
 #pragma region To other scenes
 
+void Gameplay::Defeat()
+{
+  finishScreen = UPGRADES;
+}
+
 #pragma endregion
 
 #pragma region Scene Methods
@@ -52,7 +57,7 @@ void Gameplay::UpdateScreen(double deltaTime)
 
   // Defeat condition
   if (livesnum < 0)
-    finishScreen = GAMEOVER;
+    Defeat();
 
   // Update asteroids and spawn new ones if needed
   asteroidSpawnTimer += deltaTime;
@@ -163,7 +168,7 @@ void Gameplay::OnCollision(GameObject2D *obj1, GameObject2D *obj2)
 
 void Gameplay::Load(const json &in)
 {
-  //NOTE: It would be ideal to have a more generic way to load the canvas, but for now, we will do it manually.
+  // NOTE: It would be ideal to have a more generic way to load the canvas, but for now, we will do it manually.
   for (const auto &obj : in["Canvas"])
   {
     float x = obj.value("x", 0.0f);

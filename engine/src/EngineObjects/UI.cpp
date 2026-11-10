@@ -10,7 +10,7 @@ void UI::AddButton(float x, float y, float width, float height, int fontsize, co
     elements.push_back(new Button(x, y, width, height, fontsize, s, c, Func, ptr));
 };
 
-void UI::AddImageButton(float x, float y, float width, float height, const char *imagePath, void (*Func)(void *), void *ptr)
+void UI::AddImageButton(float x, float y, float width, float height, const char * imagePath, void (*Func)(void *), void *ptr)
 {
     elements.push_back(new ImageButton(x, y, width, height, imagePath, Func, ptr));
 };
@@ -27,6 +27,13 @@ void UI::AddPlainText(float x, float y, float width, float height, int size, str
 
 bool UIElement::IsInside(Vector2 mouseButton) { return CheckCollisionPointRec(mouseButton, area); }
 
+void UI::Init(){
+    for (int i = 0; i < elements.size(); i++)
+    {
+        elements[i]->Init();
+    }
+}
+
 void UI::Draw()
 {
     for (int i = 0; i < elements.size(); i++)
@@ -34,6 +41,13 @@ void UI::Draw()
         elements[i]->Draw();
     }
 };
+
+void UI::Unload(){
+    for (int i = 0; i < elements.size(); i++)
+    {
+        elements[i]->Unload();
+    }
+}
 
 void UI::UpdateScreen(Vector2 mouseposition)
 {
@@ -92,9 +106,14 @@ void Button::UpdateScreen(Vector2 p)
 
 #pragma region ImageButton
 
-ImageButton::ImageButton(float x, float y, float width, float height, const char *imagePath, void (*Func)(void *), void *miptr) : UIElement(x, y, width, height), imagePath{imagePath}, callback{CallBack(Func, miptr)}
+ImageButton::ImageButton(float x, float y, float width, float height, const char * imagePath, void (*Func)(void *), void *miptr) : UIElement(x, y, width, height), imagePath{imagePath}, callback{CallBack(Func, miptr)}
 {
-    LoadTexture(imagePath);
+}
+
+void ImageButton::Init(){
+    Image img = LoadImage(imagePath);
+    texture = LoadTextureFromImage(img);
+    UnloadImage(img);
 }
 
 void ImageButton::Draw()
@@ -102,6 +121,10 @@ void ImageButton::Draw()
     //TODO: Be able to draw the image button with adaptable size
     DrawTexture(texture, area.x, area.y, WHITE);
 };
+
+void ImageButton::Unload(){
+    UnloadTexture(texture);
+}
 
 void ImageButton::UpdateScreen(Vector2 p)
 {

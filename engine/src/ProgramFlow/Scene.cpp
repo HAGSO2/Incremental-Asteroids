@@ -41,7 +41,8 @@ Scene::Scene(GameScreen gs, OSystemType collisionSystem, Music m, int layers, ve
 
 Scene::~Scene()
 {
-  delete objectSystem;
+  if (objectSystem != nullptr)
+    delete objectSystem;
 }
 
 void Scene::InitScene()
@@ -53,6 +54,8 @@ void Scene::InitScene()
   }
   // Each time a scene is loaded it is created a new object system
   //  as every time the scene is unloaded, the sistem is deleted
+
+  canvas.Init();
 }
 
 void Scene::ManageInterruptions()
@@ -97,6 +100,7 @@ void Scene::UnloadScreen()
   //TODO: It is correct that a Scene has to be dumped at unload.
   //DumpToFile();
   delete objectSystem;
+  canvas.Unload();
 }
 
 string Scene::GetScenePath(GameScreen sc)

@@ -49,4 +49,5 @@ private:
     void CreateRandomAsteroid(float screenWidth,
                               float screenHeight,
                               float minDistance);
+    void Defeat();
 };

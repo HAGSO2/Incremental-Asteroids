@@ -17,7 +17,9 @@ public:
     virtual ~UIElement() = default;
     bool IsInside(Vector2);
     virtual void SetOut() = 0;
+    virtual void Init() = 0;
     virtual void Draw() = 0;
+    virtual void Unload() = 0;
     virtual void UpdateScreen(Vector2) = 0;
     virtual void UpdateKeyboard(KeyboardKey) = 0;
 };
@@ -33,16 +35,18 @@ public:
         for (int i = 0; i < elements.size(); i++)
             delete elements[i];
     };
-    //Add types of UI objects
+    // Add types of UI objects
     void AddButton(float x, float y, float width, float height, int fontsize, const char *s, Color c, void (*Func)(void *), void *miptr);
     void AddImageButton(float x, float y, float width, float height, const char *imagePath, void (*Func)(void *), void *miptrs);
     void AddTextBox(float x, float y, float width, float height, string &reftxt);
     void AddPlainText(float x, float y, float width, float height, int size, string texto, int *numref = nullptr);
 
-    //TODO: Read and write to a json
+    // TODO: Read and write to a json
 
-    //Control functions
+    // Control functions
+    void Init();
     void Draw();
+    void Unload();
     void UpdateScreen(Vector2);
     void UpdateKeyboard(KeyboardKey);
 };
@@ -68,10 +72,12 @@ class Button : public UIElement
 public:
     Button(float x, float y, float width, float height, int fontsize, const char *s, Color c, void (*Func)(void *), void *miptrs);
     ~Button() = default;
-    void Draw();
-    void SetOut() {};
-    void UpdateScreen(Vector2);
-    void UpdateKeyboard(KeyboardKey){};
+    void Init() override {};
+    void Draw() override;
+    void Unload() override {};
+    void SetOut() override {};
+    void UpdateScreen(Vector2) override;
+    void UpdateKeyboard(KeyboardKey) override{};
 };
 
 class ImageButton : public UIElement
@@ -79,19 +85,22 @@ class ImageButton : public UIElement
     const char *imagePath;
     Texture2D texture;
     CallBack callback;
-    public:
+
+public:
     ImageButton(float x, float y, float width, float height, const char *imagePath, void (*Func)(void *), void *miptrs);
     ~ImageButton() = default;
-    void Draw();
-    void SetOut() {};
-    void UpdateScreen(Vector2);
-    void UpdateKeyboard(KeyboardKey){};
+    void Init() override;
+    void Draw() override;
+    void Unload() override;
+    void SetOut() override {};
+    void UpdateScreen(Vector2) override;
+    void UpdateKeyboard(KeyboardKey) override{};
 };
 
 class PlainText : public UIElement
 {
-    //char buffer[256];
-    //const char *texto;
+    // char buffer[256];
+    // const char *texto;
     string buffer;
     string texto;
     int *numero;
@@ -100,7 +109,9 @@ class PlainText : public UIElement
 public:
     PlainText(float x, float y, float width, float height, int size, string texto, int *numref);
     ~PlainText() = default;
+    void Init() override {};
     void Draw() override;
+    void Unload() override {};
     void SetOut() override {};
     void UpdateScreen(Vector2) override{};
     void UpdateKeyboard(KeyboardKey) override{};
@@ -116,7 +127,9 @@ class TextBox : public UIElement
 public:
     TextBox(float x, float y, float width, float height, string &reftxt);
     ~TextBox() = default;
+    void Init() override {};
     void Draw() override;
+    void Unload() override {};
     void SetOut() override { seleccionado = false; };
     void UpdateScreen(Vector2) override;
     void UpdateKeyboard(KeyboardKey) override;
