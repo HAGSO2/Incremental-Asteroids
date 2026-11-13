@@ -78,6 +78,14 @@ void UI::UpdateKeyboard(KeyboardKey k)
     };
 };
 
+void UI::Fire()
+{
+    for (int i = 0; i < elements.size(); i++)
+    {
+        elements[i]->Fire();
+    }
+};
+
 #pragma endregion
 
 CallBack::CallBack(void (*Func)(void *), void *miptrs) : ClickFunk{Func}, ptr{miptrs} {};

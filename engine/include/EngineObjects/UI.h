@@ -22,6 +22,8 @@ public:
     virtual void Unload() = 0;
     virtual void UpdateScreen(Vector2) = 0;
     virtual void UpdateKeyboard(KeyboardKey) = 0;
+
+    virtual void Fire() = 0;
 };
 
 class UI
@@ -49,6 +51,8 @@ public:
     void Unload();
     void UpdateScreen(Vector2);
     void UpdateKeyboard(KeyboardKey);
+
+    void Fire();
 };
 
 class CallBack
@@ -78,6 +82,7 @@ public:
     void SetOut() override {};
     void UpdateScreen(Vector2) override;
     void UpdateKeyboard(KeyboardKey) override{};
+    void Fire() override { callback.Execute(); }
 };
 
 class ImageButton : public UIElement
@@ -95,6 +100,7 @@ public:
     void SetOut() override {};
     void UpdateScreen(Vector2) override;
     void UpdateKeyboard(KeyboardKey) override{};
+    void Fire() override { callback.Execute(); }
 };
 
 class PlainText : public UIElement
@@ -115,6 +121,7 @@ public:
     void SetOut() override {};
     void UpdateScreen(Vector2) override{};
     void UpdateKeyboard(KeyboardKey) override{};
+    void Fire() override {};
 };
 
 #define NO_SELECCIONADO ORANGE
@@ -133,4 +140,5 @@ public:
     void SetOut() override { seleccionado = false; };
     void UpdateScreen(Vector2) override;
     void UpdateKeyboard(KeyboardKey) override;
+    void Fire() override {};
 };

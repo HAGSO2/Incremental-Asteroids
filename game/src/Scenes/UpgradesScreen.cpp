@@ -9,6 +9,14 @@ void ToGameplay(void *ptr)
     TraceLog(LOG_DEBUG, "Transitioning to OtherScene scene...");
 };
 */
+
+void BuyUpgrade(void *ptr)
+{
+    pair<UpgradeScreen *, int> *upgradePair = (pair<UpgradeScreen *, int> *)ptr;
+    // Just change the finishScreen to the Gameplay
+    (upgradePair->first)->AddUpgrade(upgradePair->second);
+};
+
 #pragma endregion
 
 // Constructor
@@ -18,7 +26,8 @@ UpgradeScreen::UpgradeScreen(vector<Upgrade> &upgrades) : Scene(UPGRADES, Music{
     LoadFromFile();
 };
 
-void UpgradeScreen::InitScene() {
+void UpgradeScreen::InitScene()
+{
     // Initialize scene elements here (e.g., load textures, set up UI, etc.)
     Scene::InitScene();
 };
@@ -60,17 +69,45 @@ void UpgradeScreen::OnCollision(GameObject2D *obj1, GameObject2D *obj2) {
 void UpgradeScreen::Load(const json &in)
 {
     // NOTE: It would be ideal to have a more generic way to load the canvas, but for now, we will do it manually.
-    int i = 0;
     for (auto &obj : in["Canvas"])
     {
         float x = obj.value("x", 0.0f);
         float y = obj.value("y", 0.0f);
         float w = obj.value("width", 0.0f);
         float h = obj.value("height", 0.0f);
+        int id = obj.value("id", 0);
         if (obj.value("Type", std::string()) == "ImageButton")
         {
-            canvas.AddImageButton(x, y, w, h, upgrades[i].iconPath.c_str(), nullptr, nullptr);
+            pair<UpgradeScreen *, int> *upgradePair = new pair<UpgradeScreen *, int>(this, id);
+            canvas.AddImageButton(x, y, w, h, upgrades[id].iconPath.c_str(), BuyUpgrade, upgradePair);
         }
-        i++;
     }
+}
+
+void UpgradeScreen::AddUpgrade(int id)
+{
+    TraceLog(LOG_DEBUG, "Attempting to add upgrade with ID: %d", id);
+    TraceLog(LOG_DEBUG, "Upgrade %s added.\n", upgrades[id].name.c_str());
+    // switch (id)
+    // {
+    // case 0:
+    //     break;
+    // case 1:
+    //     break;
+    // case 2:
+    //     break;
+    // case 3:
+    //     break;
+    // case 4:
+    //     break;
+    // case 5:
+    //     break;
+    // case 6:
+    //     break;
+    // case 7:
+    //     break;
+    // default:
+    //     TraceLog(LOG_DEBUG, "Unknown upgrade id: %d", id);
+    //     break;
+    // }
 }

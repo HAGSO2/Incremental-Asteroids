@@ -6,8 +6,9 @@ using namespace std;
 class UpgradeScreen : public Scene
 {
     vector<Upgrade> upgrades;
+
 public:
-    UpgradeScreen(vector<Upgrade>& upgrades);
+    UpgradeScreen(vector<Upgrade> &upgrades);
     ~UpgradeScreen() = default;
 
     void InitScene() override;
@@ -19,5 +20,10 @@ public:
     void OnCollision(GameObject2D *obj1, GameObject2D *obj2) override;
 
     void Save(json &out) const override {};
-	void Load(const json &in) override;
+    void Load(const json &in) override;
+
+    void AddUpgrade(int id);
+
+private:
+    
 };

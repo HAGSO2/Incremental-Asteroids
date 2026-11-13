@@ -1,11 +1,68 @@
 {
     "Canvas": [
         {
+            "id": 0,
             "Type": "ImageButton",
-            "x": 10,
-            "y": 10,
-            "width": 100,
-            "height": 30
+            "x": 370,
+            "y": 490,
+            "width": 50,
+            "height": 50
+        },
+        {
+            "id": 1,
+            "Type": "ImageButton",
+            "x": 310,
+            "y": 430,
+            "width": 50,
+            "height": 50
+        },
+        {
+            "id": 2,
+            "Type": "ImageButton",
+            "x": 370,
+            "y": 430,
+            "width": 50,
+            "height": 50
+        },
+        {
+            "id": 3,
+            "Type": "ImageButton",
+            "x": 370,
+            "y": 370,
+            "width": 50,
+            "height": 50
+        },
+        {
+            "id": 4,
+            "Type": "ImageButton",
+            "x": 430,
+            "y": 370,
+            "width": 50,
+            "height": 50
+        },
+        {
+            "id": 5,
+            "Type": "ImageButton",
+            "x": 310,
+            "y": 310,
+            "width": 50,
+            "height": 50
+        },
+        {
+            "id": 6,
+            "Type": "ImageButton",
+            "x": 370,
+            "y": 310,
+            "width": 50,
+            "height": 50
+        },
+        {
+            "id": 7,
+            "Type": "ImageButton",
+            "x": 430,
+            "y": 310,
+            "width": 50,
+            "height": 50
         }
     ]
 }
