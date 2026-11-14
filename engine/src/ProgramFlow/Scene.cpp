@@ -99,7 +99,8 @@ void Scene::UnloadScreen()
 {
   //TODO: It is correct that a Scene has to be dumped at unload.
   //DumpToFile();
-  delete objectSystem;
+  //delete objectSystem;
+  objectSystem->UnloadObjects();
   canvas.Unload();
 }
 

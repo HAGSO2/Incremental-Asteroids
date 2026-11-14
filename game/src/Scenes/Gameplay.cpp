@@ -23,11 +23,8 @@ Gameplay::Gameplay(Music m)
   // canvas.AddPlainText(10, 50, 100, 30, 20, "Lives: %d", &livesnum);
   backgroundColor = GRAY;
   background = new Background(BACKGROUND_1, BACKGROUND_2);
-  float h = GetScreenHeight();
-  float w = GetScreenWidth();
-  centerposition = {w / 2.0f, h / 2.0f};
-  player = new Player(centerposition);
-  AddGameObject(player);
+  //As in function all objects are destructed, the player needs to be added on InitScene
+  //AddGameObject(player);
 };
 
 void Gameplay::InitScene()
@@ -48,6 +45,12 @@ void Gameplay::InitScene()
   // Set screen limits, 20 units out of visible screen
   SetOffscreenShape();
   SetOffscreenOffset(20);
+
+  float h = GetScreenHeight();
+  float w = GetScreenWidth();
+  centerposition = {w / 2.0f, h / 2.0f};
+  player = new Player(centerposition);
+  AddGameObject(player);
 };
 
 void Gameplay::UpdateScreen(double deltaTime)

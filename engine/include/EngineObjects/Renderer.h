@@ -44,11 +44,7 @@ public:
     Shape2D(Color c);                                     // Constructor for SQUARE
                                                           //TODO:Constructor for not regular
     Shape2D(vector<Vector2> v, Color c);                  // Constructor for CUSTOM shape
-    ~Shape2D() override
-    {
-        Renderer::~Renderer();
-        DestroyObject();
-    };
+    ~Shape2D() override {DestroyObject();};
     void DrawObject(Transform2D *object) override;
     void UpdateObject(Transform2D *object) override;
     void UnloadObject() override {};

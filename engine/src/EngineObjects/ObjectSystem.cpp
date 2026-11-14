@@ -16,23 +16,30 @@ void IObjectSystem::AddOffset(float offset)
     MAX_BOX.width += offset * 2;
 }
 
-void IObjectSystem::update(){
-    for (int i = 0; i < remove_later.size(); ++i){
+void IObjectSystem::update()
+{
+    for (int i = 0; i < remove_later.size(); ++i)
+    {
         remove(remove_later[i]);
         delete remove_later[i];
     }
     remove_later.clear();
 }
 
+IObjectSystem::~IObjectSystem()
+{
+    for (int i = 0; i < remove_later.size(); i++)
+    {
+        if (remove_later[i] != nullptr)
+            delete remove_later[i];
+    }
+}
+
 #pragma region SimpleCollision
 
-SimpleCollision::~SimpleCollision()
-{
-    for (int i = 0; i < objects.size(); i++)
-    {
-        delete objects[i];
-    }
-    objects.clear();
+SimpleCollision::~SimpleCollision(){
+    IObjectSystem::~IObjectSystem();
+    UnloadObjects();
 }
 
 bool SimpleCollision::insert(GameObject2D *obj)
@@ -92,20 +99,23 @@ void SimpleCollision::UpdateObjects(double deltaTime)
     }
 }
 
+void SimpleCollision::UnloadObjects(){
+    for (int i = 0; i < objects.size(); i++)
+    {
+        delete objects[i];
+    }
+    objects.clear();
+}
+
 #pragma endregion
 
 #pragma region LayersCollision
 
 LayersMaskCollision::~LayersMaskCollision()
 {
-    for (int i = 0; i < objects.size(); ++i)
-    {
-        for (int j = 0; j < objects[i].size(); ++j)
-        {
-            delete objects[i][j];
-        }
-        objects[i].clear();
-    }
+    IObjectSystem::~IObjectSystem();
+    UnloadObjects();
+    layerCollisionMask.clear();
 };
 
 bool LayersMaskCollision::insert(GameObject2D *obj)
@@ -196,6 +206,18 @@ void LayersMaskCollision::UpdateObjects(double deltaTime)
             }
         }
     }
+}
+
+void LayersMaskCollision::UnloadObjects(){
+    for (int i = 0; i < objects.size(); ++i)
+    {
+        for (int j = 0; j < objects[i].size(); ++j)
+        {
+            delete objects[i][j];
+        }
+        objects[i].clear();
+    }
+    objects.clear();
 }
 
 #pragma endregion

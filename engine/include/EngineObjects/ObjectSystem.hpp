@@ -25,7 +25,7 @@ protected:
 public:
     IObjectSystem(function<void(GameObject2D *, GameObject2D *)> collision)
         : onCollision(std::move(collision)), remove_later({}) {}
-    virtual ~IObjectSystem() = default;
+    virtual ~IObjectSystem();
     virtual bool insert(GameObject2D *obj) = 0;
     virtual void remove(GameObject2D *obj) = 0;
     void save_remove(GameObject2D *obj) { remove_later.push_back(obj); }
@@ -33,6 +33,7 @@ public:
 
     virtual void DrawObjects() = 0;
     virtual void UpdateObjects(double deltaTime) = 0;
+    virtual void UnloadObjects() = 0; //Kills all objects
     void ChangeForm(float h, float w);
     void AddOffset(float offset);
 };
@@ -54,6 +55,7 @@ public:
 
     void DrawObjects() override;
     void UpdateObjects(double deltaTime) override;
+    void UnloadObjects() override;
 };
 
 #define MAX_OBJECTS_LAYERS 500
@@ -76,4 +78,5 @@ public:
 
     void DrawObjects() override;
     void UpdateObjects(double deltaTime) override;
+    void UnloadObjects() override;
 };

@@ -6,7 +6,8 @@ ShapeCollider::~ShapeCollider()
     {
         for (int i = 0; i < points.size(); i++)
         {
-            delete points[i];
+            if (points[i] != nullptr)
+                delete points[i];
         }
     }
 }
@@ -28,13 +29,13 @@ bool ShapeCollider::isColliding(Vector2 p)
 
 bool ShapeCollider::isColliding(Vector2 p1, Vector2 p2)
 {
-    //TODO:
+    // TODO:
     return false;
 }
 
 bool ShapeCollider::isColliding(Collider2D *otherC)
 {
-    ShapeCollider* other = (ShapeCollider*)otherC;
+    ShapeCollider *other = (ShapeCollider *)otherC;
     vector<Vector2 *> otherPoints = other->points;
     switch (form)
     {

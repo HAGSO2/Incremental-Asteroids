@@ -8,6 +8,7 @@ struct Transform2D
 
     Transform2D(Vector2 pos = {0, 0}, float rot = 0.0f, Vector2 scl = {1, 1})
         : position(pos), rotation(rot), scale(scl) {};
+    ~Transform2D() = default;
     Vector2 Up()
     {
         float rad = rotation + 90 * (PI / 180.0f);
