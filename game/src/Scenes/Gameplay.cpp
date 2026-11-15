@@ -14,15 +14,18 @@ void Gameplay::Defeat()
 #pragma region Scene Methods
 
 // Constructor
-Gameplay::Gameplay(Music m)
+Gameplay::Gameplay(Music m, GameState *state)
     : Scene(GAMEPLAY, OS_BY_LAYERS, m, NUMBER_LAYERS, {0, GL_ASTEROID, GL_PROJECTILE, 0}), scorenum(0),
-      livesnum(PLAYER_LIVES) /*, player(PLAYER_LIVES)*/
+      livesnum(PLAYER_LIVES), gameState(state) /*, player(PLAYER_LIVES)*/
 {
   LoadFromFile();
   // canvas.AddPlainText(10, 10, 100, 30, 20, "Score: %d", &scorenum);
   // canvas.AddPlainText(10, 50, 100, 30, 20, "Lives: %d", &livesnum);
   backgroundColor = GRAY;
   background = new Background(BACKGROUND_1, BACKGROUND_2);
+  float h = GetScreenHeight();
+  float w = GetScreenWidth();
+  centerposition = {w / 2.0f, h / 2.0f};
   //As in function all objects are destructed, the player needs to be added on InitScene
   //AddGameObject(player);
 };
@@ -46,9 +49,6 @@ void Gameplay::InitScene()
   SetOffscreenShape();
   SetOffscreenOffset(20);
 
-  float h = GetScreenHeight();
-  float w = GetScreenWidth();
-  centerposition = {w / 2.0f, h / 2.0f};
   player = new Player(centerposition);
   AddGameObject(player);
 };

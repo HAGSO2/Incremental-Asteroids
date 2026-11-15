@@ -63,6 +63,16 @@
             "y": 310,
             "width": 50,
             "height": 50
+        },
+        {
+            "id": 8,
+            "Type": "Button",
+            "Text": "Play again",
+            "x": 100,
+            "y": 100,
+            "width": 100,
+            "height": 30,
+            "FontSize": 20
         }
     ]
 }

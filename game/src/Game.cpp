@@ -13,6 +13,8 @@ void Game::LoadResources()
     logo_music = LoadSound(LOGO_MUSIC);
     tittle_music = LoadMusicStream(TITTLE_MUSIC);
     gameplay_music = LoadMusicStream(GAMEPLAY_MUSIC);
+
+    gameState = new GameState(); // Initialize the game state
 }
 
 void Game::UnLoadResources()
@@ -28,8 +30,8 @@ void Game::LoadUpgrades()
 {    
     UpgradeManager upgradeManager(UPGRADE_FILE);
     upgradeManager.LoadFromFile();
-    upgrades = upgradeManager.GetUpgrades();
-    TraceLog(LOG_INFO, "Loaded %d upgrades from file: %s", upgrades.size(), UPGRADE_FILE);
+    gameState->upgrades = upgradeManager.GetUpgrades();
+    TraceLog(LOG_INFO, "Loaded %d upgrades from file: %s", gameState->upgrades.size(), UPGRADE_FILE);
 }
 
 void Game::InitStarters()
@@ -38,8 +40,8 @@ void Game::InitStarters()
     //  Initialize game scenes and other necessary components here
     gameScenes[LOGO] = new Logo();
     gameScenes[TITTLE] = new Tittle(font, tittle_music, screenWidth, screenHeight);
-    gameScenes[GAMEPLAY] = new Gameplay(gameplay_music);
-    gameScenes[UPGRADES] = new UpgradeScreen(upgrades);
+    gameScenes[GAMEPLAY] = new Gameplay(gameplay_music, gameState);
+    gameScenes[UPGRADES] = new UpgradeScreen(gameState);
     gameScenes[GAMEOVER] = new GameOver();
 
     currentScreen = LOGO;

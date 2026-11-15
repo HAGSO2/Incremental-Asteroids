@@ -4,6 +4,7 @@
 #include "GameObjects/Player.h"
 #include "GameObjects/Projectile.h"
 #include "GameObjects/Asteroid.h"
+#include "GameState.h"
 
 struct Background
 {
@@ -19,6 +20,8 @@ struct Background
 
 class Gameplay : public Scene
 {
+    GameState *gameState; // Store the game state, including upgrades and money
+
     Background *background = nullptr; // Background structure to hold background images and their properties
     Vector2 centerposition;           // Center point for spawning asteroids
     Player *player;
@@ -32,7 +35,7 @@ class Gameplay : public Scene
     int livesnum; // Store the lives text to display on the screen
 
 public:
-    Gameplay(Music m);
+    Gameplay(Music m, GameState *state);
     ~Gameplay() = default; // NOTE: player is deleted on unload screen
     void InitScene() override;
     void UpdateScreen(double deltaTime) override;

@@ -5,6 +5,7 @@
 #include "Scenes/Gameplay.h"
 #include "Scenes/UpgradesScreen.h"
 #include "Scenes/GameOver.h"
+#include "GameState.h"
 
 #include "Misc/Upgrade.h"
 
@@ -20,7 +21,7 @@ class Game : public Application
     Sound logo_music = {};
     Music tittle_music = {};
     Music gameplay_music = {};
-    vector<Upgrade> upgrades;
+    GameState *gameState;
 
     Scene *gameScenes[NUMBER_OF_SCENES] = {0};
 

@@ -1,14 +1,15 @@
 #include "ProgramFlow/Scene.h"
 #include "Misc/Upgrade.h"
+#include "GameState.h"
 
 using namespace std;
 
 class UpgradeScreen : public Scene
 {
-    vector<Upgrade> upgrades;
+    GameState *gameState; // Store the game state, including upgrades and money
 
 public:
-    UpgradeScreen(vector<Upgrade> &upgrades);
+    UpgradeScreen(GameState *state);
     ~UpgradeScreen() = default;
 
     void InitScene() override;
