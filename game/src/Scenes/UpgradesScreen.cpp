@@ -1,14 +1,5 @@
 #include "Scenes/UpgradesScreen.h"
-
-#pragma region To other scenes
-/*
-void ToGameplay(void *ptr)
-{
-    // Just change the finishScreen to the Gameplay
-    ((OtherScene *)ptr)->ChangeScene(OtherScene);
-    TraceLog(LOG_DEBUG, "Transitioning to OtherScene scene...");
-};
-*/
+#include "Scenes/ChangeToScenes.h"
 
 void BuyUpgrade(void *ptr)
 {
@@ -16,15 +7,6 @@ void BuyUpgrade(void *ptr)
     // Just change the finishScreen to the Gameplay
     (upgradePair->first)->AddUpgrade(upgradePair->second);
 };
-
-// void ToGameplay(void *ptr)
-// {
-//     // Just change the finishScreen to the Gameplay
-//     ((UpgradeScreen *)ptr)->ChangeScene(GAMEPLAY);
-//     TraceLog(LOG_DEBUG, "Transitioning to Gameplay scene...");
-// };
-
-#pragma endregion
 
 // Constructor
 UpgradeScreen::UpgradeScreen(GameState *state) : Scene(UPGRADES, Music{}), gameState(state)
@@ -92,7 +74,7 @@ void UpgradeScreen::Load(const json &in)
         {
             int size = obj.value("FontSize", 0);
             string text = obj.value("Text", std::string());
-            // canvas.AddButton(x, y, w, h, size, text.c_str(), BLUE, ToGameplay, this);
+            canvas.AddButton(x, y, w, h, size, text.c_str(), BLUE, ToGameplay, this);
         }
     }
 }
@@ -108,7 +90,7 @@ void UpgradeScreen::AddUpgrade(int id)
         return;
     }
 
-    if(gameState->money < gameState->upgrades[id].cost)
+    if (gameState->money < gameState->upgrades[id].cost)
     {
         TraceLog(LOG_DEBUG, "Not enough money to buy upgrade %s. Required: %d, Available: %d", gameState->upgrades[id].name.c_str(), gameState->upgrades[id].cost, gameState->money);
         return;
@@ -121,7 +103,8 @@ void UpgradeScreen::AddUpgrade(int id)
         TraceLog(LOG_DEBUG, "Upgrade %s unlocked. Remaining money: %d", gameState->upgrades[id].name.c_str(), gameState->money);
         return;
     }
-    else{
+    else
+    {
         gameState->upgrades[id].level++;
         gameState->money -= gameState->upgrades[id].cost;
         TraceLog(LOG_DEBUG, "Upgrade %s leveled up to level %d. Remaining money: %d", gameState->upgrades[id].name.c_str(), gameState->upgrades[id].level, gameState->money);

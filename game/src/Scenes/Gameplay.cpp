@@ -50,6 +50,7 @@ void Gameplay::InitScene()
   SetOffscreenOffset(20);
 
   player = new Player(centerposition);
+  livesnum = PLAYER_LIVES;
   AddGameObject(player);
 };
 

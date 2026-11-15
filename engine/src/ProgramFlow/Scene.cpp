@@ -47,6 +47,7 @@ Scene::~Scene()
 
 void Scene::InitScene()
 {
+  finishScreen = UNKNOWN;
   if (hasMusic)
   {
     SetMusicVolume(music, 0.8f);
@@ -56,6 +57,8 @@ void Scene::InitScene()
   //  as every time the scene is unloaded, the sistem is deleted
 
   canvas.Init();
+  if (objectSystem != nullptr)
+    objectSystem->Init();
 }
 
 void Scene::ManageInterruptions()
@@ -97,9 +100,9 @@ void Scene::DrawScreen()
 
 void Scene::UnloadScreen()
 {
-  //TODO: It is correct that a Scene has to be dumped at unload.
-  //DumpToFile();
-  //delete objectSystem;
+  // TODO: It is correct that a Scene has to be dumped at unload.
+  // DumpToFile();
+  // delete objectSystem;
   objectSystem->UnloadObjects();
   canvas.Unload();
 }

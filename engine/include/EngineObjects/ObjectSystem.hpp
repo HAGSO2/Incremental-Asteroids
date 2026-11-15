@@ -31,6 +31,7 @@ public:
     void save_remove(GameObject2D *obj) { remove_later.push_back(obj); }
     virtual void update();
 
+    virtual void Init() = 0;
     virtual void DrawObjects() = 0;
     virtual void UpdateObjects(double deltaTime) = 0;
     virtual void UnloadObjects() = 0; //Kills all objects
@@ -53,6 +54,7 @@ public:
     void remove(GameObject2D *obj) override;
     void update() override;
 
+    void Init() override {objects = vector<GameObject2D *>();};
     void DrawObjects() override;
     void UpdateObjects(double deltaTime) override;
     void UnloadObjects() override;
@@ -65,17 +67,19 @@ public:
 
 class LayersMaskCollision : public IObjectSystem
 {
+    size_t num_layers;
     vector<vector<GameObject2D *>> objects;
     vector<uint32_t> layerCollisionMask;
 
 public:
     LayersMaskCollision(size_t numLayers, vector<uint32_t> masks, function<void(GameObject2D *, GameObject2D *)> collision)
-        : IObjectSystem(collision), objects(numLayers), layerCollisionMask(masks) {}
+        : IObjectSystem(collision), num_layers(numLayers), layerCollisionMask(masks) {}
     ~LayersMaskCollision() override;
     bool insert(GameObject2D *obj) override;
     void remove(GameObject2D *obj) override;
     void update() override;
 
+    void Init() override {objects = vector<vector<GameObject2D *>>(num_layers);};
     void DrawObjects() override;
     void UpdateObjects(double deltaTime) override;
     void UnloadObjects() override;

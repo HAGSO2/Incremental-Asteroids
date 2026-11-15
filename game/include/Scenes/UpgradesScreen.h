@@ -1,5 +1,4 @@
 #include "ProgramFlow/Scene.h"
-#include "Misc/Upgrade.h"
 #include "GameState.h"
 
 using namespace std;

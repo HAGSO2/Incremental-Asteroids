@@ -38,7 +38,6 @@ IObjectSystem::~IObjectSystem()
 #pragma region SimpleCollision
 
 SimpleCollision::~SimpleCollision(){
-    IObjectSystem::~IObjectSystem();
     UnloadObjects();
 }
 
@@ -113,7 +112,6 @@ void SimpleCollision::UnloadObjects(){
 
 LayersMaskCollision::~LayersMaskCollision()
 {
-    IObjectSystem::~IObjectSystem();
     UnloadObjects();
     layerCollisionMask.clear();
 };

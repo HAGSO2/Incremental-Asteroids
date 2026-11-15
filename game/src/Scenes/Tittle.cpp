@@ -1,17 +1,7 @@
 #include "Scenes/Tittle.h"
 #include "Scenes/Gameplay.h"
+#include "Scenes/ChangeToScenes.h"
 #include "HardcodedStrings.hpp"
-
-#pragma region To other scenes
-
-void ToGameplay(void *ptr)
-{
-    // Just change the finishScreen to the Gameplay
-    ((Gameplay *)ptr)->ChangeScene(GAMEPLAY);
-    TraceLog(LOG_DEBUG, "Transitioning to Gameplay scene...");
-};
-
-#pragma endregion
 
 // Constructor
 Tittle::Tittle(Font f, Music m, int w, int h) : Scene(TITTLE, m), font{f}, screenWidth{w}, screenHeight{h}
