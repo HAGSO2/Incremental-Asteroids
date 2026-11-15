@@ -58,25 +58,49 @@ void UpgradeScreen::OnCollision(GameObject2D *obj1, GameObject2D *obj2) {
 void UpgradeScreen::Load(const json &in)
 {
     // NOTE: It would be ideal to have a more generic way to load the canvas, but for now, we will do it manually.
-    for (auto &obj : in["Canvas"])
+
+    for (auto &imageButton : in["Canvas"][0]["ImageButton"])
     {
-        float x = obj.value("x", 0.0f);
-        float y = obj.value("y", 0.0f);
-        float w = obj.value("width", 0.0f);
-        float h = obj.value("height", 0.0f);
-        int id = obj.value("id", 0);
-        if (obj.value("Type", std::string()) == "ImageButton")
-        {
-            pair<UpgradeScreen *, int> *upgradePair = new pair<UpgradeScreen *, int>(this, id);
-            canvas.AddImageButton(x, y, w, h, gameState->upgrades[id].iconPath.c_str(), BuyUpgrade, upgradePair);
-        }
-        else if (obj.value("Type", std::string()) == "Button")
-        {
-            int size = obj.value("FontSize", 0);
-            string text = obj.value("Text", std::string());
-            canvas.AddButton(x, y, w, h, size, text.c_str(), BLUE, ToGameplay, this);
-        }
+        float x = imageButton.value("x", 0.0f);
+        float y = imageButton.value("y", 0.0f);
+        float w = imageButton.value("width", 0.0f);
+        float h = imageButton.value("height", 0.0f);
+        int id = imageButton.value("id", 0);
+        pair<UpgradeScreen *, int> *upgradePair = new pair<UpgradeScreen *, int>(this, id);
+        canvas.AddImageButton(x, y, w, h, gameState->upgrades[id].iconPath.c_str(), BuyUpgrade, upgradePair);
+        canvas.AddPlainText(x, y + h + 5, w / 2, 20, 5, "€", &gameState->upgrades[id].cost);
+        canvas.AddPlainText(x + w / 2, y + h + 5, w / 2, 20, 5, "|Lvl: ", &gameState->upgrades[id].level);
     }
+
+    auto &button = in["Canvas"][1];
+    float x = button.value("x", 0.0f);
+    float y = button.value("y", 0.0f);
+    float w = button.value("width", 0.0f);
+    float h = button.value("height", 0.0f);
+    int size = button.value("FontSize", 0);
+    string text = button.value("Text", std::string());
+    canvas.AddButton(x, y, w, h, size, text.c_str(), BLUE, ToGameplay, this);
+
+    // for (auto &obj : in["Canvas"])
+    // {
+
+    //     // float x = obj.value("x", 0.0f);
+    //     // float y = obj.value("y", 0.0f);
+    //     // float w = obj.value("width", 0.0f);
+    //     // float h = obj.value("height", 0.0f);
+    //     // int id = obj.value("id", 0);
+    //     // if (obj.value("Type", std::string()) == "ImageButton")
+    //     // {
+    //     //     pair<UpgradeScreen *, int> *upgradePair = new pair<UpgradeScreen *, int>(this, id);
+    //     //     canvas.AddImageButton(x, y, w, h, gameState->upgrades[id].iconPath.c_str(), BuyUpgrade, upgradePair);
+    //     // }
+    //     else if (obj.value("Type", std::string()) == "Button")
+    //     {
+    //         int size = obj.value("FontSize", 0);
+    //         string text = obj.value("Text", std::string());
+    //         canvas.AddButton(x, y, w, h, size, text.c_str(), BLUE, ToGameplay, this);
+    //     }
+    // }
 }
 
 void UpgradeScreen::AddUpgrade(int id)

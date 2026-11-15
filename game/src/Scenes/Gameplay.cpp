@@ -158,6 +158,7 @@ void Gameplay::OnCollision(GameObject2D *obj1, GameObject2D *obj2)
   else
   {
     scorenum += 5;
+    gameState->money += BASE_COIN_REWARD;
     EraseGameobject(other);
   }
 }
@@ -190,6 +191,10 @@ void Gameplay::Load(const json &in)
       else if (obj.value("Name", std::string()) == "Lives")
       {
         canvas.AddPlainText(x, y, w, h, size, text, &livesnum);
+      }
+      else if (obj.value("Name", std::string()) == "Money")
+      {
+        canvas.AddPlainText(x, y, w, h, size, text, &gameState->money);
       }
     }
   }
