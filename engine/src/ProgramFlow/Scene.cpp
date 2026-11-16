@@ -2,31 +2,31 @@
 
 Scene::Scene(GameScreen gs)
     : actualScreen(gs), finishScreen(UNKNOWN), canvas(UI()), music({0}), hasMusic(true),
-      objectType(OS_NONE), objectSystem(nullptr), ISerializable(GetScenePath(gs))
+      objectSystemType(OS_NONE), objectSystem(nullptr), ISerializable(GetScenePath(gs))
 {
   canvas = UI();
 }
 Scene::Scene(GameScreen gs, Music m)
     : actualScreen(gs), finishScreen(UNKNOWN), canvas(UI()), music(m), hasMusic(true),
-      objectType(OS_NONE), objectSystem(nullptr), ISerializable(GetScenePath(gs))
+      objectSystemType(OS_NONE), objectSystem(nullptr), ISerializable(GetScenePath(gs))
 {
   canvas = UI();
 }
-Scene::Scene(GameScreen gs, OSystemType collisionSystem, Music m, int layers, vector<uint32_t> mask)
+Scene::Scene(GameScreen gs, ObjectSystemType collisionSystem, Music m, int layers, vector<uint32_t> mask)
     : actualScreen(gs), finishScreen(UNKNOWN), canvas(UI()), music(m), hasMusic(true),
-      objectType(collisionSystem), ISerializable(GetScenePath(gs))
+      objectSystemType(collisionSystem), ISerializable(GetScenePath(gs))
 {
-  switch (objectType)
+  switch (objectSystemType)
   {
   case OS_SIMPLE:
-    objectSystem = new SimpleCollision(
+    objectSystem = new SimpleCollisionSystem(
         [this](GameObject2D *obj1, GameObject2D *obj2)
         {
           OnCollision(obj1, obj2);
         });
     break;
   case OS_BY_LAYERS:
-    objectSystem = new LayersMaskCollision(layers, mask,
+    objectSystem = new LayeredCollisionSystem(layers, mask,
                                            [this](GameObject2D *obj1, GameObject2D *obj2)
                                            {
                                              OnCollision(obj1, obj2);

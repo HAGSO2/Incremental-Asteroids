@@ -22,7 +22,7 @@
 class Scene : public ISerializable
 {
   // Type of object system used by this scene.
-  OSystemType objectType;
+  ObjectSystemType objectSystemType;
   // System that manages the objects belonging to the scene.
   // It is responsible for adding, removing, and managing the objects
   // in the scene in the most optimal way possible.
@@ -54,7 +54,7 @@ public:
   // Configurable variant: in addition to the screen and music, it allows
   // specifying the type of object/collision system, the number of layers, and a mask.
   // Default values ​​allow for the omission of music, layers, and the mask.
-  Scene(GameScreen gs, OSystemType collisionSystem, Music m = {0}, int layers = 0, vector<uint32_t> mask = {});
+  Scene(GameScreen gs, ObjectSystemType collisionSystem, Music m = {0}, int layers = 0, vector<uint32_t> mask = {});
 
   // Virtual destroyer: allows you to correctly destroy objects of derived classes
   // via a pointer to Scene.
@@ -98,15 +98,15 @@ protected:
   // Requests the removal of an object from the system.
   // The name "save_remove" suggests that the removal might be deferred or handled
   // safely by the system itself; the specific details depend on its implementation.
-  void EraseGameobject(GameObject2D *obj) { objectSystem->save_remove(obj); };
+  void EraseGameobject(GameObject2D *obj) { objectSystem->QueueRemoval(obj); };
 
   // Updates the shape/offscreen area used by the object system.
   // The dimensions obtained from Raylib are passed. The original order is preserved
   // of the arguments: first height and then width.
-  void SetOffscreenShape() { objectSystem->ChangeForm(GetScreenHeight(), GetScreenWidth()); }
+  void SetOffscreenShape() { objectSystem->SetBounds(GetScreenHeight(), GetScreenWidth()); }
 
   // Adds an offset to the off-screen reference system.
-  void SetOffscreenOffset(float off) { objectSystem->AddOffset(off); }
+  void SetOffscreenOffset(float off) { objectSystem->ExpandBounds(off); }
 
 private:
   // Handles input events/interrupts, such as changes in the state
